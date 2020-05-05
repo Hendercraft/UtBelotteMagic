@@ -64,15 +64,26 @@ void scoreWrite(){
  */
 void scoreSort(){
 
-	FILE* scoreFile = fopen("highscore.txt","w");
-	FILE* tempFile = fopen("highscore.txt","w");
-	int lines;
+	FILE* scoreFileRead = fopen("highscore.txt","r");
+	FILE* scoreFileWrite = fopen("highscore.txt","w");
+	FILE* tempFile = fopen("temporary.txt","w");
+	int lines=0;
+	char ch;
 
+	/*Count lines in the file highscore*/
 	while(feof(scoreFile)==0){
-
+		ch = fgetc(scoreFileRead);
+		  if(ch == '\n')
+		  {
+		    lines++;
+		  }
 	}
+
+	printf("%d",lines);
+	fflush(stdout);
+
 	fclose(scoreFile);
 	fclose(tempFile);
-	remove(tempFile);
+	remove("temporary.txt");
 
 }
