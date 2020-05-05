@@ -29,9 +29,9 @@ void fileCheck(){
 /*
  * Gets and write the name and the score of the person in the file
  */
-void scoreWrite(){
+void scoreWrite(int score){
 
-	char name[15]="",score[4]="0",gameScore[19];
+	char name[15]="";
 	int i=0,error=0;
 	FILE* file = fopen("highscore.txt","a");
 
@@ -53,10 +53,7 @@ void scoreWrite(){
 	}
 
 	/*Creating the players highscore for the text file and writing it*/
-	strcpy(gameScore,score);
-	strcat(gameScore," ");
-	strcat(gameScore,name);
-	fprintf(file,gameScore);
+	fprintf(file, "%d;%s", score, name);
 	fclose(file);
 }
 /*
@@ -64,26 +61,27 @@ void scoreWrite(){
  */
 void scoreSort(){
 
+	/*Count lines in the file highscore and copying the lines in an temporary file*/
 	FILE* scoreFileRead = fopen("highscore.txt","r");
-	FILE* scoreFileWrite = fopen("highscore.txt","w");
 	FILE* tempFile = fopen("temporary.txt","w");
-	int lines=0;
-	char ch;
+	int lines=0, score;
+	char ch, name[];
 
-	/*Count lines in the file highscore*/
-	while(feof(scoreFile)==0){
-		ch = fgetc(scoreFileRead);
-		  if(ch == '\n')
-		  {
-		    lines++;
-		  }
+	while((ch = fgetc(scoreFileRead)) != EOF){
+		fputc(ch, tempFile);
+		if(ch == '\n'){
+			lines++;
+		}
 	}
-
 	printf("%d",lines);
 	fflush(stdout);
+	fclose(scoreFileRead);
 
-	fclose(scoreFile);
+	/*Sorting by score*/
+	FILE* scoreFileWrite = fopen("highscore.txt","w");
+
+	fscanf(tempFile,"%d;%s",&score,&name);
+	/**/
 	fclose(tempFile);
-	remove("temporary.txt");
 
 }

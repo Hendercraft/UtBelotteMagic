@@ -9,7 +9,7 @@
 int main(){
 
 	fileCheck();
-	scoreWrite();
+	scoreWrite(10);
 	scoreSort();
 }
 
