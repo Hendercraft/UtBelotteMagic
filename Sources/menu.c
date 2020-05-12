@@ -6,6 +6,33 @@
 
 #include <menu.h>
 
+
+/*This series of protocol just set the output color */
+
+void magenta (int bold){
+	printf("\033[%d;35m",bold);
+}
+void reset(){
+	printf("\033[0m)");
+
+}
+void green(int bold){
+	printf("\033[%d;32m",bold);
+}
+void yellow(int bold){
+	printf("\033[%d;33m",bold);
+}
+void blue(int bold){
+	printf("\033[%d;34m",bold);
+}
+void red(int bold){
+	printf("\033[%d;31m",bold);
+}
+void cyan (int bold){
+	printf("\033[%d;36m",bold);
+}
+
+
 /*
  * Function thats prints the Programm's menu in ASCII art.
  */
@@ -25,6 +52,27 @@ void menuVisual(){
 	fflush(stdout);
 
 }
+
+
+/*
+ * Function thats prints the Highscore's menu in ASCII art.
+ */
+void scoreVisual(){
+
+	char titleAsciiArt[]="\n ######   #######  #### ##    ##  ######  ##     ## ######## \n##    ## ##     ##  ##  ###   ## ##    ## ##     ## ##       \n##       ##     ##  ##  ####  ## ##       ##     ## ##       \n##       ##     ##  ##  ## ## ## ##       ######### ######   \n##       ##     ##  ##  ##  #### ##       ##     ## ##       \n##    ## ##     ##  ##  ##   ### ##    ## ##     ## ##       \n ######   #######  #### ##    ##  ######  ##     ## ######## \n";
+	char lineAsciiArt[]="\n**--------------------------------------------------------**\n\n";
+	char scoreAsciiArt[]="	HIGHSCORES\n";
+	char backAsciiArt[]="	1) Back\n";
+	char quitAsciiArt[]="	2) Quit\n";
+
+	magenta(1);
+	printf("%s",titleAsciiArt);
+
+	reset();
+	printf("%s%s%s%s%s",lineAsciiArt,scoreAsciiArt,backAsciiArt,quitAsciiArt,lineAsciiArt);
+	fflush(stdout);
+}
+
 
 
 /*
@@ -55,5 +103,11 @@ int verify(int n){
  */
 void clrscr()
 {
-    system("@cls||clear");
+	#if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
+       system("clear");
+   #endif
+
+   #if defined(_WIN32) || defined(_WIN64)
+       system("cls");
+   #endif
 }

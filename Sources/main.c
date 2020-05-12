@@ -9,24 +9,36 @@
 
 int main(){
 
-	int operation;
+	int operation, play=0;
 
-	menuVisual();
+	while(play==0){
 
-	operation = verify(3);
-	if(operation == 1){
 		clrscr();
-		printf("Launching game...");
-		return EXIT_SUCCESS;
+		menuVisual();
 
-	} else if(operation == 2){
-		clrscr();
-		printf("Showing highscores...");
-		return EXIT_SUCCESS;
+			operation = verify(3);
+			if(operation == 1){
+				clrscr();
+				printf("Launching game...");
+				play=1;
 
-	} else if(operation == 3){
-		return EXIT_SUCCESS;
+			} else if(operation == 2){
+				clrscr();
+				printf("Showing highscores...");
+				scoreVisual();
+				operation = verify(3);
+				if(operation==2){
+					return EXIT_SUCCESS;
+				}
+
+			} else if(operation == 3){
+				return EXIT_SUCCESS;
+			}
+
+
 	}
+
+	return EXIT_SUCCESS;
 
 }
 
