@@ -48,3 +48,12 @@ int verify(int n){
 	}
 	return number;
 }
+
+
+/*
+ * Function to clear the cmd
+ */
+void clrscr()
+{
+    system("@cls||clear");
+}

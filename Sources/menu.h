@@ -27,5 +27,9 @@ void menuVisual();
  */
 int verify(int n);
 
+/*
+ * Function to clear the cmd
+ */
+void clrscr();
 
 #endif /* MAINMENU_MENU_H_ */
