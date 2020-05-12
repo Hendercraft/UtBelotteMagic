@@ -17,7 +17,7 @@
 typedef struct {
 	int score;
 	char name[15];
-} Highscore;
+} highscore;
 
 
 /*
@@ -29,6 +29,18 @@ void fileCheck();
  * Gets and write the name and the score of the person in the file
  */
 void scoreWrite(int score);
+
+/*
+ * Function that counts the lines in the file
+ * @return the number of lines in the file
+ */
+int lineCount();
+
+/*
+ * Function that creates an array of highscores
+ * @return the pointer to the  array of scores
+ */
+ highscore* scoreArray();
 
 /*
  * Does a thing but idk yet

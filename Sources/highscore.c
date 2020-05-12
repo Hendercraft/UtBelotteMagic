@@ -58,6 +58,55 @@ void scoreWrite(int score){
 
 
 /*
+ * Function that counts the lines in the file
+ * @return the number of lines in the file
+ */
+int lineCount(){
+
+	FILE* file = fopen("highscore.txt","r");
+	int lines=0;
+	char chr;
+
+	chr=getc(file);
+	while (chr != EOF){
+
+		 if (chr == '\n'){
+	            lines = lines + 1;
+	     }
+		 chr = getc(file);
+	}
+	fclose(file);
+	return lines;
+
+}
+
+
+/*
+ * Function that creates an array of highscores
+ * @return the pointer to the  array of scores
+ */
+ highscore* scoreArray(){
+
+	 FILE* file = fopen("highscore.txt","r");
+	 int size = lineCount(), score;
+	 char username[15];
+
+	 highscore* scores = (highscore*) malloc(size * sizeof(highscore));
+
+	 for(int i=0;i<size;i++){
+
+		 fscanf(file,"%d,%s\n",&score,username);
+		 scores[i].score = score;
+		 strcpy(scores[i].name, username);
+
+	 }
+
+
+	 return scores;
+ }
+
+
+/*
  * Does a thing but idk yet
  */
 void thing(){
