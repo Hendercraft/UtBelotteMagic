@@ -44,10 +44,14 @@ void menuVisual(){
 	char scoreAsciiArt[]="	2) Highscores\n";
 	char quitAsciiArt[]="	3) Quit\n";
 
-	magenta(1);
+	#if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
+		magenta(1);
+   	#endif
 	printf("%s",titleAsciiArt);
 
-	reset();
+	#if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
+		reset();
+   	#endif
 	printf("%s%s%s%s%s",lineAsciiArt,playAsciiArt,scoreAsciiArt,quitAsciiArt,lineAsciiArt);
 	fflush(stdout);
 
