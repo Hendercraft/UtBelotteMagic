@@ -15,8 +15,8 @@
 
 /* Creation of an Highscore type who takes 15 letters for the name of the user and then numbers for the score */
 typedef struct {
-	char name[15];
 	int score;
+	char name[15];
 } Highscore;
 
 
@@ -28,12 +28,11 @@ void fileCheck();
 /*
  * Gets and write the name and the score of the person in the file
  */
-void scoreWrite();
+void scoreWrite(int score);
 
 /*
- * Sort the file from the best to the worst score, and erase the worst one if there is 2 same names
+ * Does a thing but idk yet
  */
-void scoreSort();
-
+void thing();
 
 #endif /* HIGHSCORE_HIGHSCORE_H_ */

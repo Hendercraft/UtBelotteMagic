@@ -33,7 +33,7 @@ void scoreWrite(int score){
 
 	char name[15]="";
 	int i=0,error=0;
-	FILE* file = fopen("highscore.txt","r+");
+	FILE* file = fopen("highscore.txt","a");
 
 	/*Getting and verifying the name*/
 	while(strlen(name) == 0){
@@ -52,13 +52,16 @@ void scoreWrite(int score){
 		error=0;
 	}
 
-	rewind(file);
-	printf("%lu",ftell(file));
-	fflush(stdout);
-
-	/*Creating the players highscore for the text file and writing it*/
-	fprintf(file, "%d,%s", score, name);
+	fprintf(file,"%d,%s",score,name);
 	fclose(file);
 }
 
 
+/*
+ * Does a thing but idk yet
+ */
+void thing(){
+
+
+
+}
