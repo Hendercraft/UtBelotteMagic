@@ -17,7 +17,11 @@ void menuVisual(){
 	char scoreAsciiArt[]="	2) Highscores\n";
 	char quitAsciiArt[]="	3) Quit\n";
 
-	printf("%s%s%s%s%s%s",titleAsciiArt,lineAsciiArt,playAsciiArt,scoreAsciiArt,quitAsciiArt,lineAsciiArt);
+	magenta(1);
+	printf("%s",titleAsciiArt);
+
+	reset();
+	printf("%s%s%s%s%s",lineAsciiArt,playAsciiArt,scoreAsciiArt,quitAsciiArt,lineAsciiArt);
 	fflush(stdout);
 
 }
