@@ -10,26 +10,40 @@
 /*This series of protocol just set the output color */
 
 void magenta (int bold){
+	#if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
 	printf("\033[%d;35m",bold);
+   	#endif
 }
 void reset(){
-	printf("\033[0m)");
+	#if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
+		printf("\033[0m)");
+   	#endif
 
 }
 void green(int bold){
+	#if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
 	printf("\033[%d;32m",bold);
+   	#endif
 }
 void yellow(int bold){
-	printf("\033[%d;33m",bold);
+	#if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
+		printf("\033[%d;33m",bold);
+   	#endif
 }
 void blue(int bold){
-	printf("\033[%d;34m",bold);
+	#if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
+		printf("\033[%d;34m",bold);
+   	#endif
 }
 void red(int bold){
-	printf("\033[%d;31m",bold);
+	#if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
+		printf("\033[%d;31m",bold);
+   	#endif
 }
 void cyan (int bold){
-	printf("\033[%d;36m",bold);
+	#if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
+		printf("\033[%d;36m",bold);
+   	#endif
 }
 
 
@@ -44,14 +58,10 @@ void menuVisual(){
 	char scoreAsciiArt[]="	2) Highscores\n";
 	char quitAsciiArt[]="	3) Quit\n";
 
-	#if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
-		magenta(1);
-   	#endif
+	magenta(1);
 	printf("%s",titleAsciiArt);
 
-	#if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
-		reset();
-   	#endif
+	reset();
 	printf("%s%s%s%s%s",lineAsciiArt,playAsciiArt,scoreAsciiArt,quitAsciiArt,lineAsciiArt);
 	fflush(stdout);
 
