@@ -75,15 +75,22 @@ void scoreVisual(){
 
 	char titleAsciiArt[]="\n ######   #######  #### ##    ##  ######  ##     ## ######## \n##    ## ##     ##  ##  ###   ## ##    ## ##     ## ##       \n##       ##     ##  ##  ####  ## ##       ##     ## ##       \n##       ##     ##  ##  ## ## ## ##       ######### ######   \n##       ##     ##  ##  ##  #### ##       ##     ## ##       \n##    ## ##     ##  ##  ##   ### ##    ## ##     ## ##       \n ######   #######  #### ##    ##  ######  ##     ## ######## \n";
 	char lineAsciiArt[]="\n**--------------------------------------------------------**\n\n";
-	char scoreAsciiArt[]="	HIGHSCORES\n";
-	char backAsciiArt[]="	1) Back\n";
-	char quitAsciiArt[]="	2) Quit\n";
+	char scoreAsciiArt[]="	VICTORIES/LOSES/NAME\n\n";
+	char backAsciiArt[]="\n1) Back\n";
+	char quitAsciiArt[]="2) Quit\n";
+
+	int size = lineCount();
+	highscore* scores = scoreArray(size);
 
 	magenta(1);
 	printf("%s",titleAsciiArt);
 
 	reset();
-	printf("%s%s%s%s%s",lineAsciiArt,scoreAsciiArt,backAsciiArt,quitAsciiArt,lineAsciiArt);
+	printf("%s%s",lineAsciiArt,scoreAsciiArt);
+	for(int i = 0; i<5; i++){
+		printf("	%d	%d	%s\n",scores[i].victories,scores[i].loses,scores[i].name);
+	}
+	printf("%s%s%s",backAsciiArt,quitAsciiArt,lineAsciiArt);
 	fflush(stdout);
 }
 

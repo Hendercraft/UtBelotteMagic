@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <highscore.h>
 
 
 /*This series of protocol just set the output color */
