@@ -11,14 +11,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <highscore.h>
 
 typedef struct {
-    char value
-    char* color
-    int player
-    Boolean trump
-}Cards
+    char value;
+    char* color;
+    int player;
+    boolean trump;
+}Cards;
 
 
 /*

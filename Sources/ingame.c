@@ -11,8 +11,20 @@
 /*
  * Prints the cards in the player's hand
  */
-void handPrint(Cards* Cards, int size){
+void handPrint(Cards* cards, int size){
 
+	Cards* player = (Cards*) malloc(8*sizeof(Cards));
+	int j=0, i=0;
+
+	while(i<size && j<8){
+
+		if(cards[i].player == -1){
+			player[j] = cards[i];
+			j++;
+		}
+
+		i++;
+	}
 }
 
 
