@@ -5,8 +5,8 @@
  */
 
 
-#ifndef MAINMENU_INGAME_H_
-#define MAINMENU_INGAME_H_
+#ifndef INGAME_H_
+#define INGAME_H_
 
 
 #include <stdio.h>
@@ -15,16 +15,19 @@
 
 typedef struct {
     char value;
-    char* color;
+    char color;
     int player;
     boolean trump;
 }Cards;
 
 
+Cards* createCards();
+
+
 /*
  * Prints the cards in the player's hand
  */
-void handPrint(Cards* Cards, int size);
+void handPrint(Cards* cards, int size);
 
 
 /*
@@ -33,4 +36,4 @@ void handPrint(Cards* Cards, int size);
 void cardPrint(char number, char color);
 
 
-#endif /* MAINMENU_INGAME_H_ */
+#endif /* INGAME_H_ */
