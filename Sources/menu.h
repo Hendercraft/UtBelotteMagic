@@ -12,9 +12,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <Cards.h>
 
-
-/*This series of protocol just set the output color */
+/*This series of protocol just set the output color on Unix-like systems */
 
 void magenta (int bold);
 void reset();
@@ -24,7 +24,20 @@ void blue(int bold);
 void red(int bold);
 void cyan (int bold);
 
+/******************************************************************************/
+/****************************DISPLAY FUNCNCTIONS******************************/
+/****************************************************************************/
 
+
+
+
+/*
+ * This fonction will display a single card in ASCII art
+ * If the output system is Unix-like the output will be colored
+ */
+void printcard(Card card)
+ 	
+ 
 /*
  * Function thats prints the Programm's menu in ASCII art.
  */

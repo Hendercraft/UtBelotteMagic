@@ -6,24 +6,13 @@
 
 #include <highscore.h>
 #include <menu.h>
-
-typedef enum {
-    FALSE = 0
-    TRUE = 1
-}Boolean
-
-typedef struct {
-    char value
-    char* color
-    int player
-    Boolean trump
-{Cards
+#include <Cards.h>
 
 int main(){
-
+	Card* deck = creatcards();
     int operation, play=0;
 
-    while(play==0){
+	while(play==0){
 
         clrscr();
         menuVisual();
@@ -40,7 +29,7 @@ int main(){
                 scoreVisual();
                 operation = verify(3);
                 if(operation==2){
-                    return EXIT_SUCCESS;
+                   return EXIT_SUCCESS;
                 }
 
             } else if(operation == 3){
@@ -50,6 +39,6 @@ int main(){
 
     }
 
-    return EXIT_SUCCESS;
+	return EXIT_SUCCESS;
 
 }
