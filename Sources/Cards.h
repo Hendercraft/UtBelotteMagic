@@ -7,7 +7,7 @@ typedef enum {
     TRUE = 1
 }Boolean;
 
-typedef struct Card {
+typedef struct {
     int value;
     char color;
     int player;
