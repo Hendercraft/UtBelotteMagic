@@ -8,7 +8,7 @@ typedef enum {
 }Boolean;
 
 typedef struct Card {
-    char value;
+    int value;
     char color;
     int player;
     Boolean trump;
