@@ -14,6 +14,13 @@ typedef struct {
     Boolean trump;
 }Card;
 
+typedef struct{
+	Card* Hand;
+	int id;
+	int bet;
+	int hand_size;
+}Player;
+
 /*This fonction generate and retrun a array of Cards,already
  set to their value*/
 Card* creatcards();
