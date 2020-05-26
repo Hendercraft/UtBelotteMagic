@@ -20,3 +20,16 @@ Card* creatcards(){
 		return NULL
 	}
 
+
+
+Card* WhoWins(Card* falls){
+	int* trump,
+	int j=0;
+	for (int = i; i<4;i++){
+		if falls[i].trump=1
+			trump[j]=i;
+			j++;
+		}
+	}
+			
+		

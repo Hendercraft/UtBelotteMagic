@@ -18,3 +18,5 @@ typedef struct {
  set to their value*/
 Card* creatcards();
 
+
+Card* WhoWins(Card* falls);
