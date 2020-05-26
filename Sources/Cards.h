@@ -15,7 +15,7 @@ typedef struct {
 }Card;
 
 typedef struct{
-	Card* Hand;
+	Card** Hand;
 	int id;
 	int bet;
 	int hand_size;
@@ -27,3 +27,4 @@ Card* creatcards();
 
 
 Card* WhoWins(Card* falls);
+
