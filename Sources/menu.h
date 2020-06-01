@@ -35,7 +35,7 @@ void cyan (int bold);
  * This fonction will display a single card in ASCII art
  * If the output system is Unix-like the output will be colored
  */
-void printcard(Card card)
+void printcard(Card card);
  	
  
 /*
