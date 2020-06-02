@@ -33,17 +33,6 @@ void cyan (int bold){
 }
 
 
-/*
- *
- */
-void printcard(Card card){
-	if card.colr = 'h'{
-		char* "
-	
-
-
-
-
 
 /*
  * Function thats prints the Programm's menu in ASCII art.

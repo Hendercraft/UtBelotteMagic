@@ -6,7 +6,7 @@ INCLUDEDIR = -I. -I/usr/include
 
 #Library-related macros
 #1st
-LIBCORENAME = menu
+LIBCORENAME = Cards
 LIBTARGET :=lib$(LIBCORENAME:=.so) #adding the "lib" prefix and the .so extension to LIBCORENAME
 LIBSOURCE = $(LIBCORENAME)
 LIBSOURCECFILE = $(LIBSOURCE:=.c)
@@ -14,11 +14,19 @@ LIBSOURCEOFILE = $(LIBSOURCE:=.o)
 
 #Library-related macros PAS OUBLIER DE RAJOUTER -l$(LIBCORENAME2)
 #2nd
-LIBCORENAME2 = Cards
+LIBCORENAME2 = menu
 LIBTARGET2 :=lib$(LIBCORENAME2:=.so) #adding the "lib" prefix and the .so extension to LIBCORENAME
 LIBSOURCE2 = $(LIBCORENAME2)
 LIBSOURCECFILE2 = $(LIBSOURCE2:=.c)
 LIBSOURCEOFILE2 = $(LIBSOURCE2:=.o)
+
+#Library-related macros PAS OUBLIER DE RAJOUTER -l$(LIBCORENAME3)
+#3nd
+LIBCORENAME3 = highscore
+LIBTARGET3 :=lib$(LIBCORENAME3:=.so) #adding the "lib" prefix and the .so extension to LIBCORENAME
+LIBSOURCE3 = $(LIBCORENAME3)
+LIBSOURCECFILE3 = $(LIBSOURCE3:=.c)
+LIBSOURCEOFILE3 = $(LIBSOURCE3:=.o)
 
 #Application-related macros
 EXESOURCE = main
@@ -42,11 +50,11 @@ run: $(TARGET)
 all: $(TARGET) 
 
 #Generating the executable
-$(TARGET): $(EXESOURCEOFILE) $(LIBTARGET)
+$(TARGET): $(EXESOURCEOFILE) $(LIBTARGET) $(LIBTARGET2) $(LIBTARGET3)
 	@tput setaf ${COLOR} #setting color
 	@echo "\n Generating the executable " $@ "from " $<
 	@tput sgr0 #resetting color settings
-	$(CXX) $(EXESOURCEOFILE) -l$(LIBCORENAME) -l$(LIBCORENAME2) $(LIBSDIR) -o $(TARGET) -lm
+	$(CXX) $(EXESOURCEOFILE) -l$(LIBCORENAME) -l$(LIBCORENAME2) -l$(LIBCORENAME3) $(LIBSDIR) -o $(TARGET) -lm
 
 #Generating the 1st library binary code
 # libmenu.so : menu.o
@@ -67,6 +75,13 @@ $(LIBTARGET2): $(LIBSOURCEOFILE2)
 	@echo "\n Generating the library binary code (shared lib .dll on Windows or .so on Linux) from object files (.o) " $@
 	@tput sgr0 #resetting color settings
 	$(CXX) $(CFLAGS) -shared $(LIBSOURCEOFILE2) -o $(LIBTARGET2)
+
+
+$(LIBTARGET3): $(LIBSOURCEOFILE3)
+	@tput setaf ${COLOR} #setting color
+	@echo "\n Generating the library binary code (shared lib .dll on Windows or .so on Linux) from object files (.o) " $@
+	@tput sgr0 #resetting color settings
+	$(CXX) $(CFLAGS) -shared $(LIBSOURCEOFILE3) -o $(LIBTARGET3)
 	
 #Generating an object file from a C file having the same name
 .c.o:

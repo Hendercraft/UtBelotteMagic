@@ -2,7 +2,7 @@
 
 Card* creatcards(){
 	Card* deck = (Card*) malloc(32 * sizeof(Card)); //allocating the memory
-	char* color = "hcds" // I'll itertate over it to define the color
+	char* color = "hcds"; // I'll itertate over it to define the color
 	if (deck != NULL){
 		for (int i=0; i<4; i++){  // Color's loop, each new loop mean a new color, first will be Heart than club, diamond and spade
 			for (int value=0; value<8;value++){ //Value's loop, each new loop mean a new card
@@ -18,37 +18,47 @@ Card* creatcards(){
 	}
 	else {
 		fprintf( stderr, "there is an error with the memory allocation for the array of Cards");
-		return NULL
+		return NULL;
 	}
+}
 
 
 
-int Endofturn(Card** falls){ //FREE LA MEMOIRE FRERO + 2 dimentional a faire
+int Endofturn(Card** falls){
 	int nbxtrump = 0;
 /*Parsing the array to know if there's any trump*/
-	for (int i = 0;i<4; i++){
-		if (falls[i]->trump){ //If so, I stock them in another array
+	Card* fallstrump = NULL;
+	for (int i=0; i<4; i++){
+		if (falls[i]->trump == 1 ){ //If so, I stock them in another array
 			if (nbxtrump == 0){
-				Card* fallstrump = (Card*) malloc(sizeof(Card));
-			}else{
-				Card* fallstrump = (Card*) realloc(fallstrump,sizeof(Card)*(nbxtrump+1));
+				fallstrump = (Card*) malloc(sizeof(Card));
+			} else {
+				fallstrump = (Card*) realloc(fallstrump,sizeof(Card)*(nbxtrump+1));
 			}
-			fallstrump[nbxtrump] = *falls[i];
-			nbxtrump+=;
+			if (fallstrump != NULL){
+				fallstrump[nbxtrump] = *falls[i];
+				nbxtrump++;
+			}else{
+				fprintf( stderr, "there is an error with the memory allocation for the trumarray in the Endofturn function");
+				return 0;
+			}
 		}
 	}
 	
+	int player = 0;
 	if (nbxtrump > 0){ 
-		int player = whowintrump(fallstrump,nbxtrump);
+		player = whowintrump(fallstrump,nbxtrump);
 		free(fallstrump);
 		fallstrump = NULL;
 	}else{
-		int player = whowin(*falls);
+		player = whowin(*falls);
 	}
+
+	int winteam = 0;
 	if ((player == 1) || (player == 3)){ //If the winner is South or North
-		 int winteam = -1; // We will put all the card in team 1 fold
+		 winteam = -1; // We will put all the card in team 1 fold
 	}else{
-		int winteam = -2;
+		winteam = -2;
 	}
 	for (int i=0;i<4;i++){
 		falls[i]->player = winteam;
@@ -56,20 +66,11 @@ int Endofturn(Card** falls){ //FREE LA MEMOIRE FRERO + 2 dimentional a faire
 	
 	return player;
 }
-	
-		
-		
-			
-
-
-
-
-}
 
 
 int whowin(Card* falls){
 	int max = falls[0].value;
-	int indexmax; = 0;	 
+	int indexmax = 0;	 
 	for (int i=1 ;i<4;i++){
 		if (falls[i].color == falls[0].color) {
 			if (max<falls[i].value){
@@ -78,18 +79,18 @@ int whowin(Card* falls){
 			}
 		}
 	}
-	return falls[index].player;
+	return falls[indexmax].player;
 }
 
 int whowintrump(Card* fallstrump, int size){
-	int* order = {0,1,6,7,2,3,4,5}; // Trump order
+	int order[8] = {0,1,6,7,2,3,4,5}; // Trump order
 	int max = order[fallstrump[0].value];
 	int indexmax = 0;
 	for (int i=1; i<size; i++){
 		if (max<order[fallstrump[i].value]){
-			max = order[fallstrump[i].value]
+			max = order[fallstrump[i].value];
 			indexmax = i;
 		}
 	}
-	return fallstrump[index].player;
+	return fallstrump[indexmax].player;
 }

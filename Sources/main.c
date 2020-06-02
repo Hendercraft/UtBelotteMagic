@@ -9,7 +9,7 @@
 #include <Cards.h>
 
 int main(){
-	Card* deck = creatcards();
+	//Card* deck = creatcards();
     int operation, play=0;
 
 	while(play==0){

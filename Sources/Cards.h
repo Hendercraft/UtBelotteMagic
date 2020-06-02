@@ -28,22 +28,23 @@ typedef struct{
 } Player;
 
 /**
- * This fonction generate and retrun the set of 32 cards that will be used during the game.
+ * This function generate and retrun the set of 32 cards that will be used during the game.
  * @return an array of 32 cards, their player value is set to 0 by default. 
  */
 Card* creatcards();
 
 
 /**
-  * This fonction will be called in Ebdofturn if at least one trump has been played.
+  * This function will be called in Ebdofturn if at least one trump has been played.
   * it will look trought the array and return the id of the player who have won the turn.
   * @param fallstrump - The trump that have been played by each player
+  * @param size - the size of the passed array
   * @return a int contening the id of the winning player
 */
-int whowintrump(Card* fallstrump);
+int whowintrump(Card* fallstrump,int size);
 
 /**
-  * This fonction will be called in Ebdofturn if no trump have been played.
+  * This function will be called in Ebdofturn if no trump have been played.
   * it will look trought the array and return the id of the player who have won the turn.
   * @param falls - The cards that have been played by each player
   * @return a int contening the id of the winning player
@@ -51,7 +52,7 @@ int whowintrump(Card* fallstrump);
 int whowin(Card* falls);
 
 /**
- * This fonction will be lunched ones everybody has played a card.
+ * This function will be lunched ones everybody has played a card.
  * Its role is to modify the card.player value, setting it to -1 or -2 depending of the team who has won.
  * It relly on whowin and whowintrump to do so.
  * @param falls - The adress of the cards that have been played by each player.
