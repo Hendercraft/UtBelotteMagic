@@ -35,8 +35,15 @@ void cardsdeal(Player** table,Card** deck,int dealerid){
 	}return;
 }
 
-
-
+void definetrump(Card** deck,char trump){
+	for (int i=0; i<32; i++){
+		if (deck[i]->color == trump){
+			deck[i]->trump = TRUE;
+		}
+	}
+	return;
+}
+	
 
 
 
@@ -51,9 +58,14 @@ Player** createplayer(){
 			table[i]->bet = 0;
 			table[i]->hand_size = 8;
 			table[i]->Hand = (Card**)malloc(sizeof(Card*)*8);
-			for(int j=0; j<8;j++) {
-				table[i]->Hand[i] = NULL;
-			}
+			if (table[i]->Hand != NULL){
+				for(int j=0; j<8;j++) {
+					table[i]->Hand[i] = NULL;
+				}
+			}else{
+				fprintf( stderr, "there is an error with the memory allocation for the Hand array for the %d player",(i+1));
+				return NULL;
+			}		
 		}
 	}else{
 		fprintf( stderr, "there is an error with the memory allocation for the array of Player");
@@ -89,17 +101,17 @@ Card** createcards(){
 
 int Endofturn(Card** falls){
 	int nbxtrump = 0;
+	Card** fallstrump = NULL;
 /*Parsing the array to know if there's any trump*/
-	Card* fallstrump = NULL;
 	for (int i=0; i<4; i++){
 		if (falls[i]->trump == 1 ){ //If so, I stock them in another array
 			if (nbxtrump == 0){
-				fallstrump = (Card*) malloc(sizeof(Card));
+				fallstrump = (Card**) malloc(sizeof(Card*));
 			} else {
-				fallstrump = (Card*) realloc(fallstrump,sizeof(Card)*(nbxtrump+1));
+				fallstrump = (Card**) realloc(fallstrump,sizeof(Card*)*(nbxtrump+1));
 			}
 			if (fallstrump != NULL){
-				fallstrump[nbxtrump] = *falls[i];
+				fallstrump[nbxtrump] = falls[i];
 				nbxtrump++;
 			}else{
 				fprintf( stderr, "there is an error with the memory allocation for the trumarray in the Endofturn function");
@@ -114,7 +126,7 @@ int Endofturn(Card** falls){
 		free(fallstrump);
 		fallstrump = NULL;
 	}else{
-		player = whowin(*falls);
+		player = whowin(falls);
 	}
 
 	int winteam = 0;
@@ -131,29 +143,29 @@ int Endofturn(Card** falls){
 }
 
 
-int whowin(Card* falls){
-	int max = falls[0].value;
+int whowin(Card** falls){
+	int max = falls[0]->value;
 	int indexmax = 0;
 	for (int i=1 ;i<4;i++){
-		if (falls[i].color == falls[0].color) {
-			if (max<falls[i].value){
-				max = falls[i].value;
+		if (falls[i]->color == falls[0]->color) {
+			if (max<falls[i]->value){
+				max = falls[i]->value;
 				indexmax = i;
 			}
 		}
 	}
-	return falls[indexmax].player;
+	return falls[indexmax]->player;
 }
 
-int whowintrump(Card* fallstrump, int size){
+int whowintrump(Card** fallstrump, int size){
 	int order[8] = {0,1,6,7,2,3,4,5}; // Trump order
-	int max = order[fallstrump[0].value];
+	int max = order[fallstrump[0]->value];
 	int indexmax = 0;
 	for (int i=1; i<size; i++){
-		if (max<order[fallstrump[i].value]){
-			max = order[fallstrump[i].value];
+		if (max<order[fallstrump[i]->value]){
+			max = order[fallstrump[i]->value];
 			indexmax = i;
 		}
 	}
-	return fallstrump[indexmax].player;
+	return fallstrump[indexmax]->player;
 }
