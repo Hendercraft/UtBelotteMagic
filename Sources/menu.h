@@ -4,8 +4,8 @@
  *  Created by William Mann
  */
 
-#ifndef MAINMENU_MENU_H_
-#define MAINMENU_MENU_H_
+#ifndef MAINMENU_MENU_H
+#define MAINMENU_MENU_H
 
 
 /*Libraries used*/
@@ -60,4 +60,4 @@ int verify(int n);
  */
 void clrscr();
 
-#endif /* MAINMENU_MENU_H_ */
+#endif /* MAINMENU_MENU_H */

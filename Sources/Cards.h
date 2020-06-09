@@ -5,6 +5,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
+
+
+/******************************************************************************/
+/****************************STRUCTURE DEFINITION*****************************/
+/****************************************************************************/
+
+
 /* Boolean type definition */
 typedef enum {
  FALSE = 0,
@@ -27,11 +35,31 @@ typedef struct{
 	int hand_size;
 } Player;
 
+/******************************************************************************/
+/**************************FUNCTIONS DEFINITION*****************************/
+/****************************************************************************/
+
 /**
- * This function generate and retrun the set of 32 cards that will be used during the game.
+ * This will deal the cards to each player
+ * @param table - The array contening all the player data.
+ * @param deck - The deck contening all the cards.
+ * @param dealerid - The id of the player who's dealing this game. 
+ */
+void cardsdeal(Player** table,Card** deck,int dealerid);
+
+/**
+ * This function generate and return an array containing 4 players.
+ * Player 1 (South) is the user,he's teaming with Player 3 (North IA).
+ * The other Player 2 (West IA) and  Player 4 (East IA) are together.
+ * @return an array of 4 players. 
+ */
+Player* createplayer();
+
+/**
+ * This function generate and return the set of 32 cards that will be used during the game.
  * @return an array of 32 cards, their player value is set to 0 by default. 
  */
-Card* creatcards();
+Card* createcards();
 
 
 /**
