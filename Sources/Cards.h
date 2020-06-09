@@ -53,13 +53,13 @@ void cardsdeal(Player** table,Card** deck,int dealerid);
  * The other Player 2 (West IA) and  Player 4 (East IA) are together.
  * @return an array of 4 players.
  */
-Player* createplayer();
+Player** createplayer();
 
 /**
  * This function generate and return the set of 32 cards that will be used during the game.
  * @return an array of 32 cards, their player value is set to 0 by default.
  */
-Card* createcards();
+Card** createcards();
 
 
 /**

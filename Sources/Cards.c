@@ -42,16 +42,17 @@ void cardsdeal(Player** table,Card** deck,int dealerid){
 
 
 
-Player* createplayer(){
-	Player* table = (Player*) malloc(4 * sizeof(Player));
+Player** createplayer(){
+	Player** table = (Player**) malloc(4 * sizeof(Player*));
 	if (table != NULL){
 		for (int i=0; i<4; i++){
-			table[i].id = i+1;
-			table[i].bet = 0;
-			table[i].hand_size = 8;
-			table[i].Hand = (Card**)malloc(sizeof(Card*)*8);
+			table[i] = (Player*) malloc(sizeof(Player));
+			table[i]->id = i+1;
+			table[i]->bet = 0;
+			table[i]->hand_size = 8;
+			table[i]->Hand = (Card**)malloc(sizeof(Card*)*8);
 			for(int j=0; j<8;j++) {
-				table[i].Hand[i] = NULL;
+				table[i]->Hand[i] = NULL;
 			}
 		}
 	}else{
@@ -62,18 +63,18 @@ Player* createplayer(){
 }
 
 
-Card* createcards(){
-	Card* deck = (Card*) malloc(32 * sizeof(Card)); //allocating the memory
+Card** createcards(){
+	Card** deck = (Card**) malloc(32 * sizeof(Card*)); //allocating the memory
 	char* color = "hcds"; // I'll iterate over it to define the color
 	if (deck != NULL){
 		for (int i=0; i<4; i++){  // Color's loop, each new loop mean a new color, first will be heart than club, diamond and spade
 			for (int value=0; value<8;value++){ //Value's loop, each new loop mean a new card
-
-				deck[value+8*i].value=value; // 7 Being the ace, 6 the 10, 5 the king.... 0 the 7
-				deck[value+8*i].color=color[i];
-				deck[value+8*i].player=0;
-				deck[value+8*i].trump=0;
-				deck[value+8*i].position= (i)*8+(value+1);
+				deck[value+8*i] = (Card*) malloc(sizeof(Card));
+				deck[value+8*i]->value=value; // 7 Being the ace, 6 the 10, 5 the king.... 0 the 7
+				deck[value+8*i]->color=color[i];
+				deck[value+8*i]->player=0;
+				deck[value+8*i]->trump=0;
+				deck[value+8*i]->position= (i)*8+(value+1);
 			}
 		}
 		return deck;

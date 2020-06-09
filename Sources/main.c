@@ -5,10 +5,9 @@
  */
 
 #include <highscore.h>
-#include <ingame.h>
 #include <menu.h>
 #include <Cards.h>
-#include <bet.h>
+//#include <bet.h>
 
 
 int main(){
@@ -64,24 +63,33 @@ int main(){
 	printf("%s",playerHand);*/
 
 	int dealer = 1;
-	Card* deck = createcards();
-	/*for (int i=0; i<4; i++){  // Color's loop, each new loop mean a new color, first will be heart than club, diamond and spade
+	Card** deck = createcards();
+	for (int i=0; i<4; i++){  // Color's loop, each new loop mean a new color, first will be heart than club, diamond and spade
 				for (int value=0; value<8;value++){ //Value's loop, each new loop mean a new card
 
-					printf("%d",deck[value+8*i].value);
-					printf("%c",deck[value+8*i].color);
-					printf("%d",deck[value+8*i].player);
-					printf("%d",deck[value+8*i].trump);
-					printf("%d\n",deck[value+8*i].position);
+					printf("%d",deck[value+8*i]->value);
+					printf("%c",deck[value+8*i]->color);
+					printf("%d",deck[value+8*i]->player);
+					printf("%d",deck[value+8*i]->trump);
+					printf("%d\n",deck[value+8*i]->position);
 				}
-			}*/
-	Player* table = createplayer();
-	/*for (int i=0; i<4; i++){
-				printf("%d",table[i].id);
-				printf("%d",table[i].bet);
-				printf("%d\n",table[i].hand_size);
-			}*/
-	cardsdeal(&table,&deck,dealer);
+			}
+	Player** table = createplayer();
+	for (int i=0; i<4; i++){
+				printf("%d",table[i]->id);
+				printf("%d",table[i]->bet);
+				printf("%d\n",table[i]->hand_size);
+			}
+	cardsdeal(table,deck,dealer);
+	for (int i=0; i<4; i++){
+		printf("%d",table[i]->id);
+		printf("%d",table[i]->bet);
+		printf("%d\n",table[i]->hand_size);
+		for (int j=0; j<8; j++){
+			printf("Player %d , Card[%d]=%d\n",i,j,table[i]->Hand[j]->player);
+		}
+	}
+
 
 	/*betMenu(table);*/
 
