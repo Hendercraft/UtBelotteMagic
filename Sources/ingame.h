@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <highscore.h>
 
 typedef struct {
@@ -24,10 +25,21 @@ typedef struct {
 Cards* createCards();
 
 
+char* handString(Cards* hand);
+
+
 /*
- * Prints the cards in the player's hand
+ * function hat gives the number of cards in an array
+ * @param hand - array of cards you want the size of
+ * @return an integer, the number of cards in the array
  */
-void handPrint(Cards* cards, int size);
+int handSize(Cards* hand);
+
+
+/*
+ * Creates the players hand
+ */
+Cards* hand(Cards* cards, int size);
 
 
 /*

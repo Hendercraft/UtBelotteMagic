@@ -41,7 +41,7 @@ void scoreVisual();
  * @parameter n - integer max
  * @return a number
  */
-int verify(int n);
+int verify(int b,int n);
 
 /*
  * Function to clear the cmd

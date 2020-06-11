@@ -101,17 +101,17 @@ void scoreVisual(){
  * @parameter n - integer max
  * @return a number
  */
-int verify(int n){
+int verify(int b,int n){
 
 	char menuChoose[]="Please enter the number corresponding to your choice :\n";
-	char userInput[1];
+	char userInput[3];
 	int number=-1;
 
 	printf("%s",menuChoose);
 	fflush(stdout);
-	while(number <= 0 || number > n){
-		scanf("%c",userInput);
-		if (atoi(userInput) != 0){
+	while(number <= b || number > n){
+		scanf("%s",userInput);
+		if (atoi(userInput) >= 0){
 			number = atoi(userInput);
 		}
 	}

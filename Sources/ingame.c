@@ -39,9 +39,6 @@ Cards* createCards(){
 
                 deck[value+8*i].trump = false;
 
-        		printf("%c,%c,%d\n",deck[value+i*8].value,deck[value+i*8].color,deck[value+i*8].player);
-
-
             }
         }
     } else {
@@ -53,10 +50,41 @@ Cards* createCards(){
 }
 
 
+char* handString(Cards* hand){
+
+	int size = handSize(hand);
+	char* cardString = (char*) malloc ((size*89+8)*sizeof(char));
+	printf("%d\n",size);
+	fflush(stdout);
+	for(int i=0;i<size;i++){
+
+	}
+
+	return cardString;
+}
+
+
 /*
- * Prints the cards in the player's hand
+ * function hat gives the number of cards in an array
+ * @param hand - array of cards you want the size of
+ * @return an integer, the number of cards in the array
  */
-void handPrint(Cards* cards, int size){
+int handSize(Cards* hand){
+
+	int cardNumber;
+
+	cardNumber = sizeof(hand)/sizeof(hand[0]);
+	printf("%d\n",sizeof(hand));
+	fflush(stdout);
+	return cardNumber;
+
+}
+
+
+/*
+ * Creates the players hand
+ */
+Cards* hand(Cards* cards, int size){
 
 	Cards* player = (Cards*) malloc(8*sizeof(Cards));
 	int j=0, i=0;
@@ -71,9 +99,7 @@ void handPrint(Cards* cards, int size){
 		i++;
 	}
 
-	for(int k=0;k<8;k++){
-		printf("%c,%c,%d\n",player[k].value,player[k].color,player[k].player);
-	}
+	return player;
 }
 
 
