@@ -45,8 +45,10 @@ void definetrump(Card** deck,char trump){
 }
 	
 
-
-
+/*Boolean checkcard(Player** table,Card** falls,int cardindex){
+	int idleader = 0; // The id of the player who has the lead
+	} // DONT FORGET ME ME ME ME ME ME 
+*/
 
 
 Player** createplayer(){
@@ -100,26 +102,12 @@ Card** createcards(){
 
 
 int Endofturn(Card** falls){
-	int nbxtrump = 0;
+	printf("hell");
 	Card** fallstrump = NULL;
-/*Parsing the array to know if there's any trump*/
-	for (int i=0; i<4; i++){
-		if (falls[i]->trump == 1 ){ //If so, I stock them in another array
-			if (nbxtrump == 0){
-				fallstrump = (Card**) malloc(sizeof(Card*));
-			} else {
-				fallstrump = (Card**) realloc(fallstrump,sizeof(Card*)*(nbxtrump+1));
-			}
-			if (fallstrump != NULL){
-				fallstrump[nbxtrump] = falls[i];
-				nbxtrump++;
-			}else{
-				fprintf( stderr, "there is an error with the memory allocation for the trumarray in the Endofturn function");
-				return 0;
-			}
-		}
+	int nbxtrump = anytrump(falls,4,fallstrump);
+	if (nbxtrump == -1){
+		return -1;
 	}
-
 	int player = 0;
 	if (nbxtrump > 0){ //if at least one trump has been found
 		player = whowintrump(fallstrump,nbxtrump); // Use the fonction with the trump order
@@ -168,4 +156,25 @@ int whowintrump(Card** fallstrump, int size){
 		}
 	}
 	return fallstrump[indexmax]->player;
+}
+
+int anytrump(Card** falls,int sizefalls,Card** fallstrump){
+	printf("hell");
+	int nbxtrump = 0;
+	for (int i = 0; i<sizefalls; i++){
+		if (falls[i]->trump == 1 ){ //If so, I stock them in another array
+			if (nbxtrump == 0){
+				fallstrump = (Card**) malloc(sizeof(Card*));
+			} else {
+				fallstrump = (Card**) realloc(fallstrump,sizeof(Card*)*(nbxtrump+1));
+			}
+			if (fallstrump != NULL){
+				fallstrump[nbxtrump] = falls[i];
+				nbxtrump++;
+			}else{
+				fprintf( stderr, "there is an error with the memory allocation for the trumarray in the Endofturn function");
+				return -1;
+			}
+		}
+	}return nbxtrump;
 }

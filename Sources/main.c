@@ -119,6 +119,8 @@ int main(){
 			}
 		}
 	}
-	printf("%d",Endofturn(falls));
+	printf("i'm here");
+	int yesdebug = Endofturn(falls);
+	printf("%d",yesdebug);
 	return EXIT_SUCCESS;
 }
