@@ -14,7 +14,7 @@ LIBSOURCEOFILE = $(LIBSOURCE:=.o)
 
 #Library-related macros PAS OUBLIER DE RAJOUTER -l$(LIBCORENAME2)
 #2nd
-LIBCORENAME2 = menu
+LIBCORENAME2 = highscore
 LIBTARGET2 :=lib$(LIBCORENAME2:=.so) #adding the "lib" prefix and the .so extension to LIBCORENAME
 LIBSOURCE2 = $(LIBCORENAME2)
 LIBSOURCECFILE2 = $(LIBSOURCE2:=.c)
@@ -22,11 +22,20 @@ LIBSOURCEOFILE2 = $(LIBSOURCE2:=.o)
 
 #Library-related macros PAS OUBLIER DE RAJOUTER -l$(LIBCORENAME3)
 #3nd
-LIBCORENAME3 = highscore
+LIBCORENAME3 = menu
 LIBTARGET3 :=lib$(LIBCORENAME3:=.so) #adding the "lib" prefix and the .so extension to LIBCORENAME
 LIBSOURCE3 = $(LIBCORENAME3)
 LIBSOURCECFILE3 = $(LIBSOURCE3:=.c)
 LIBSOURCEOFILE3 = $(LIBSOURCE3:=.o)
+
+#Library-related macros PAS OUBLIER DE RAJOUTER -l$(LIBCORENAME4) et CHECK LIGNE 62
+#4nd
+LIBCORENAME4 = bet
+LIBTARGET4 :=lib$(LIBCORENAME4:=.so) #adding the "lib" prefix and the .so extension to LIBCORENAME
+LIBSOURCE4 = $(LIBCORENAME4)
+LIBSOURCECFILE4 = $(LIBSOURCE4:=.c)
+LIBSOURCEOFILE4 = $(LIBSOURCE4:=.o)
+
 
 #Application-related macros
 EXESOURCE = main
@@ -50,11 +59,11 @@ run: $(TARGET)
 all: $(TARGET) 
 
 #Generating the executable
-$(TARGET): $(EXESOURCEOFILE) $(LIBTARGET) $(LIBTARGET2) $(LIBTARGET3)
+$(TARGET): $(EXESOURCEOFILE) $(LIBTARGET) $(LIBTARGET2) $(LIBTARGET3) $(LIBTARGET4)
 	@tput setaf ${COLOR} #setting color
 	@echo "\n Generating the executable " $@ "from " $<
 	@tput sgr0 #resetting color settings
-	$(CXX) $(EXESOURCEOFILE) -l$(LIBCORENAME) -l$(LIBCORENAME2) -l$(LIBCORENAME3) $(LIBSDIR) -o $(TARGET) -lm
+	$(CXX) $(EXESOURCEOFILE) -l$(LIBCORENAME) -l$(LIBCORENAME2) -l$(LIBCORENAME3) -l$(LIBCORENAME4) $(LIBSDIR) -o $(TARGET) -lm
 
 #Generating the 1st library binary code
 # libmenu.so : menu.o
@@ -76,12 +85,19 @@ $(LIBTARGET2): $(LIBSOURCEOFILE2)
 	@tput sgr0 #resetting color settings
 	$(CXX) $(CFLAGS) -shared $(LIBSOURCEOFILE2) -o $(LIBTARGET2)
 
-
+#3rd
 $(LIBTARGET3): $(LIBSOURCEOFILE3)
 	@tput setaf ${COLOR} #setting color
 	@echo "\n Generating the library binary code (shared lib .dll on Windows or .so on Linux) from object files (.o) " $@
 	@tput sgr0 #resetting color settings
 	$(CXX) $(CFLAGS) -shared $(LIBSOURCEOFILE3) -o $(LIBTARGET3)
+#4th	
+$(LIBTARGET4): $(LIBSOURCEOFILE4)
+	@tput setaf ${COLOR} #setting color
+	@echo "\n Generating the library binary code (shared lib .dll on Windows or .so on Linux) from object files (.o) " $@
+	@tput sgr0 #resetting color settings
+	$(CXX) $(CFLAGS) -shared $(LIBSOURCEOFILE4) -o $(LIBTARGET4)
+	
 	
 #Generating an object file from a C file having the same name
 .c.o:

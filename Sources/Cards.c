@@ -54,8 +54,8 @@ int* checkcard(Player** table,Card** falls,int playerid,int sizefalls){
 	int maxtrump = 0; //value of the biggest trump in play
 	char askedcolor = falls[0]->color;
 	int* playable = NULL;
-	int nbxcolor = 0;
-	// Adding all the cards of the same color
+	int nbxcolor = 0; //number of cards of the asked color the play has
+
 	for (int i=0;i<table[playerid-1]->hand_size;i++){
 		if ((table[playerid-1]->Hand[i]->color == askedcolor) && (table[playerid-1]->Hand[i]->trump == FALSE)){
 			if (nbxcolor == 0){
@@ -249,7 +249,6 @@ Card** createcards(){
 
 
 int Endofturn(Card** falls){
-	printf("hell");
 	int nbxtrump = 0;
 	Card** fallstrump = anytrump(falls,4,&nbxtrump);
 	
@@ -265,15 +264,8 @@ int Endofturn(Card** falls){
 	}else{
 		player = whowin(falls,4);
 	}
-
-	int winteam = 0;
-	if ((player == 1) || (player == 3)){ //If the winner is South or North
-		 winteam = -1; // We will put all the card in team 1 fold
-	}else{
-		winteam = -2;
-	}
 	for (int i=0;i<4;i++){
-		falls[i]->player = winteam;
+		falls[i]->player = -player;
 	}
 
 	return player; //I'll retrun the Id of the player who won the split
@@ -309,7 +301,6 @@ int whowintrump(Card** fallstrump, int size,int* max){
 }
 
 Card** anytrump(Card** falls,int sizefalls,int* nbxtrump){
-	printf("hell");
 	Card** fallstrump = NULL;
 	for (int i = 0; i<sizefalls; i++){
 		if (falls[i]->trump == 1 ){ //If so, I stock them in another array
@@ -329,3 +320,22 @@ Card** anytrump(Card** falls,int sizefalls,int* nbxtrump){
 		}
 	}return fallstrump;
 }
+
+Boolean removecardsfromhand(Player** table,int playerid,int index){
+
+	for (int j=index;j<table[playerid-1]->hand_size - 1;j++){ //moving everything from index to empty the last slot
+		table[playerid-1]->Hand[j] = table[playerid-1]->Hand[j+1];
+	}
+	//decressing the hand value
+	table[playerid-1]->hand_size --;
+	//ajusting the Hand
+	table[playerid-1]->Hand = (Card**) realloc(table[playerid-1]->Hand,(table[playerid-1]->hand_size) * sizeof(Card*));
+	if (table[playerid-1]->Hand != NULL){
+		return TRUE;
+	}else{
+		fprintf( stderr, "there is an error with the memory allocation in removecardsfromhand \n with the card at the index %d from the hand of the %d",index,playerid+1);
+		return FALSE;
+	}
+}
+	
+	

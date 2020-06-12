@@ -122,13 +122,23 @@ int whowin(Card** falls,int sizefalls);
 
 /**
  * This function will be lunched ones everybody has played a card.
- * Its role is to modify the card.player value, setting it to -1 or -2 depending of the team who has won.
- * It rely on whowin and whowintrump to do so.
+ * Its role is to modify the card.player value, setting it to the -1,-2,-3 or -4 depending on which player won.
+ * It annytrump to count the trump in the fall
+ * whowin and whowintrump are used to determine the id of the winning player.
  * @param falls - The address of the cards that have been played by each player.
- * @return a int containing the id of the winning player
+ * @return a int containing the id of the winning player or -1 if there's a memory allocation error.
  */
 int Endofturn(Card** falls);
 
+/**
+ * This function go trough the hand of a given player and remove a pointer from it.
+ * It will then realloc the hand with its new size.
+ * @param table - An array of pointer on player
+ * @prama playerid - The id of the player whose hand we'll resize
+ * @param index - the index of the card we wish to remove
+ * @return A Boolean - TRUE if there's no memory error FALSE otherwise
+ */
+Boolean removecardsfromhand(Player** table,int playerid,int index);
 
 #endif
 
