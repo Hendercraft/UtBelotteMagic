@@ -39,6 +39,38 @@ typedef struct{
 /**************************FUNCTIONS DEFINITION*******************************/
 /****************************************************************************/
 
+
+/**
+ * This function go trought the falls and count the number of trump.
+ * If there is any it will modify the int passed has its 3rd parameter accoding to the number of trump
+ * @param falls -  An array of pointer on Card contening all the Cards that have been played this round.
+ * @param sizefalls -  the size of the fall.
+ * @param nbxtrump - expect a pointer on a int, it will be modify if anytrump has been found.
+ * @return An array of pointer on Card contening all the trump of the falls.
+ */
+Card** anytrump(Card** falls,int sizefalls,int* nbxtrump);
+
+
+/**
+ * This function will go trought the hand of a given player and retrun an array contening the index of the card he can play.
+ * @param table - The array contening the adress of each Player of the game.
+ * @param falls - An array of pointer on Card contening all the Cards that have been played this round.
+ * @param playerid - The id of the player which hand we'll go trought.
+ * @param sizefalls - The current size of the fall.
+ * @return an array of int - This array will containt the index of each playedable card.
+ */
+int* checkcard(Player** table,Card** falls ,int playerid,int sizefalls);
+
+
+
+/**
+ * This function will take a card that has already been tested from the hand a card from a player
+ * and add it too the current fall; it will call removecard to remove the pointer to the Card from
+ * the hand of the player
+ * @param table - The array contening the adress of each Player of the game.
+ * @param falls - An array of pointer on Card contening all the Cards that have been played this round.
+ */
+void playcard(Player** table,Card** falls);
 /**
  * This will deal the cards to each player
  * @param table - The array contening the adress of each Player of the game.
@@ -74,17 +106,19 @@ Card** createcards();
   * it will look through the array and return the id of the player who has won the turn.
   * @param fallstrump - An array of pointer on Card contening all the trumps that have been played.
   * @param size - the size of the passed array
+  * @param max - The value of the strongest trump, used in cehckcard mostly
   * @return a int containing the id of the winning player
 */
-int whowintrump(Card** fallstrump,int size);
+int whowintrump(Card** fallstrump,int size,int* max);
 
 /**
   * This function will be called in End of turn if no trump have been played.
   * it will look through the array and return the id of the player who has won the turn.
-  * @param falls - An array of pointer on Card contening all the Cards that have been played
+  * @param falls - An array of pointer on Card contening all the Cards that have been played this round.
+  * @param sizefalls - The acctual size of the fall
   * @return a int containing the id of the winning player
 */
-int whowin(Card** falls);
+int whowin(Card** falls,int sizefalls);
 
 /**
  * This function will be lunched ones everybody has played a card.
@@ -97,3 +131,4 @@ int Endofturn(Card** falls);
 
 
 #endif
+

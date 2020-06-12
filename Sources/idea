@@ -1,0 +1,8 @@
+This file will track most of idea we have so far
+
+
+Make the deck a 2 dimentional array of card for ease of use.
+Make the players class get those pointers form the deck.
+Creat a way to *save* the "plit" after a game to use it in the next game, and write it to a file so you can continue the game streak later.
+Add a "position" to the card struck, in order to siplify the random distribution and more.
+

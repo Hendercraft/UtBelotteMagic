@@ -53,6 +53,7 @@ void cyan (int bold){
 }
 
 
+
 /*
  * Function thats prints the Programm's menu in ASCII art.
  */
@@ -159,8 +160,7 @@ int verify(int b,int n){
 /*
  * Function to clear the cmd, it changes the expression used in function of the OS
  */
-void clrscr()
-{
+void clrscr(){
 	#if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
        system("clear");
    #endif

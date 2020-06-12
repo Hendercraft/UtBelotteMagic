@@ -4,8 +4,8 @@
  *  Created by William Mann
  */
 
-#ifndef MAINMENU_MENU_H_
-#define MAINMENU_MENU_H_
+#ifndef MAINMENU_MENU_H
+#define MAINMENU_MENU_H
 
 
 /*Libraries used*/
@@ -30,7 +30,16 @@ void blue(int bold);
 void red(int bold);
 void cyan (int bold);
 
+/******************************************************************************/
+/****************************DISPLAY FUNCNCTIONS******************************/
+/****************************************************************************/
 
+
+
+
+
+ 	
+ 
 /*
  * Function thats prints the Programm's menu in ASCII art.
  */
@@ -53,4 +62,4 @@ int verify(int b,int n);
  */
 void clrscr();
 
-#endif /* MAINMENU_MENU_H_ */
+#endif /* MAINMENU_MENU_H */
