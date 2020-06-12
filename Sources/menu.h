@@ -12,10 +12,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <Cards.h>
+#include <highscore.h>
 
-/*This series of protocol just set the output color on Unix-like systems */
 
+/******************************************************************************/
+/**************************FUNCTIONS DEFINITION*******************************/
+/****************************************************************************/
+
+/*
+ * This series of protocol is used to print in color, but it only works if we are on specified OS
+ */
 void magenta (int bold);
 void reset();
 void green(int bold);
@@ -31,11 +37,7 @@ void cyan (int bold);
 
 
 
-/*
- * This fonction will display a single card in ASCII art
- * If the output system is Unix-like the output will be colored
- */
-void printcard(Card card);
+
  	
  
 /*
@@ -53,7 +55,7 @@ void scoreVisual();
  * @parameter n - integer max
  * @return a number
  */
-int verify(int n);
+int verify(int b,int n);
 
 /*
  * Function to clear the cmd
