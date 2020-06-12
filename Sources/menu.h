@@ -15,8 +15,13 @@
 #include <highscore.h>
 
 
-/*This series of protocol just set the output color */
+/******************************************************************************/
+/**************************FUNCTIONS DEFINITION*******************************/
+/****************************************************************************/
 
+/*
+ * This series of protocol is used to print in color, but it only works if we are on specified OS
+ */
 void magenta (int bold);
 void reset();
 void green(int bold);

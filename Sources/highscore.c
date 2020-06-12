@@ -13,10 +13,18 @@
  */
 char* playerCheck(){
 
+    /*********************************************/
+    /*****************VARIABLES*******************/
+    /*********************************************/
+
 	char* name = (char*)malloc(15*sizeof(char)); /* allocates a memory of size 15 times the size for a char type for the string 'name'*/
 	strncpy(name,"",15); /* the program initializes the variable 'string' empty */
 	int i = 0;/* initializes the integer i used for the iterations */
 	boolean error = false; /* the boolean error used to tell if there's an error */
+
+	/*********************************************/
+    /****************Computation******************/
+    /*********************************************/
 
 	/*Getting and verifying the name*/
 		while(strlen(name) == 0){ /* while the length of the string 'name' equals zero: */
@@ -47,9 +55,17 @@ char* playerCheck(){
  */
 int lineCount(){
 
+    /*********************************************/
+    /*****************VARIABLES*******************/
+    /*********************************************/
+
 	FILE* file = fopen("highscore.txt","r"); /* opens the file highscore.txt and reads it */
 	int lines=0; /* initialize the lines integer to 0 */
 	char chr; /* initialize the char variable chr */
+
+	/*********************************************/
+    /****************Computation******************/
+    /*********************************************/
 
 	chr=getc(file); /* chr gets the first char of the file */
 	while (chr != EOF){ /* while chr isn't the end of file:*/
@@ -67,49 +83,62 @@ int lineCount(){
 
 
 /*
- * Function that creates an array of highscores
+ * Function that creates an array of highscores from the highscore file
  * @return the pointer to the  array of scores
  */
  highscore* scoreArray(int size){
 
-	 FILE* file = fopen("highscore.txt","r");
-	 int victories,loses;
-	 char username[15];
+    /*********************************************/
+    /*****************VARIABLES*******************/
+    /*********************************************/
 
-	 highscore* scores = (highscore*) malloc(size * sizeof(highscore));
+	 FILE* file = fopen("highscore.txt","r"); // opens the file highscore.txt
+	 int victories,loses; // integers for the victories and loses of a player
+	 char username[15]; // string of 15 characters for the name of the player
+	 highscore* scores = (highscore*) malloc(size * sizeof(highscore)); //creates an array or scores of the size size
 
-	 for(int i=0;i<size;i++){
+    /*********************************************/
+    /****************Computation******************/
+    /*********************************************/
 
-		 fscanf(file,"%d,%d,%s\n",&victories,&loses,username);
-		 scores[i].victories = victories;
-		 scores[i].loses = loses;
-		 strcpy(scores[i].name, username);
+	 for(int i=0;i<size;i++){ //for each line in the file,
+
+		 fscanf(file,"%d,%d,%s\n",&victories,&loses,username); // puts the first integer in victories, the second one in losses and the string in username
+		 scores[i].victories = victories; // puts the number of victories in the array at place i
+		 scores[i].loses = loses; // puts the number of loses in the array at place i
+		 strcpy(scores[i].name, username); // puts the username in the array at place i
 
 	 }
-	 fclose(file);
+	 fclose(file); // closes the file
 
 	 return scores;
  }
 
 
  /*
-  * Function that updates the score of a player
+  * Function that updates the scores in the file
   */
  void scoreUpdate(highscore* scores, int size){
 
- 	FILE* fileWrite = fopen("highscore.txt","w+");
- 	int victories,loses;
- 	char name[15];
+    /*********************************************/
+    /*****************VARIABLES*******************/
+    /*********************************************/
 
+ 	FILE* fileWrite = fopen("highscore.txt","w+"); //open the file highscore.txt file in writing mode
+ 	int victories,loses; // integers for the victories and loses of a player
+ 	char name[15]; // string of 15 characters for the name of the player
 
+    /*********************************************/
+    /****************Computation******************/
+    /*********************************************/
 
- 		for(int j=0; j<size; j++){
- 			victories = scores[j].victories;
- 			loses = scores[j].loses;
- 			strcpy(name,scores[j].name);
- 			fprintf(fileWrite,"%d,%d,%s\n",victories,loses,name);
- 		}
- 		fclose(fileWrite);
+    for(int j=0; j<size; j++){ //for each line in the file,
+        victories = scores[j].victories; //victories take the value of the victories of the place j in the array
+        loses = scores[j].loses; //loses take the value of the loses of the place j in the array
+        strcpy(name,scores[j].name); //name take the string of the name of the place j in the array
+        fprintf(fileWrite,"%d,%d,%s\n",victories,loses,name); //writes in the files the victories,lose and name of a user in the format; v,l,name.
+    }
+    fclose(fileWrite);//closes the file
  }
 
 
@@ -118,6 +147,10 @@ int lineCount(){
  * @param
  */
 void scoreWrite(boolean victory){
+
+    /*********************************************/
+    /*****************VARIABLES*******************/
+    /*********************************************/
 
 	/* creating a string of 15 characters and putting in the name checked thanks to the function playerCheck */
 	char name[15];
@@ -129,6 +162,10 @@ void scoreWrite(boolean victory){
 	highscore* scores;
 
 	scores = scoreArray(size);
+
+	/*********************************************/
+    /****************Computation******************/
+    /*********************************************/
 
 
 	/*creating the array and verifying if the player is already in the Array*/
@@ -170,10 +207,18 @@ void scoreWrite(boolean victory){
  */
 highscore* scoreSorting(highscore* scores, int size){
 
+    /*********************************************/
+    /*****************VARIABLES*******************/
+    /*********************************************/
+
 	highscore* sortedArray = (highscore*) malloc(size * sizeof(highscore));
 
 	int victories, loses, position;
 	char name[15];
+
+	/*********************************************/
+    /****************Computation******************/
+    /*********************************************/
 
 	for(int i=1; i<size+1; i++){
 		position = i;
@@ -201,7 +246,16 @@ highscore* scoreSorting(highscore* scores, int size){
  * @param index2 - an existing index in "myarray" to swap with "index2"
  */
 void swap(highscore* scores, int index1, int index2) {
-	highscore swap;
+
+    /*********************************************/
+    /*****************VARIABLES*******************/
+    /*********************************************/
+
+	highscore swap; //
+
+	/*********************************************/
+    /****************Computation******************/
+    /*********************************************/
 
 	swap = scores[index1];
 	scores[index1] = scores[index2];

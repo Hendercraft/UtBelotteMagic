@@ -13,6 +13,11 @@
 #include <string.h>
 
 
+/******************************************************************************/
+/**************************FUNCTIONS DEFINITION*******************************/
+/****************************************************************************/
+
+
 /* Creation of structure composed of: */
 typedef struct {
 	int victories; /*an integer for the number of victories*/
@@ -40,21 +45,21 @@ int lineCount();
 
 
 /*
- * Function that creates an array of highscores
+ * Function that creates an array of highscores from the highscore file
  * @return the pointer to the  array of scores
  */
  highscore* scoreArray(int size);
 
 
 /*
- * Function that updates the score of a player
+ * Function that updates the scores in the file
  */
 void scoreUpdate(highscore* scores, int size);
 
 
  /*
   * Gets and write the name and the score of the person in the file
-  * @param
+  * @param victory - bollean that states if the person has won or lose the game
   */
  void scoreWrite(boolean victory);
 
@@ -62,7 +67,7 @@ void scoreUpdate(highscore* scores, int size);
  /*
   * sort the scores from the highest to the lowest
   * @param scores - array of highscores
-  * @param size - sie of the array
+  * @param size - size of the array
   */
  highscore* scoreSorting(highscore* scores, int size);
 
