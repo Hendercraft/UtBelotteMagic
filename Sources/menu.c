@@ -83,7 +83,7 @@ void scoreVisual(){
 	highscore* scores = scoreArray(size);
 
 	magenta(1);
-	printf("%s",titleAsciiArt);
+    printf("%s",titleAsciiArt);
 
 	reset();
 	printf("%s%s",lineAsciiArt,scoreAsciiArt);
@@ -109,7 +109,8 @@ int verify(int b,int n){
 
 	printf("%s",menuChoose);
 	fflush(stdout);
-	while(number <= b || number > n){
+	while(number < b || number > n){
+            printf("\a");
 		scanf("%s",userInput);
 		if (atoi(userInput) >= 0){
 			number = atoi(userInput);

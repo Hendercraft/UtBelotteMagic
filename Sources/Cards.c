@@ -106,9 +106,9 @@ int Endofturn(Card** falls){
 	for (int i=0; i<4; i++){
 		if (falls[i]->trump == 1 ){ //If so, I stock them in another array
 			if (nbxtrump == 0){
-				fallstrump = (Card**) malloc(sizeof(Card*));
+				fallstrump = (Card**)malloc(sizeof(Card*));
 			} else {
-				fallstrump = (Card**) realloc(fallstrump,sizeof(Card*)*(nbxtrump+1));
+				fallstrump = (Card**)realloc(fallstrump,sizeof(Card*)*(nbxtrump+1));
 			}
 			if (fallstrump != NULL){
 				fallstrump[nbxtrump] = falls[i];

@@ -13,7 +13,7 @@
  */
 char* playerCheck(){
 
-	char* name = (char*) malloc(15*sizeof(char)); /* allocates a memory of size 15 times the size for a char type for the string 'name'*/
+	char* name = (char*)malloc(15*sizeof(char)); /* allocates a memory of size 15 times the size for a char type for the string 'name'*/
 	strncpy(name,"",15); /* the program initializes the variable 'string' empty */
 	int i = 0;/* initializes the integer i used for the iterations */
 	boolean error = false; /* the boolean error used to tell if there's an error */
