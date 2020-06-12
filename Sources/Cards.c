@@ -265,15 +265,8 @@ int Endofturn(Card** falls){
 	}else{
 		player = whowin(falls,4);
 	}
-
-	int winteam = 0;
-	if ((player == 1) || (player == 3)){ //If the winner is South or North
-		 winteam = -1; // We will put all the card in team 1 fold
-	}else{
-		winteam = -2;
-	}
 	for (int i=0;i<4;i++){
-		falls[i]->player = winteam;
+		falls[i]->player = -player;
 	}
 
 	return player; //I'll retrun the Id of the player who won the split
