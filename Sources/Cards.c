@@ -46,15 +46,37 @@ void definetrump(Card** deck,char trump){
 }
 
 
-int* checkcard(Player** table,Card** falls,int playerid,int sizefalls){
+int* checkcard(Player** table,Card** falls,int playerid,int sizefalls,int* outputsize){
 /*This funtion is definitly one of the hardest to read
  i'm pretty sure there's way to improve it by a lot
  but for now we'll stick with it because at least it works*/
-
+ 
+	
+		
+	
+	int max = 0 ; //No real use here, it's just a prerequisite of whowin
 	int maxtrump = 0; //value of the biggest trump in play
 	char askedcolor = falls[0]->color;
 	int* playable = NULL;
 	int nbxcolor = 0; //number of cards of the asked color the play has
+	
+	/**You're the first one to play**/
+	/*You can play whatever you want*/
+	if(falls[0] == NULL){
+		playable = (int*) malloc(sizeof(int) * (table[playerid-1]->hand_size));
+		if (playable != NULL){
+			for (int i=0;i<table[playerid-1]->hand_size;i++){
+				playable[i] = i;
+			}
+			*outputsize = table[playerid-1]->hand_size;
+			return playable;
+		}else{
+			fprintf( stderr, "there is an error with the memory allocation for the arry of playable in the checkcard function");
+				return NULL;
+		}
+	}
+	/*Let's check if you have anny card of the asked color (If it's not a trump)*/
+	/*If so we'll count them*/
 
 	for (int i=0;i<table[playerid-1]->hand_size;i++){
 		if ((table[playerid-1]->Hand[i]->color == askedcolor) && (table[playerid-1]->Hand[i]->trump == FALSE)){
@@ -73,12 +95,17 @@ int* checkcard(Player** table,Card** falls,int playerid,int sizefalls){
 		}
 	}
 	if (nbxcolor>0){ //If you have ANY card of the asked color
+		*outputsize = nbxcolor;
 		return playable; // That's all you're allowed to play
 	}
-	/*Here you don't have any card of the asked color
-	 We'll check who has the lead,
-	 If it's your mate you can play whatever you want
-	 Else we'll do some more check (see below)*/
+	
+	
+	
+	/*Here you don't have any card of the asked color*/
+	/**********We'll check who has the lead,*********/
+	
+	/*If it's your mate you can play whatever you want*/
+	/****Else we'll do some more check (see below)****/
 
 	 //First let's dertermine who has the lead
 	int idleader = 0; // The id of the player who has the lead
@@ -86,14 +113,14 @@ int* checkcard(Player** table,Card** falls,int playerid,int sizefalls){
 	Card** fallstrump = anytrump(falls,sizefalls,&nbxtrump);
 
 	if (nbxtrump == -1){ // if there's a error with the memmory allocation inside anytrump
-		return playable;
+		return playable; //It's NULL dw
 	}
 	if (nbxtrump > 0){ //if at least one trump has been found
 		idleader = whowintrump(fallstrump,nbxtrump,&maxtrump); // Use the fonction with the trump order
 		free(fallstrump);
 		fallstrump = NULL;
 	}else{
-		idleader = whowin(falls,sizefalls);
+		idleader = whowin(falls,sizefalls,&max);
 	}
 	if (((playerid == 1) &&(idleader == 3)) || ((playerid == 2) &&(idleader == 4)) || ((playerid == 3) &&(idleader == 1)) || ((playerid == 4) &&(idleader == 2))) {
 	//your mate has the lead
@@ -101,7 +128,9 @@ int* checkcard(Player** table,Card** falls,int playerid,int sizefalls){
 		if (playable != NULL){ //memory error check
 			for (int i= 0; i<table[playerid-1]->hand_size;i++){
 				playable[i] = i; //all card are playable
-			}return playable;
+			}
+			*outputsize = table[playerid-1]->hand_size;
+			return playable;
 		}else{
 			fprintf( stderr, "there is an error with the memory allocation for the arry of playable cards in the checkcard function");
 			return NULL;
@@ -122,7 +151,9 @@ int* checkcard(Player** table,Card** falls,int playerid,int sizefalls){
 		if (playable != NULL){ //memory error check
 			for (int i= 0; i<table[playerid-1]->hand_size;i++){
 				playable[i] = i; //all card are playable
-			}return playable;
+			}
+			*outputsize = table[playerid-1]->hand_size;
+			return playable;
 		}else{
 			fprintf( stderr, "there is an error with the memory allocation for the arry of playable cards in the checkcard function");
 			return NULL;
@@ -142,7 +173,9 @@ int* checkcard(Player** table,Card** falls,int playerid,int sizefalls){
 					playable[indexplayable] = i; //all trump are playable
 					indexplayable++;
 				}
-			}return playable;
+			}
+			*outputsize = nbxtrumphand;
+			return playable;
 		}else{
 			fprintf( stderr, "there is an error with the memory allocation for the arry of playable cards in the checkcard function");
 			return NULL;
@@ -166,7 +199,9 @@ int* checkcard(Player** table,Card** falls,int playerid,int sizefalls){
 					playable[indexplayable] = i; //all trump are playable
 					indexplayable++;
 				}
-			}return playable;
+			}
+			*outputsize = nbxtrumphand;
+			return playable;
 		}else{
 			fprintf( stderr, "there is an error with the memory allocation for the arry of playable cards in the checkcard function");
 			return NULL;
@@ -181,7 +216,7 @@ int* checkcard(Player** table,Card** falls,int playerid,int sizefalls){
 	for (int i=0;i<table[playerid-1]->hand_size;i++){
 		if ((table[playerid-1]->Hand[i]->trump == TRUE)&&(trumporder[table[playerid-1]->Hand[i]->value]>maxtrump)){
 		//the trump is bigger than the biggest one in fall
-		//So its index is added to playable
+		//So its index is added to playable	
 			if (indexplayable==0){
 				playable = (int*) malloc(sizeof(int)); //We create the array
 			}else{
@@ -195,28 +230,111 @@ int* checkcard(Player** table,Card** falls,int playerid,int sizefalls){
 				return NULL;
 			}
 		}
-	}return playable;
+	}
+	*outputsize = (indexplayable+1); //playable is the size of maximun index + 1
+	return playable;
 }
 
-int IAcompute(Player** table, Card** falls,int playerid,int sizefalls,int* allowedcard);//{
+int IAcompute(Player** table, Card** falls,int playerid,int sizefalls,int* allowedcard,int sizeallowedcard){
 
-	/***********************/
-	/*Variables Declaration*/
-	/*********************/
-
-	/*Boolean needcolor = FALSE; //Do the IA need to play the color
-	Boolean needtrump = FALSE; //Do the IA need to play a trump
-	int nbxcards = sizeof(allowedcard) / sizeof(nbxcards[0]); //Getting the number of playable cards
+	/****************************************************/
+	/***************VARIABLES DECLARATION***************/
+	/**************************************************/
+		
 	int nbxcolor = 0; //the number of card of the asked color that are playabale
-	int nbxtrump = 0; //the number of trump that are playabale*/
+	int nbxtrump = 0; //the number of trump that are playabale
+	int maxhand = 0; //the value of the biggest card in hand
+	int maxfalls= 0; //the value of the biggest card in play
+	Card** playablecard = malloc(sizeof(Card*)* sizeallowedcard);
+	if (playablecard == NULL){ //Checking the malloc didn't retrun NULL
+		fprintf( stderr, "there is an error with the memory allocation for the arry of playable cards in the IAcompute function");
+		return -1;
+	}
+	for(int i=0;i<sizeallowedcard;i++){ //Fillng the array with the pointer of playable Card
+		playablecard[i] = table[playerid-1]->Hand[allowedcard[i]];
+	}
+	
+	/***************We can have  3 case here************/
+	/***********1st-We need to play the color**********/
+	/***********2nd-We need to play a trump***********/
+	/********3rd-We can play whatever we like********/
 
-	/*If both Booleans are FALSE,the IA will play the lowest value card : It can't win.
-	/It has in in hand (It prioritise non trump first) */
+	
+	/****************************************************/
+	/********First we'll see in wich one we are*********/
+	/**************************************************/
 
-	/*Analysing the different posibilitty*/
-	/*for (int i = 0;i<nbxcards;i++){
-		if (table[playerid-1]->Hand[allowedcard[i]]->color ==*/
 
+	for (int i = 0;i<sizeallowedcard;i++){
+		if (table[playerid-1]->Hand[allowedcard[i]]->color == falls[0]->color){
+			nbxcolor++; //Whenever we can play a card of the asked color, we increment this counter
+		}else if(table[playerid-1]->Hand[allowedcard[i]]->trump == TRUE){
+			nbxtrump++; //Whenever we can play a trump, we increment this counter
+		}
+	}
+		
+	/**Then we'll check if the IA is the first to play**/
+	/**If so, we'll play the card with the lowest value*/
+	/***********IT PRIORITISE NO TRUMP FIRST***********/
+	
+	if (falls[0]==NULL){
+	
+		if (nbxtrump == sizeallowedcard){ // 2nd case (We have only trump in hand in THIS SPECIFIC case)
+			int returnindex = mintrump(playablecard,sizeallowedcard,-1);
+			free(playablecard);
+			playablecard = NULL;
+			return (returnindex); //play the lowest trump
+		}else{ // 1st and 3rd case 
+			int returnindex = mincard(playablecard,sizeallowedcard,-1);
+			free(playablecard);
+			playablecard = NULL;
+			return (returnindex); //play the lowest card in hand
+		}
+	}
+
+	/***************We can have  3 case here************/
+	/***********1st-We need to play the color**********/
+	/***********2nd-We need to play a trump***********/
+	/********3rd-We can play whatever we like********/
+	
+	if (nbxcolor == sizeallowedcard){ //1st case
+	
+		whowin(playablecard,sizefalls,&maxhand); //Computing the max of our playable Cards
+		whowin(falls,sizefalls,&maxfalls); //Computing the max of the fall 
+		
+		if (maxhand < maxfalls) { //If the IA can't win
+			maxfalls = -1; //This way mincard will return the index of the lowest card in hand with no threshold
+		}
+		int returnindex = mincard(playablecard,sizeallowedcard,maxfalls);
+		free(playablecard);
+		playablecard = NULL;
+		return returnindex;
+		
+	}else if(nbxtrump == sizeallowedcard){ // 2nd case	
+		whowintrump(playablecard,sizefalls,&maxhand); //Computing the max of our playable Cards
+		whowintrump(falls,sizefalls,&maxfalls); //Computing the max of the fall 
+		
+		if (maxhand < maxfalls) { //If the IA can't win
+			maxfalls = -1; //This way mincard will return the index of the lowest card in hand with no threshold
+		}
+		int returnindex = mintrump(playablecard,sizeallowedcard,maxfalls);
+		free(playablecard);
+		playablecard = NULL;
+		return returnindex;	
+	}else{ //3rd
+		int returnindex = mincard(playablecard,sizeallowedcard,-1);
+		free(playablecard);
+		playablecard = NULL;
+		return returnindex;
+	}
+}
+	
+	
+		
+	
+	
+		
+		
 
 
 Player** createplayer(){
@@ -270,6 +388,7 @@ Card** createcards(){
 
 int Endofturn(Card** falls){
 	int nbxtrump = 0;
+	int max = 0; //No real use here just a whowintrump and whowin prerequirement.
 	Card** fallstrump = anytrump(falls,4,&nbxtrump);
 
 	if (nbxtrump == -1){ // if there's a error with the memmory allocation inside anytrump
@@ -277,12 +396,11 @@ int Endofturn(Card** falls){
 	}
 	int player = 0;
 	if (nbxtrump > 0){ //if at least one trump has been found
-		int max = 0; //No real use here just a whowintrump prerequirement.
 		player = whowintrump(fallstrump,nbxtrump,&max); // Use the fonction with the trump order
 		free(fallstrump);
 		fallstrump = NULL;
 	}else{
-		player = whowin(falls,4);
+		player = whowin(falls,4,&max);
 	}
 	for (int i=0;i<4;i++){
 		falls[i]->player = -player;
@@ -292,13 +410,13 @@ int Endofturn(Card** falls){
 }
 
 
-int whowin(Card** falls,int sizefalls){
-	int max = falls[0]->value;
+int whowin(Card** falls,int sizefalls,int* max){
+	*max = falls[0]->value;
 	int indexmax = 0;
 	for (int i=1 ;i<sizefalls;i++){
 		if (falls[i]->color == falls[0]->color) {
-			if (max<falls[i]->value){
-				max = falls[i]->value;
+			if (*max<falls[i]->value){
+				*max = falls[i]->value;
 				indexmax = i;
 			}
 		}
@@ -359,11 +477,13 @@ Boolean removecardsfromhand(Player** table,int playerid,int index){
 }
 
 
-Boolean playcard(Player** table,Card** falls,int playerid,int cardid,int* sizefalls){
+Boolean playcard(Player** table,Card** falls,int playerid,int cardid,int* sizefalls,int* newposition){
 	falls = (Card**) realloc(falls,sizeof(Card*) * (*sizefalls+1));
 	if (falls != NULL){ //If the allocation id done correctly
 		falls[*sizefalls] = table[playerid-1]->Hand[cardid]; //copy the pointer to the falls
 		*sizefalls= *sizefalls+1; //change sizefall
+		falls[*sizefalls]->position = *newposition; //Changing the position of the card for the future deck
+		*newposition = *newposition+1;
 		return TRUE;
 	}else{
 		fprintf(stderr,"there is an error with the memory allocation in playcard (curent falls size : %d)\n",*sizefalls);
@@ -371,3 +491,47 @@ Boolean playcard(Player** table,Card** falls,int playerid,int cardid,int* sizefa
 		return FALSE;
 	}
 }
+
+int mincard(Card** cardarray,int size,int supp){
+	int min = 9;
+	int indexmin = 0;
+	for (int i=0;i<size;i++){
+		if ((cardarray[i]->trump == FALSE) && (cardarray[i]->value < min) && (cardarray[i]->value > supp)){
+			indexmin = i; 
+			min = cardarray[i]->value;
+		}
+	}return indexmin;
+}
+
+int mintrump(Card** cardarray,int size,int supp){
+	int trumporder[8] = {0,1,6,7,2,3,4,5}; // Trump order
+	int min = 9;
+	int indexmin = 0;
+	for (int i=0;i<size;i++){
+		if ((cardarray[i]->trump == TRUE) && (trumporder[cardarray[i]->value] < min) && (trumporder[cardarray[i]->value] > supp)){
+			indexmin = i; 
+			min = trumporder[cardarray[i]->value];
+		}
+	}return indexmin;
+}
+
+void shuffle(Card** deck,int cutfrom){
+	if (cutfrom==-1){
+		for(int i =0; i<5;i++){
+			shuffle(deck,rand() % 32);
+		}		
+	}return;
+	int newposition = 1;
+	for (int i = cutfrom;i<32;i++){
+		deck[i]->position = newposition;
+		newposition++;
+	}
+	for(int i = newposition; newposition<33; newposition++){
+		deck[i]->position = newposition;
+		newposition++;
+	}return;
+}
+	
+	
+	
+			

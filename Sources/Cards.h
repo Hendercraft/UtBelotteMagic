@@ -30,9 +30,10 @@ Card** anytrump(Card** falls,int sizefalls,int* nbxtrump);
  * @param falls - An array of pointer on Card contening all the Cards that have been played this round.
  * @param playerid - The id of the player which hand we'll go trought.
  * @param sizefalls - The current size of the fall.
+ * @param outputsize - A pointer where the size of the returned array will be given.
  * @return an array of int - This array will containt the index of each playedable card.
  */
-int* checkcard(Player** table,Card** falls ,int playerid,int sizefalls);
+int* checkcard(Player** table,Card** falls ,int playerid,int sizefalls,int* outputsize);
 
 /**
  * This function go trought the Cards playable by an IA and will choose the best.
@@ -41,9 +42,10 @@ int* checkcard(Player** table,Card** falls ,int playerid,int sizefalls);
  * @param playerid - The id of IA who wants to play.
  * @param sizefalls - The current size of the fall.
  * @param allowedcard - A array contening all the allowed card.
+ * @param sizeallowedcard - The size of the so named array.
  * @return a int - The index of the car the IA is going to play.
  */
-int IAcompute(Player** table, Card** falls,int playerid,int sizefalls,int* allowedcard);
+int IAcompute(Player** table, Card** falls,int playerid,int sizefalls,int* allowedcard,int sizeallowedcard);
 
 
 /**
@@ -52,8 +54,12 @@ int IAcompute(Player** table, Card** falls,int playerid,int sizefalls,int* allow
  * the hand of the player
  * @param table - The array contening the adress of each Player of the game.
  * @param falls - An array of pointer on Card contening all the Cards that have been played this round.
+ * @param playerid - The id of the player who wish to play.
+ * @param cardid - The id of the card he wish to play.
+ * @param sizefalls - A pointer on the current size of the falls
+ * @param newposition - The Card position in the future game; corespond to the order in which this card is played
  */
-Boolean playcard(Player** table,Card** falls,int playerid,int cardid,int* sizefalls);
+Boolean playcard(Player** table,Card** falls,int playerid,int cardid,int* sizefalls,int* newposition);
 /**
  * This will deal the cards to each player
  * @param table - The array contening the adress of each Player of the game.
@@ -89,7 +95,7 @@ Card** createcards();
   * it will look through the array and return the id of the player who has won the turn.
   * @param fallstrump - An array of pointer on Card contening all the trumps that have been played.
   * @param size - the size of the passed array
-  * @param max - The value of the strongest trump, used in cehckcard mostly
+  * @param max - The value of the strongest trump, used in checkcard mostly
   * @return a int containing the id of the winning player
 */
 int whowintrump(Card** fallstrump,int size,int* max);
@@ -98,10 +104,11 @@ int whowintrump(Card** fallstrump,int size,int* max);
   * This function will be called in End of turn if no trump have been played.
   * it will look through the array and return the id of the player who has won the turn.
   * @param falls - An array of pointer on Card contening all the Cards that have been played this round.
-  * @param sizefalls - The acctual size of the fall
+  * @param sizefalls - The acctual size of the fall.
+  * @param max - The value of the strongest Card, used in IAcompute mostly.
   * @return a int containing the id of the winning player
 */
-int whowin(Card** falls,int sizefalls);
+int whowin(Card** falls,int sizefalls,int* max);
 
 /**
  * This function will be lunched ones everybody has played a card.
@@ -122,6 +129,41 @@ int Endofturn(Card** falls);
  * @return A Boolean - TRUE if there's no memory error FALSE otherwise
  */
 Boolean removecardsfromhand(Player** table,int playerid,int index);
+
+/**
+ * This function go trough an array of pointer of Card.
+ * It will give the index of the lowest card supperior to the 3rd parameter
+ * It will ignore Cards that are trump.
+ * @param cardarray - An array of pointer on Card.
+ * @prama size - the size of the array of card.
+ * @param supp - the value the returned card is supposed to be superior to.
+ * @return the index of lowest card.
+ */
+int mincard(Card** cardarray,int size,int supp);
+
+/**
+ * This function go trough an array of pointer of Card.
+ * It will give the index of the lowest card supperior to the 3rd parameter.
+ * the 3rd parameter MUST BE ALREADY CONVERTED IN TRUMP VALUE !
+ * It exept to work with trump.
+ * @param cardarray - An array of pointer on Card.
+ * @prama size - the size of the array of card.
+ * @param supp - the value the returned card is supposed to be superior to.
+ * @return the index of lowest card.
+ */
+int mintrump(Card** cardarray,int size,int supp);
+
+/**
+ * This function go trough an array of pointer of Card.
+ * It will give the index of the lowest card supperior to the 3rd parameter.
+ * the 3rd parameter MUST BE ALREADY CONVERTED IN TRUMP VALUE !
+ * It exept to work with trump.
+ * @param deck - The array of pointer on Card contening all the Card of the game .
+ * @prama cutfrom - where to cut the array.
+ */
+void shuffle(Card** deck,int cutfrom);
+
+
 
 #endif
 
