@@ -7,7 +7,7 @@
 #include <bet.h>
 
 
-bet betMenu(Player** table, bet previousChoice){
+Bet betMenu(Player** table, Bet previousChoice){
 
     #if defined(_WIN32) || defined(__MSDOS__)
         #define SPADE   "\x06"
@@ -37,7 +37,7 @@ bet betMenu(Player** table, bet previousChoice){
 	char pass[]="6) Pass\n";
 
 	int choice,number=0,trump;
-	bet playerBet;
+	Bet playerBet;
 
 	magenta(1);
 	printf("%s",titleAsciiArt);
@@ -67,18 +67,19 @@ bet betMenu(Player** table, bet previousChoice){
 				choice = verify(0,6);
 			} while (choice == 5 || choice == 4);
 		}
-		else if(previousChoice.contract == 4){
-            printf("The previous contract has a value of %d and a trump of %c,\n",previousChoice.points,previousChoice.trump);
-			do {
-				printf("There is a coinche so you can't coinche again.\n");
-				choice = verify(0,6);
-			} while (choice == 4);
-		}
 		else {
-			do {
-				printf("You can't surcoinche.\n");
-				choice = verify(0,6);
-			} while (choice == 5);
+            printf("The previous contract has a value of %d and a trump of %c,\n",previousChoice.points,previousChoice.trump);
+            if (previousChoice.coinche==0){
+                do {
+                    printf("You can't surcoinche.\n");
+                    choice = verify(0,6);
+                } while (choice == 5);
+            } else {
+                do {
+                    printf("There is a coinche so you can't coinche again.\n");
+                    choice = verify(0,6);
+                } while (choice == 4);
+            }
 		}
 
 		switch(choice) {
@@ -88,19 +89,28 @@ bet betMenu(Player** table, bet previousChoice){
 				printf("What is the value between 80 and 160 for n ?\n");
 				number = verify(80,160);
 			}while(number>160 || number<80);
+            playerBet.contract = choice;
 			break;
 
 		case 2:
 			number = 250;
+			playerBet.contract = choice;
 			break;
 
 		case 3:
 			number = 500;
+			playerBet.contract = choice;
 			break;
 
 		case 4:
+		    number = previousChoice.points*2;
+			playerBet.contract = previousChoice.contract;
+			playerBet.coinche = 1;
+			break;
 		case 5:
 			number = previousChoice.points*2;
+			playerBet.contract = previousChoice.contract;
+			playerBet.coinche = 2;
 			break;
 
         case 6:
@@ -150,16 +160,15 @@ bet betMenu(Player** table, bet previousChoice){
 		}
 	} while(previousChoice.points>number && choice != 6);
 
-
-	playerBet.contract = choice;
 	playerBet.points = number;
+	playerBet.team = 1;
 
 	return playerBet;
 
 }
 
 
-bet botBet(Player** table, bet previousChoice, int botNb){
+Bet botBet(Player** table, Bet previousChoice, int botNb){
 
     int nbH=0,nbS=0,nbC=0,nbD=0,max=0;
     int *hCards = (int*)malloc(sizeof(int)*8);
@@ -184,12 +193,17 @@ bet botBet(Player** table, bet previousChoice, int botNb){
         }
     }
 
-    nbH = howManyStrong(hCards, nbH, true);
-    nbS = howManyStrong(sCards, nbS, true);
-    nbD = howManyStrong(dCards, nbD, true);
-    nbC = howManyStrong(cCards, nbC, true);
+    nbH = howManyStrong(hCards, nbH, TRUE);
+    nbS = howManyStrong(sCards, nbS, TRUE);
+    nbD = howManyStrong(dCards, nbD, TRUE);
+    nbC = howManyStrong(cCards, nbC, TRUE);
 
     max = (nbH > nbS ? nbH : nbS) > (nbD > nbC ? nbD : nbC) ? (nbH > nbS ? nbH : nbS) : (nbD > nbC ? nbD : nbC); // Find the maximum between the number of strong cards in every color
+
+    /*free(hCards);
+    free(dCards);
+    free(cCards);
+    free(sCards);*/
 
     if(max >= 3){
         if(max == 3 && previousChoice.points<80){
@@ -210,17 +224,23 @@ bet botBet(Player** table, bet previousChoice, int botNb){
             previousChoice.trump = 'c';
         }
 
+        if(botNb == 2){
+            previousChoice.team = 1;
+        } else{
+            previousChoice.team = 2;
+        }
+
         return previousChoice;
     } else {
         return previousChoice;
     }
 }
 
-int howManyStrong(int* cardColorValues, int size, boolean trump){
+int howManyStrong(int* cardColorValues, int size, Boolean trump){
 
     int strongCards=0;
 
-    if(trump == false){
+    if(trump == FALSE){
         for(int i=0; i<size;i++){
             if(cardColorValues[i]>3){
                 strongCards ++;

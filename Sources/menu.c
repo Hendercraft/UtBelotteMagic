@@ -53,7 +53,6 @@ void cyan (int bold){
 }
 
 
-
 /*
  * Function thats prints the Programm's menu in ASCII art.
  */
@@ -160,7 +159,8 @@ int verify(int b,int n){
 /*
  * Function to clear the cmd, it changes the expression used in function of the OS
  */
-void clrscr(){
+void clrscr()
+{
 	#if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
        system("clear");
    #endif
@@ -169,3 +169,136 @@ void clrscr(){
        system("cls");
    #endif
 }
+
+
+void ingameMenu(Bet contract, char* player, Player** table, Card** falls, int fallsSize){
+
+    char* cardNorth = (char*)malloc(2*sizeof(char));
+    char* cardWest = (char*)malloc(2*sizeof(char));
+    char* cardEast = (char*)malloc(2*sizeof(char));
+    char* cardPlayer = (char*)malloc(2*sizeof(char));
+    char* trumpColor = (char*)malloc(10*sizeof(char));
+    char* currentContract = (char*)malloc(25*sizeof(char));
+    char realValue[8]={'7','8','9','J','Q','K','X','A'};
+    char Value[] = "";
+    char cardsHand[] = "";
+
+    strcpy(cardNorth,"");
+    strcpy(cardWest,"");
+    strcpy(cardEast,"");
+    strcpy(cardPlayer,"");
+
+
+    switch(contract.contract){
+    case 1:
+        if(contract.coinche==0){
+            itoa(contract.points,currentContract,10);
+            strcat(currentContract," Points");
+        } else if(contract.coinche==1){
+            itoa(contract.points,currentContract,10);
+            strcat(currentContract," Points (coinched)");
+        } else {
+            itoa(contract.points,currentContract,10);
+            strcat(currentContract," Points (surcoinched)");
+        }
+
+        break;
+
+    case 2:
+        if(contract.coinche==0){
+            strcat(currentContract,"Capot");
+        } else if(contract.coinche==1){
+            strcat(currentContract,"Capot (coinched)");
+        } else {
+            strcat(currentContract,"Capot (surcoinched)");
+        }
+        break;
+
+    case 3:
+        if(contract.coinche==0){
+            strcat(currentContract,"Général");
+        } else if(contract.coinche==1){
+            strcat(currentContract,"Général (coinched)");
+        } else {
+            strcat(currentContract,"Général (surcoinched)");
+        }
+        break;
+    }
+
+    for(int i=0; i<fallsSize;i++){
+        Value[0] = realValue[falls[i]->value];
+        Value[1] = '\0';
+        if(falls[i]->player == 1){
+            strcpy(cardPlayer,Value);
+            strcat(cardPlayer,colorToString(falls[i]->color));
+        } else if(falls[i]->player == 2){
+            strcpy(cardWest,Value);
+            strcat(cardWest,colorToString(falls[i]->color));
+        } else if(falls[i]->player == 3){
+            strcpy(cardNorth,Value);
+            strcat(cardNorth,colorToString(falls[i]->color));
+        } else {
+            strcpy(cardEast,Value);
+            strcat(cardEast,colorToString(falls[i]->color));
+        }
+    }
+
+
+    strcpy(trumpColor,colorToString(contract.trump));
+
+
+    printf("                     You are team 1\n\n                         North\n\n                          %s\n\n\n           West  %s                   %s  East\n\n\n                          %s\n\n                        %s\n\n",cardNorth,cardWest,cardEast,cardPlayer,player);
+    printf("Trump is : %s       Current contract : %s for team %d",trumpColor,currentContract,contract.team);
+    printf("\n**---------------------------------------------------------------------**\n");
+    printf("Your cards are :\n");
+
+    for(int j=0; j<table[0]->hand_size;j++){
+        cardsHand[0] = realValue[table[0]->Hand[j]->value];
+        cardsHand[1] = '\0';
+        strcat(cardsHand,colorToString(table[0]->Hand[j]->color));
+        printf("%d) %s   ",j+1,cardsHand);
+    }
+    printf("\n\n");
+
+}
+
+
+char* colorToString(char color){
+
+    #if defined(_WIN32) || defined(__MSDOS__)
+        #define SPADE   "\x06"
+        #define CLUB    "\x05"
+        #define HEART   "\x03"
+        #define DIAMOND "\x04"
+        #define ALLTRUMP "All Trump"
+        #define NOTRUMP "No Trump"
+    #else
+        #define SPADE   "\xE2\x99\xA0"
+        #define CLUB    "\xE2\x99\xA3"
+        #define HEART   "\xE2\x99\xA5"
+        #define DIAMOND "\xE2\x99\xA6"
+        #define ALLTRUMP "All Trump"
+        #define NOTRUMP "No Trump"
+    #endif
+
+    char* colorString = (char*)malloc(sizeof(char)*10);
+
+    if(color=='c'){
+        strcpy(colorString,CLUB);
+    } else if(color=='d'){
+        strcpy(colorString,DIAMOND);
+    } else if(color=='s'){
+        strcpy(colorString,SPADE);
+    } else if(color=='h'){
+        strcpy(colorString,HEART);
+    } else if(color=='n'){
+        strcpy(colorString,NOTRUMP);
+    } else {
+        strcpy(colorString,ALLTRUMP);
+    }
+
+    return colorString;
+
+}
+
+

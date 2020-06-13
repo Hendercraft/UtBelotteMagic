@@ -31,7 +31,6 @@ typedef struct {
 typedef struct{
 	Card** Hand;
 	int id;
-	int bet;
 	int hand_size;
 } Player;
 

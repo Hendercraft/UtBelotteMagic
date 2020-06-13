@@ -20,7 +20,7 @@ char* playerCheck(){
 	char* name = (char*)malloc(15*sizeof(char)); /* allocates a memory of size 15 times the size for a char type for the string 'name'*/
 	strncpy(name,"",15); /* the program initializes the variable 'string' empty */
 	int i = 0;/* initializes the integer i used for the iterations */
-	boolean error = false; /* the boolean error used to tell if there's an error */
+	Boolean error = FALSE; /* the boolean error used to tell if there's an error */
 
 	/*********************************************/
     /****************Computation******************/
@@ -31,16 +31,16 @@ char* playerCheck(){
 			printf("Enter you name for the score table:\n"); /*asks the user to enter their name;*/
 			fflush(stdout); /* forces to empty the buffer, in other words, forces the printf to be shown; */
 			fgets (name, 15, stdin); /* gets the string of 15 characters typed by the user on the keyboard and puts it in the variable 'name'; */
-			while(error == false && i<strlen(name)-1){ /* while there is no error AND the variable 'i' is inferior to the length of the string in the variable 'name'-1; */
+			while(error == FALSE && (i == 0 || i<strlen(name)-1)){ /* while there is no error AND the variable 'i' is inferior to the length of the string in the variable 'name'-1; */
 				if((0<=name[i] && name[i]<=44) || (47<=name[i] && name[i]<=64) || (91<=name[i] && name[i]<=96) || (123<=name[i] && name[i]<=255)){ /* if the letter in the place 'i' of the variable 'name' isn't a letter (if the ascii number or the vharacter isn't a min, maj letter or a - and a. ); */
-					error = true; /* there is a error, so the variable 'error' is true; */
-					printf("There is a forbidden character in your name : %c\n",name[i]); /* the program tells the user the first forbidden character; */
+					error = TRUE; /* there is a error, so the variable 'error' is true; */
+					clrscr();
 					strncpy(name,"",15); /* the program empties the variable 'string' */
 				}
 				i++; /* passing to the next letter; */
 			}
 			i = 0; /* new 'name', setting to the first letter; */
-			error = false; /* new 'name', setting the 'error' to false; */
+			error = FALSE; /* new 'name', setting the 'error' to false; */
 		}
 
 		name[strlen(name)-1] = 0; /* erasing the last character of 'name', who is a \n */
@@ -146,7 +146,7 @@ int lineCount(){
  * Gets and write the name and the score of the person in the file
  * @param
  */
-void scoreWrite(boolean victory){
+void scoreWrite(Boolean victory){
 
     /*********************************************/
     /*****************VARIABLES*******************/
@@ -178,7 +178,7 @@ void scoreWrite(boolean victory){
 	}
 
 	if(Player!=-1){
-		if(victory == false){
+		if(victory == FALSE){
 			scores[Player].loses++;
 		} else {
 			scores[Player].victories ++;
@@ -187,7 +187,7 @@ void scoreWrite(boolean victory){
 		scoreUpdate(scores,size);
 
 	} else {
-		if(victory == false){
+		if(victory == FALSE){
 			loses++;
 		} else {
 			victories++;
@@ -261,3 +261,45 @@ void swap(highscore* scores, int index1, int index2) {
 	scores[index1] = scores[index2];
 	scores[index2] = swap;
 }
+
+
+int* teamFoldPoints(Card** deck, Bet contract){
+
+    /*int teampoints[2] = {0,0};
+    int trump[8] = {20,14,11,10,4,3,0,0};
+    int nottrump[8] = {11,10,4,3,2,0,0,0};
+    int allTrump[8] = {14,9,6,5,3,1,0,0};
+    int noTrump[8] = {19,10,4,3,2,0,0,0};
+
+    if(contract.trump == 't'){
+        for(int i=0;i<32;i++){
+            if(deck[i]->player==-1 || deck[i]->player==-3){
+                teampoints[1] += deck->value[i];
+            } else {
+                teampoints[2] += deck->value[i];
+            }
+        }
+    }*/
+
+}
+
+
+ /*
+  * Counts the score of the team
+  */
+ int scoreCount(Bet contract, int foldPoints, Boolean belote, Boolean der){
+
+/*    Boolean contractValid;
+    int scoreAttack,scoreDefense;
+
+    if(contract.contract == 1){
+        contractValid = foldPoints > contract.points ? TRUE : FALSE;
+    }
+
+    if(contractValid == TRUE){
+        switch(contract.coinche){
+        }
+        scoreAttack = foldPoints + contract.points;
+        scoreDefense = 152-foldPoints;
+    }*/
+ }
