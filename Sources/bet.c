@@ -6,9 +6,12 @@
 
 #include <bet.h>
 
-
+/*
+ * Displays the bet menu for the player
+ */
 Bet betMenu(Player** table, Bet previousChoice){
 
+    //creates the strings for the trump and symbols
     #if defined(_WIN32) || defined(__MSDOS__)
         #define SPADE   "\x06"
         #define CLUB    "\x05"

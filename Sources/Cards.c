@@ -95,7 +95,7 @@ int* checkcard(Player** table,Card** falls,int playerid,int sizefalls){
 	}else{
 		idleader = whowin(falls,sizefalls);
 	}
-	if (((playerid == 1) &&(idleader == 3)) || ((playerid == 2) &&(idleader == 4)) || ((playerid == 3) &&(idleader == 1)) || ((playerid = 4) &&(idleader == 2))) {
+	if (((playerid == 1) &&(idleader == 3)) || ((playerid == 2) &&(idleader == 4)) || ((playerid == 3) &&(idleader == 1)) || ((playerid == 4) &&(idleader == 2))) {
 	//your mate has the lead
 		playable = (int*) malloc(sizeof(int)*(table[playerid-1]->hand_size)); //We create array of the size of the player's hand
 		if (playable != NULL){ //memory error check
@@ -154,10 +154,10 @@ int* checkcard(Player** table,Card** falls,int playerid,int sizefalls){
 	 and somebody already played a trump
 	 We'll see if you can go higher or not */
 
-	 int maxtrumpinand = 0;
-	 whowintrump(playertrump,nbxtrumphand,&maxtrumpinand); // getting the value of the player's biggest trump
+	 int maxtrumpinhand = 0;
+	 whowintrump(playertrump,nbxtrumphand,&maxtrumpinhand); // getting the value of the player's biggest trump
 
-	 if (maxtrumpinand <= maxtrump){ //You can't go higer : play anytrump
+	 if (maxtrumpinhand <= maxtrump){ //You can't go higher : play anytrump
 	 	playable = (int*) malloc(sizeof(int)*(nbxtrumphand)); //We create array of the size of the number of trump the player own
 		int indexplayable =0; //To keep traock of playable index
 		if (playable != NULL){ //memory error check
@@ -178,8 +178,10 @@ int* checkcard(Player** table,Card** falls,int playerid,int sizefalls){
 
 	int trumporder[8] = {0,1,6,7,2,3,4,5}; // Trump order
 	int indexplayable =0; //To keep track of playable index
-	for (int i=0;table[playerid-1]->hand_size;i++){
-		if ((table[playerid-1]->Hand[i]->trump == TRUE)&&(trumporder[table[playerid-1]->Hand[i]->value]<maxtrump)){
+	for (int i=0;i<table[playerid-1]->hand_size;i++){
+		if ((table[playerid-1]->Hand[i]->trump == TRUE)&&(trumporder[table[playerid-1]->Hand[i]->value]>maxtrump)){
+		//the trump is bigger than the biggest one in fall
+		//So its index is added to playable	
 			if (indexplayable==0){
 				playable = (int*) malloc(sizeof(int)); //We create the array
 			}else{
