@@ -22,8 +22,8 @@ typedef enum {
 typedef struct {
     int value; //Card value,between 0 and 7
     char color; // Either c for clubs h for heart .......
-    int player; // The owner of the card, 0 means unowned , 1 to 4 is the played id
-    //It can be also set to -1 or -2, if the card has been played and won either by one team or the other
+    int player; // The owner of the card, 0 means unowned ,1 to 4 is the played id.
+    //It can be also set to -1-,2,-3,4 if the card has been played and won either by player 1,2......
     Boolean trump; //Is the card a trump ?
     int position; // Its position in the deck
 } Card;
@@ -57,20 +57,24 @@ Card** anytrump(Card** falls,int sizefalls,int* nbxtrump);
  * @param falls - An array of pointer on Card contening all the Cards that have been played this round.
  * @param playerid - The id of the player which hand we'll go trought.
  * @param sizefalls - The current size of the fall.
- * @return an array of int - This array will containt the index of each playedable card.
+ * @return an array of int - This array will containt the index of each playedable card, retrun NULL if there's an error with malloc.
  */
 int* checkcard(Player** table,Card** falls ,int playerid,int sizefalls);
 
 
 
 /**
- * This function will take a card that has already been tested from the hand a card from a player
- * and add it too the current fall; it will call removecard to remove the pointer to the Card from
- * the hand of the player
+ * This function will take a card that has already been tested from the hand of a player.
+ * It will realloc the current fall to add en empty place at its end.
+ * It wil then copy the pointer on card from the hand of the player to the fall.
  * @param table - The array contening the adress of each Player of the game.
+ * @param playerid - The id of play who's playing a card.
+ * @param cardid - The ID of the card he's playing.
+ * @param sizefalls - The current size of the fall
  * @param falls - An array of pointer on Card contening all the Cards that have been played this round.
+ * @return a Boolean, TRUE if there's no problem, FALSE otherwise
  */
-void playcard(Player** table,Card** falls);
+Boolean playcard(Player** table,Card** falls,int playerid,int cardid,int* sizefalls);
 /**
  * This will deal the cards to each player
  * @param table - The array contening the adress of each Player of the game.
