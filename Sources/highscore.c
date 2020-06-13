@@ -274,7 +274,43 @@ void swap(highscore* scores, int index1, int index2) {
 }
 
 
+int* teamFoldPoints(Card** deck, Bet contract){
+
+    /*int teampoints[2] = {0,0};
+    int trump[8] = {20,14,11,10,4,3,0,0};
+    int nottrump[8] = {11,10,4,3,2,0,0,0};
+    int allTrump[8] = {14,9,6,5,3,1,0,0};
+    int noTrump[8] = {19,10,4,3,2,0,0,0};
+
+    if(contract.trump == 't'){
+        for(int i=0;i<32;i++){
+            if(deck[i]->player==-1 || deck[i]->player==-3){
+                teampoints[1] += deck->value[i];
+            } else {
+                teampoints[2] += deck->value[i];
+            }
+        }
+    }*/
+
+}
+
+
  /*
   * Counts the score of the team
   */
+ int scoreCount(Bet contract, int foldPoints, Boolean belote, Boolean der){
 
+/*    Boolean contractValid;
+    int scoreAttack,scoreDefense;
+
+    if(contract.contract == 1){
+        contractValid = foldPoints > contract.points ? TRUE : FALSE;
+    }
+
+    if(contractValid == TRUE){
+        switch(contract.coinche){
+        }
+        scoreAttack = foldPoints + contract.points;
+        scoreDefense = 152-foldPoints;
+    }*/
+ }

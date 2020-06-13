@@ -15,7 +15,7 @@
 int main(){
 
 
-	int operation, play=0;
+	/*int operation, play=0;
 
     FILE* file= fopen("highscore.txt","a");
     fclose(file);
@@ -115,9 +115,9 @@ int main(){
 
 	ingameMenu(previousBet,player,table, falls,2);
 
-	return EXIT_SUCCESS;
+	return EXIT_SUCCESS;*/
 
-	/*int dealer = 1;
+	int dealer = 1;
 	Card** deck = createcards();
 	Player** table = createplayer();
 
@@ -126,28 +126,20 @@ int main(){
 	cardsdeal(table,deck,dealer);
 
     Card** falls = (Card**)malloc(sizeof(Card*)*4);
-    for(int i=0;i<3;i++){
+    for(int i=0;i<4;i++){
         falls[i] = (Card*) malloc(sizeof(Card));
     }
-    falls[0]->color = 's';
-    falls[0]->player = 3;
-    falls[0]->position = 1;
-    falls[0]->trump = FALSE;
-    falls[0]->value = 0;
 
-    falls[1]->color = 'd';
-    falls[1]->player = 4;
-    falls[1]->position = 2;
-    falls[1]->trump = TRUE;
-    falls[1]->value = 0;
+    definetrump(deck,'c');
 
-    definetrump(deck,'d');
-
-    playableCards = checkcard(table, falls, 1, 2);
-
-    for(int i=0; i<8;i++){
-        printf("%d\n",playableCards[i]);
+    playableCards = checkcard(table, falls, 1, 4);
+    if (playableCards == NULL){
+        printf("Error dumbass");
+    }else{
+        for(int i=0; i<8;i++){
+            printf("%d\n",playableCards[i]);
+        }
     }
 
-	return EXIT_SUCCESS;*/
+	return EXIT_SUCCESS;
 }
