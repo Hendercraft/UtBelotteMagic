@@ -43,7 +43,7 @@ int* checkcard(Player** table,Card** falls ,int playerid,int sizefalls);
  * @param table - The array contening the adress of each Player of the game.
  * @param falls - An array of pointer on Card contening all the Cards that have been played this round.
  */
-void playcard(Player** table,Card** falls);
+Boolean playcard(Player** table,Card** falls,int playerid,int cardid,int* sizefalls);
 /**
  * This will deal the cards to each player
  * @param table - The array contening the adress of each Player of the game.
