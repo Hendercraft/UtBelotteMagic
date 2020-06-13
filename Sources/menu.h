@@ -43,6 +43,7 @@ void scoreVisual();
 
 /*
  * Function that verifies if the is a number between 0 and n
+ * @parameter b - integer min
  * @parameter n - integer max
  * @return a number
  */
@@ -53,10 +54,21 @@ int verify(int b,int n);
  */
 void clrscr();
 
-
+/*
+ * Function thats prints the ingame menu in ASCII art.
+ * @param contract - the contract for this round
+ * @param player - name of the player
+ * @param falls - cards that have been played/cards in the fold
+ * @param fallSize - size of the fold
+ */
 void ingameMenu(Bet contract, char* player, Player** table, Card** falls, int fallsSize);
 
 
+/*
+ * Function that transform a character of the color into the symbol
+ * @param color - first letter of the color
+ * @return the string of the character symbol
+ */
 char* colorToString(char color);
 
 #endif /* MAINMENU_MENU_H_ */

@@ -136,7 +136,6 @@ void scoreVisual(){
  */
 int verify(int b,int n){
 
-
     /*********************************************/
     /*****************VARIABLES*******************/
     /*********************************************/
@@ -177,40 +176,60 @@ void clrscr()
 }
 
 
+/*
+ * Function thats prints the ingame menu in ASCII art.
+ * @param contract - the contract for this round
+ * @param player - name of the player
+ * @param falls - cards that have been played/cards in the fold
+ * @param fallSize - size of the fold
+ */
 void ingameMenu(Bet contract, char* player, Player** table, Card** falls, int fallsSize){
 
+    /*********************************************/
+    /*****************VARIABLES*******************/
+    /*********************************************/
+
+    //allocates the places for the printing of the players played cards, the reump, the contract
     char* cardNorth = (char*)malloc(2*sizeof(char));
     char* cardWest = (char*)malloc(2*sizeof(char));
     char* cardEast = (char*)malloc(2*sizeof(char));
     char* cardPlayer = (char*)malloc(2*sizeof(char));
     char* trumpColor = (char*)malloc(10*sizeof(char));
     char* currentContract = (char*)malloc(25*sizeof(char));
-    char realValue[8]={'7','8','9','J','Q','K','X','A'};
+    //creates variables for the value of the contract and the players hand
     char Value[] = "";
     char cardsHand[] = "";
-
+    //table to convert the values of the cards in char
+    char realValue[8]={'7','8','9','J','Q','K','X','A'};
+    //initializing the played cards to none
     strcpy(cardNorth,"");
     strcpy(cardWest,"");
     strcpy(cardEast,"");
     strcpy(cardPlayer,"");
 
 
-    switch(contract.contract){
-    case 1:
-        if(contract.coinche==0){
-            snprintf(currentContract,sizeof(char)*25,"%d",contract.points);
+    /*********************************************/
+    /****************Computation******************/
+    /*********************************************/
+
+    switch(contract.contract){ //does something depending on the contract
+
+    case 1: //if its the first contract
+        if(contract.coinche==0){ //if not coinched, prints N points with N the value of the contracts
+            snprintf(currentContract,sizeof(char)*25,"%d",contract.points); // prints the number in the variable currentContract as string
             strcat(currentContract," Points");
-        } else if(contract.coinche==1){
-            snprintf(currentContract,sizeof(char)*25,"%d",contract.points);
+        } else if(contract.coinche==1){ //if coinched, prints N points (Coinched) with N the value of the contracts
+            snprintf(currentContract,sizeof(char)*25,"%d",contract.points); // prints the number in the variable currentContract as string
             strcat(currentContract," Points (coinched)");
-        } else {
-            snprintf(currentContract,sizeof(char)*25,"%d",contract.points);
+        } else { //if surcoinched, prints N points (Surcoinched) with N the value of the contracts
+            snprintf(currentContract,sizeof(char)*25,"%d",contract.points);// prints the number in the variable currentContract as string
             strcat(currentContract," Points (surcoinched)");
         }
 
         break;
 
-    case 2:
+    case 2: //if its the second contract
+        //the same as case 1 but with Capot
         if(contract.coinche==0){
             strcat(currentContract,"Capot");
         } else if(contract.coinche==1){
@@ -220,44 +239,47 @@ void ingameMenu(Bet contract, char* player, Player** table, Card** falls, int fa
         }
         break;
 
-    case 3:
+    case 3: //if its the third contract
+        //the same as case 1 but with General
         if(contract.coinche==0){
-            strcat(currentContract,"Général");
+            strcat(currentContract,"General");
         } else if(contract.coinche==1){
-            strcat(currentContract,"Général (coinched)");
+            strcat(currentContract,"General (coinched)");
         } else {
-            strcat(currentContract,"Général (surcoinched)");
+            strcat(currentContract,"General (surcoinched)");
         }
         break;
     }
 
-    for(int i=0; i<fallsSize;i++){
+    for(int i=0; i<fallsSize;i++){ //for every card played
+        //adds the value of the card in the variable
         Value[0] = realValue[falls[i]->value];
         Value[1] = '\0';
-        if(falls[i]->player == 1){
+        if(falls[i]->player == 1){ //if its from the player, it puts it in the player variable with the color
             strcpy(cardPlayer,Value);
             strcat(cardPlayer,colorToString(falls[i]->color));
-        } else if(falls[i]->player == 2){
+        } else if(falls[i]->player == 2){//if its from West, it puts it in the West variable with the color
             strcpy(cardWest,Value);
             strcat(cardWest,colorToString(falls[i]->color));
-        } else if(falls[i]->player == 3){
+        } else if(falls[i]->player == 3){//if its from North, it puts it in the North variable with the color
             strcpy(cardNorth,Value);
             strcat(cardNorth,colorToString(falls[i]->color));
-        } else {
+        } else {//if its from North, it puts it in the North variable with the color
             strcpy(cardEast,Value);
             strcat(cardEast,colorToString(falls[i]->color));
         }
     }
 
 
-    strcpy(trumpColor,colorToString(contract.trump));
+    strcpy(trumpColor,colorToString(contract.trump)); // puts the color string of the trump in the trump color
 
-
+    //prints the menu
     printf("                     You are team 1\n\n                         North\n\n                          %s\n\n\n           West  %s                   %s  East\n\n\n                          %s\n\n                        %s\n\n",cardNorth,cardWest,cardEast,cardPlayer,player);
     printf("Trump is : %s       Current contract : %s for team %d",trumpColor,currentContract,contract.team);
     printf("\n**---------------------------------------------------------------------**\n");
     printf("Your cards are :\n");
 
+    //prints the card in the players hand
     for(int j=0; j<table[0]->hand_size;j++){
         cardsHand[0] = realValue[table[0]->Hand[j]->value];
         cardsHand[1] = '\0';
@@ -269,8 +291,14 @@ void ingameMenu(Bet contract, char* player, Player** table, Card** falls, int fa
 }
 
 
+/*
+ * Function that transform a character of the color into the symbol
+ * @param color - first letter of the color
+ * @return the string of the character symbol
+ */
 char* colorToString(char color){
 
+    //creates the strings for the trump and symbols
     #if defined(_WIN32) || defined(__MSDOS__)
         #define SPADE   "\x06"
         #define CLUB    "\x05"
@@ -287,8 +315,9 @@ char* colorToString(char color){
         #define NOTRUMP "No Trump"
     #endif
 
-    char* colorString = (char*)malloc(sizeof(char)*10);
+    char* colorString = (char*)malloc(sizeof(char)*10); // allocating in memory 10 times the size of an character for the colorString
 
+    //assign the string of the symbol, depending on the color asked.
     if(color=='c'){
         strcpy(colorString,CLUB);
     } else if(color=='d'){
