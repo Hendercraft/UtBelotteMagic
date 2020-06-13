@@ -95,7 +95,7 @@ int* checkcard(Player** table,Card** falls,int playerid,int sizefalls){
 	}else{
 		idleader = whowin(falls,sizefalls);
 	}
-	if (((playerid = 1) &&(idleader = 3)) || ((playerid = 2) &&(idleader = 4)) || ((playerid = 3) &&(idleader = 1)) || ((playerid = 4) &&(idleader = 2))) {
+	if (((playerid == 1) &&(idleader == 3)) || ((playerid == 2) &&(idleader == 4)) || ((playerid == 3) &&(idleader == 1)) || ((playerid = 4) &&(idleader == 2))) {
 	//your mate has the lead
 		playable = (int*) malloc(sizeof(int)*(table[playerid-1]->hand_size)); //We create array of the size of the player's hand
 		if (playable != NULL){ //memory error check
@@ -196,6 +196,25 @@ int* checkcard(Player** table,Card** falls,int playerid,int sizefalls){
 	}return playable;
 }
 
+int IAcompute(Player** table, Card** falls,int playerid,int sizefalls,*int allowedcard){
+
+	/***********************/
+	/*Variables Declaration*/
+	/*********************/
+		
+	Boolean needcolor = FALSE; //Do the IA need to play the color
+	Boolean needtrump = FALSE; //Do the IA need to play a trump
+	int nbxcards = sizeof(allowedcard) / sizeof(nbxcard[0]); //Getting the number of playable cards
+	int nbxcolor = 0; //the number of card of the asked color that are playabale
+	int nbxtrump = 0; //the number of trump that are playabale
+	
+	/*If both Booleans are FALSE,the IA will play the lowest value card : It can't win.
+	/It has in in hand (It prioritise non trump first) */
+	
+	/*Analysing the different posibilitty*/
+	for (int i = 0;i<nbxcards;i++){
+		if (table[playerid-1]->Hand[allowedcard[i]]->color == 
+		
 
 
 Player** createplayer(){

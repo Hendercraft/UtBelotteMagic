@@ -34,6 +34,16 @@ Card** anytrump(Card** falls,int sizefalls,int* nbxtrump);
  */
 int* checkcard(Player** table,Card** falls ,int playerid,int sizefalls);
 
+/**
+ * This function go trought the Cards playable by an IA and will choose the best.
+ * @param table - The array contening the adress of each Player of the game.
+ * @param falls - An array of pointer on Card contening all the Cards that have been played this round.
+ * @param playerid - The id of IA who wants to play.
+ * @param sizefalls - The current size of the fall.
+ * @param allowedcard - A array contening all the allowed card.
+ * @return a int - The index of the car the IA is going to play.
+ */
+int IAcompute(Player** table, Card** falls,int playerid,int sizefalls,*int allowedcard);
 
 
 /**
