@@ -198,13 +198,13 @@ void ingameMenu(Bet contract, char* player, Player** table, Card** falls, int fa
     switch(contract.contract){
     case 1:
         if(contract.coinche==0){
-            itoa(contract.points,currentContract,10);
+            snprintf(currentContract,sizeof(char)*25,"%d",contract.points);
             strcat(currentContract," Points");
         } else if(contract.coinche==1){
-            itoa(contract.points,currentContract,10);
+            snprintf(currentContract,sizeof(char)*25,"%d",contract.points);
             strcat(currentContract," Points (coinched)");
         } else {
-            itoa(contract.points,currentContract,10);
+            snprintf(currentContract,sizeof(char)*25,"%d",contract.points);
             strcat(currentContract," Points (surcoinched)");
         }
 
