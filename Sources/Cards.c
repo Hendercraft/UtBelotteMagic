@@ -332,9 +332,22 @@ Boolean removecardsfromhand(Player** table,int playerid,int index){
 	if (table[playerid-1]->Hand != NULL){
 		return TRUE;
 	}else{
-		fprintf( stderr, "there is an error with the memory allocation in removecardsfromhand \n with the card at the index %d from the hand of the %d",index,playerid+1);
+		fprintf(stderr,"there is an error with the memory allocation in removecardsfromhand\n");
+		fprintf(stderr,"with the card at the index %d from the hand of player %d",index,playerid);
 		return FALSE;
 	}
 }
-
+	
+Boolean playcard(Player** table,Card** falls,int playerid,int cardid,int* sizefalls){
+	falls = (Card**) realloc(falls,sizeof(Card*) * (*sizefalls+1));
+	if (falls != NULL){ //If the allocation id done correctly
+		falls[*sizefalls] = table[playerid-1]->Hand[cardid]; //copy the pointer to the falls
+		*sizefalls= *sizefalls+1; //change sizefall
+		return TRUE;
+	}else{ 
+		fprintf(stderr,"there is an error with the memory allocation in playcard (curent falls size : %d)\n",*sizefalls);
+		fprintf(stderr,"when player %d plays the card at the %d index of his hand",playerid,cardid);
+		return FALSE;
+	}
+}
 
