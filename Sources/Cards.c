@@ -44,7 +44,7 @@ void definetrump(Card** deck,char trump){
 	}
 	return;
 }
-	
+
 
 int* checkcard(Player** table,Card** falls,int playerid,int sizefalls){
 /*This funtion is definitly one of the hardest to read
@@ -76,18 +76,18 @@ int* checkcard(Player** table,Card** falls,int playerid,int sizefalls){
 		return playable; // That's all you're allowed to play
 	}
 	/*Here you don't have any card of the asked color
-	 We'll check who has the lead, 
+	 We'll check who has the lead,
 	 If it's your mate you can play whatever you want
 	 Else we'll do some more check (see below)*/
-	 
+
 	 //First let's dertermine who has the lead
 	int idleader = 0; // The id of the player who has the lead
 	int nbxtrump = 0; // The number of trump in hte fall
 	Card** fallstrump = anytrump(falls,sizefalls,&nbxtrump);
-	
+
 	if (nbxtrump == -1){ // if there's a error with the memmory allocation inside anytrump
 		return playable;
-	}	
+	}
 	if (nbxtrump > 0){ //if at least one trump has been found
 		idleader = whowintrump(fallstrump,nbxtrump,&maxtrump); // Use the fonction with the trump order
 		free(fallstrump);
@@ -109,10 +109,10 @@ int* checkcard(Player** table,Card** falls,int playerid,int sizefalls){
 	}
 	/*Here you don't have any card of the asked color
 	 And you mate doesn't have the lead
-	 We'll check if you have any trump; 
+	 We'll check if you have any trump;
 	 if no then you can play whatev
 	 Else we'll see witch one you can play*/
-	 
+
 	 int nbxtrumphand = 0;
 	 Card** playertrump = anytrump(table[playerid-1]->Hand,table[playerid-1]->hand_size,&nbxtrumphand); //Lets see if you have trump
 	 if (nbxtrumphand == -1){ // if there's a memmory allocation error inside anytrump
@@ -130,9 +130,9 @@ int* checkcard(Player** table,Card** falls,int playerid,int sizefalls){
 	 }
 	 /*Here you don't have any card of the asked color
 	 And you mate doesn't have the lead
-	 But you have trump 
+	 But you have trump
 	 Time to see which one you can play*/
-	 
+
 	if (nbxtrump == 0){ //Nobody played a trump so far
 		playable = (int*) malloc(sizeof(int)*(nbxtrumphand)); //We create array of the size of the number of trump the player own
 		int indexplayable =0; //To keep traock of playable index
@@ -150,13 +150,13 @@ int* checkcard(Player** table,Card** falls,int playerid,int sizefalls){
 	}
 	/*Here you don't have any card of the asked color
 	 And you mate doesn't have the lead
-	 But you do have trump 
+	 But you do have trump
 	 and somebody already played a trump
 	 We'll see if you can go higher or not */
-	 
-	 int maxtrumpinand = 0; 
+
+	 int maxtrumpinand = 0;
 	 whowintrump(playertrump,nbxtrumphand,&maxtrumpinand); // getting the value of the player's biggest trump
-	 
+
 	 if (maxtrumpinand <= maxtrump){ //You can't go higer : play anytrump
 	 	playable = (int*) malloc(sizeof(int)*(nbxtrumphand)); //We create array of the size of the number of trump the player own
 		int indexplayable =0; //To keep traock of playable index
@@ -172,16 +172,16 @@ int* checkcard(Player** table,Card** falls,int playerid,int sizefalls){
 			return NULL;
 		}
 	}
-	
-	
+
+
 	/*Just play a trump > to the biggest trump in play*/
-	
+
 	int trumporder[8] = {0,1,6,7,2,3,4,5}; // Trump order
 	int indexplayable =0; //To keep track of playable index
 	for (int i=0;table[playerid-1]->hand_size;i++){
 		if ((table[playerid-1]->Hand[i]->trump == TRUE)&&(trumporder[table[playerid-1]->Hand[i]->value]<maxtrump)){
 			if (indexplayable==0){
-				playable = (int*) malloc(sizeof(int)); //We create the array 
+				playable = (int*) malloc(sizeof(int)); //We create the array
 			}else{
 				playable = (int*) realloc(playable,sizeof(int)*(indexplayable+1));
 			}
@@ -195,16 +195,15 @@ int* checkcard(Player** table,Card** falls,int playerid,int sizefalls){
 		}
 	}return playable;
 }
-	
-	
-	
+
+
+
 Player** createplayer(){
 	Player** table = (Player**) malloc(4 * sizeof(Player*));
 	if (table != NULL){
 		for (int i=0; i<4; i++){
 			table[i] = (Player*) malloc(sizeof(Player));
 			table[i]->id = i+1;
-			table[i]->bet = 0;
 			table[i]->hand_size = 8;
 			table[i]->Hand = (Card**)malloc(sizeof(Card*)*8);
 			if (table[i]->Hand != NULL){
@@ -214,7 +213,7 @@ Player** createplayer(){
 			}else{
 				fprintf( stderr, "there is an error with the memory allocation for the Hand array for the %d player",(i+1));
 				return NULL;
-			}		
+			}
 		}
 	}else{
 		fprintf( stderr, "there is an error with the memory allocation for the array of Player");
@@ -251,7 +250,7 @@ Card** createcards(){
 int Endofturn(Card** falls){
 	int nbxtrump = 0;
 	Card** fallstrump = anytrump(falls,4,&nbxtrump);
-	
+
 	if (nbxtrump == -1){ // if there's a error with the memmory allocation inside anytrump
 		return -1;
 	}
@@ -337,5 +336,5 @@ Boolean removecardsfromhand(Player** table,int playerid,int index){
 		return FALSE;
 	}
 }
-	
-	
+
+
