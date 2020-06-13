@@ -15,7 +15,7 @@
 int main(){
 
 
-	int operation, play=0;
+	/*int operation, play=0;
 
     FILE* file= fopen("highscore.txt","a");
     fclose(file);
@@ -83,6 +83,8 @@ int main(){
         previousBet = botBet(table, previousBet, 2);
     }
 
+	printf("%d %d %c",previousBet.contract,previousBet.points,previousBet.trump);
+
 	///PLAYING TIME///
     clrscr();
 	char* player = (char*)malloc(sizeof(char)*15);
@@ -110,14 +112,12 @@ int main(){
     falls[1]->value = 3;
 
 
+
 	ingameMenu(previousBet,player,table, falls,2);
 
-	return EXIT_SUCCESS;
+	return EXIT_SUCCESS;*/
 
-
-
-
-	/*int dealer = 1;
+	int dealer = 1;
 	Card** deck = createcards();
 	Player** table = createplayer();
 
@@ -127,7 +127,6 @@ int main(){
 
     Card** falls = (Card**)malloc(sizeof(Card*)*4);
     for(int i=0;i<4;i++){
-
         falls[i] = (Card*) malloc(sizeof(Card));
     }
 
@@ -142,19 +141,5 @@ int main(){
         }
     }
 
-	return EXIT_SUCCESS;*/
-
-
-    /*int dealer = 1;
-    int* teamPoints;
-    Card** deck = createcards();
-	Player** table = createplayer();
-    cardsdeal(table,deck,dealer);
-
-    Bet previousBet = {1,80,'t',0,1};
-
-    teamPoints = scoreCount(previousBet,deck);
-    printf("%d %d",teamPoints[0],teamPoints[1]);
-
-	return EXIT_SUCCESS;*/
+	return EXIT_SUCCESS;
 }
