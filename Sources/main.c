@@ -9,6 +9,7 @@
 #include <Cards.h>
 #include <bet.h>
 #include <time.h>
+#include <structures.h>
 
 
 int main(){

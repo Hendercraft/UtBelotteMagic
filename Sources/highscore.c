@@ -93,7 +93,7 @@ int lineCount(){
     /*********************************************/
 
 	 FILE* file = fopen("highscore.txt","r"); // opens the file highscore.txt
-	 int victories,loses; // integers for the victories and loses of a player
+	 int victories,loses,sizeFile; // integers for the victories and loses of a player and the size of the file
 	 char username[15]; // string of 15 characters for the name of the player
 	 highscore* scores = (highscore*) malloc(size * sizeof(highscore)); //creates an array or scores of the size size
 
@@ -101,17 +101,28 @@ int lineCount(){
     /****************Computation******************/
     /*********************************************/
 
-	 for(int i=0;i<size;i++){ //for each line in the file,
+    fseek (file, 0, SEEK_END);
+    sizeFile = ftell(file);
 
-		 fscanf(file,"%d,%d,%s\n",&victories,&loses,username); // puts the first integer in victories, the second one in losses and the string in username
-		 scores[i].victories = victories; // puts the number of victories in the array at place i
-		 scores[i].loses = loses; // puts the number of loses in the array at place i
-		 strcpy(scores[i].name, username); // puts the username in the array at place i
+    if (0 == sizeFile) {
 
-	 }
-	 fclose(file); // closes the file
+        return NULL;
 
-	 return scores;
+    } else {
+
+         for(int i=0;i<size;i++){ //for each line in the file,
+
+             fscanf(file,"%d,%d,%s\n",&victories,&loses,username); // puts the first integer in victories, the second one in losses and the string in username
+             scores[i].victories = victories; // puts the number of victories in the array at place i
+             scores[i].loses = loses; // puts the number of loses in the array at place i
+             strcpy(scores[i].name, username); // puts the username in the array at place i
+
+         }
+    }
+
+    fclose(file); // closes the file
+
+    return scores;
  }
 
 

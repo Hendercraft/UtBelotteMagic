@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <highscore.h>
-
+#include <structures.h>
 
 /*
  * Displays the bet menu for the player

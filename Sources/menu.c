@@ -113,9 +113,15 @@ void scoreVisual(){
 
 	reset(); // resets the text color(see the functions above)
 	printf("%s%s",lineAsciiArt,scoreAsciiArt); // prints the line and subtitle
-	for(int i = 0; i<5; i++){ //print the 5 best scores from the scoreArray
-		printf("	%d	%d	%s\n",scores[i].victories,scores[i].loses,scores[i].name);
+
+	if(scores == NULL){
+        printf("There is no scores\n");
+	} else {
+	    for(int i = 0; i<5; i++){ //print the 5 best scores from the scoreArray
+            printf("	%d	%d	%s\n",scores[i].victories,scores[i].loses,scores[i].name);
+        }
 	}
+
 	printf("%s%s%s",backAsciiArt,quitAsciiArt,lineAsciiArt); //prints the rest of the highscore menu
 	fflush(stdout); //forces the buffer to synchronize, so the visuals are updated immediately
 }

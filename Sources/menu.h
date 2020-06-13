@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <highscore.h>
-
+#include <structures.h>
 
 /******************************************************************************/
 /**************************FUNCTIONS DEFINITION*******************************/

@@ -6,33 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-
-
-/******************************************************************************/
-/****************************STRUCTURE DEFINITION*****************************/
-/****************************************************************************/
-
-
-/* Boolean type definition */
-typedef enum {
- FALSE = 0,
- TRUE = 1
-} Boolean;
-/* Card type definition */
-typedef struct {
-    int value; //Card value,between 0 and 7
-    char color; // Either c for clubs h for heart .......
-    int player; // The owner of the card, 0 means unowned , 1 to 4 is the played id
-    //It can be also set to -1 or -2, if the card has been played and won either by one team or the other
-    Boolean trump; //Is the card a trump ?
-    int position; // Its position in the deck
-} Card;
-/* Player type definition */
-typedef struct{
-	Card** Hand;
-	int id;
-	int hand_size;
-} Player;
+#include <structures.h>
 
 /******************************************************************************/
 /**************************FUNCTIONS DEFINITION*******************************/
