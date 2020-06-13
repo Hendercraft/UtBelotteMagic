@@ -132,8 +132,8 @@ int main(){
     }
 
     definetrump(deck,'c');
-	int sizeofplayableCards = 0;
-    playableCards = checkcard(table, falls, 1, 4,&sizeofplayableCards);
+
+    playableCards = checkcard(table, falls, 1, 4);
     if (playableCards == NULL){
         printf("Error dumbass");
     }else{
