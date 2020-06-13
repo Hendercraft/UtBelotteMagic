@@ -13,12 +13,28 @@
 #include <string.h>
 #include <Cards.h>
 #include <menu.h>
-#include <structures.h>
 
 
 /******************************************************************************/
 /**************************FUNCTIONS DEFINITION*******************************/
 /****************************************************************************/
+
+
+/* Creation of structure composed of: */
+typedef struct {
+	int victories; /*an integer for the number of victories*/
+	int loses; /*an integer for the number of loses*/
+	char name[15]; /*a string for the name of the player*/
+} highscore;
+
+/* Creation of structure composed of: */
+typedef struct {
+	int contract; /*an integer for the chosen contract. 1 is N points, 2 capot, 3 generale, 4 coinche and 5 surcoinche. 0 is no contract*/
+	int points; /*an integer for the points that the contract gives*/
+	char trump; /*a character for the color of the trump + t for all trump and n for no trump*/
+	int coinche;
+	int team;
+} Bet;
 
 /*
  * Gets the name typed by the user, verifies it.
