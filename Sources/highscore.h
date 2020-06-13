@@ -36,6 +36,7 @@ int lineCount();
 
 /*
  * Function that creates an array of highscores from the highscore file
+ * @param size - the size of the array
  * @return the pointer to the  array of scores
  */
  highscore* scoreArray(int size);
@@ -43,6 +44,7 @@ int lineCount();
 
 /*
  * Function that updates the scores in the file
+ * @param size - the size of the array
  */
 void scoreUpdate(highscore* scores, int size);
 
@@ -58,6 +60,7 @@ void scoreUpdate(highscore* scores, int size);
   * sort the scores from the highest to the lowest
   * @param scores - array of highscores
   * @param size - size of the array
+  * @return the pointer to the sorted array of scores
   */
  highscore* scoreSorting(highscore* scores, int size);
 
@@ -71,13 +74,9 @@ void scoreUpdate(highscore* scores, int size);
  void swap(highscore* scores, int index1, int index2);
 
 
- int* teamFoldPoints();
+ /*int* teamFoldPoints();
 
-
- /*
-  * Counts the score of the team
-  */
-int scoreCount(Bet contract, int foldPoints, Boolean belote, Boolean der);
+int scoreCount(Bet contract, int foldPoints, Boolean belote, Boolean der);*/
 
 
 #endif /* HIGHSCORE_HIGHSCORE_H_ */

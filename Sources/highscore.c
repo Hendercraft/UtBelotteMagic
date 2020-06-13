@@ -101,10 +101,10 @@ int lineCount(){
     /****************Computation******************/
     /*********************************************/
 
-    fseek (file, 0, SEEK_END);
-    sizeFile = ftell(file);
+    fseek (file, 0, SEEK_END); //gets to the end of the file
+    sizeFile = ftell(file); //get the file position
 
-    if (0 == sizeFile) {
+    if (0 == sizeFile) { //if the file is empty
 
         return NULL;
 
@@ -167,12 +167,12 @@ void scoreWrite(Boolean victory){
 	char name[15];
 	strcpy(name,playerCheck());
 
-	int Player = -1,victories=0,loses=0,size=lineCount();
+	int Player = -1,victories=0,loses=0,size=lineCount(); //integer for the place of the player, the number of victories, the number of loses and the number of lines in the file
 
-	FILE* file = fopen("highscore.txt","a");
-	highscore* scores;
+	FILE* file = fopen("highscore.txt","a"); //open highscore in adding
+	highscore* scores; //creates an array of scores
 
-	scores = scoreArray(size);
+	scores = scoreArray(size); // fulls the array with the scores in the file
 
 	/*********************************************/
     /****************Computation******************/
@@ -187,27 +187,31 @@ void scoreWrite(Boolean victory){
 			fflush(stdout);
 		}
 	}
-
+    //if the player exists in the file
 	if(Player!=-1){
+        //adds the lose or victories for the new player
 		if(victory == FALSE){
 			scores[Player].loses++;
 		} else {
 			scores[Player].victories ++;
 		}
+        //sorts and updates the array
 		scoreSorting(scores,size);
 		scoreUpdate(scores,size);
 
-	} else {
+	} else { //if he doesn't exist
+	    //adds a victory or a loss
 		if(victory == FALSE){
 			loses++;
 		} else {
 			victories++;
 		}
+		//adds the player
 		fprintf(file,"%d,%d,%s\n",victories,loses,name);
 	}
 
 
-	fclose(file);
+	fclose(file); //closes the file
 }
 
 
@@ -222,22 +226,23 @@ highscore* scoreSorting(highscore* scores, int size){
     /*****************VARIABLES*******************/
     /*********************************************/
 
-	highscore* sortedArray = (highscore*) malloc(size * sizeof(highscore));
+	highscore* sortedArray = (highscore*) malloc(size * sizeof(highscore)); //creates an array of highscore as great as the number of lines in the file
 
-	int victories, loses, position;
-	char name[15];
+	int victories, loses, position; // integer for victories loses and the position of the player
+	char name[15]; //string for the name of the player
 
 	/*********************************************/
     /****************Computation******************/
     /*********************************************/
 
-	for(int i=1; i<size+1; i++){
+	for(int i=1; i<size+1; i++){ // for every entity in the array
 		position = i;
-		victories = scores[i].victories;
-		loses = scores[i].loses;
-		strcpy(name,scores[i].name);
+		victories = scores[i].victories; //victories takes the victory of player i
+		loses = scores[i].loses; //loses takes the lose of player i
+		strcpy(name,scores[i].name); //name takes the name of player i
 
-		for(int j=i-1 ;j>0 ; j--){
+		for(int j=i-1 ;j>0 ; j--){ //for every highscore before in the array
+            // if he has more victories and less loses swap the two arrays
 			if(victories>scores[j].victories || (victories==scores[j].victories && loses<scores[j].loses)){
 				swap(scores,position,j);
 				position--;
@@ -262,7 +267,7 @@ void swap(highscore* scores, int index1, int index2) {
     /*****************VARIABLES*******************/
     /*********************************************/
 
-	highscore swap; //
+	highscore swap;
 
 	/*********************************************/
     /****************Computation******************/
@@ -274,9 +279,9 @@ void swap(highscore* scores, int index1, int index2) {
 }
 
 
-int* teamFoldPoints(Card** deck, Bet contract){
+/*int* teamFoldPoints(Card** deck, Bet contract){
 
-    /*int teampoints[2] = {0,0};
+    int teampoints[2] = {0,0};
     int trump[8] = {20,14,11,10,4,3,0,0};
     int nottrump[8] = {11,10,4,3,2,0,0,0};
     int allTrump[8] = {14,9,6,5,3,1,0,0};
@@ -290,17 +295,14 @@ int* teamFoldPoints(Card** deck, Bet contract){
                 teampoints[2] += deck->value[i];
             }
         }
-    }*/
+    }
 
 }
 
 
- /*
-  * Counts the score of the team
-  */
  int scoreCount(Bet contract, int foldPoints, Boolean belote, Boolean der){
 
-/*    Boolean contractValid;
+    Boolean contractValid;
     int scoreAttack,scoreDefense;
 
     if(contract.contract == 1){
@@ -312,5 +314,5 @@ int* teamFoldPoints(Card** deck, Bet contract){
         }
         scoreAttack = foldPoints + contract.points;
         scoreDefense = 152-foldPoints;
-    }*/
- }
+    }
+ }*/

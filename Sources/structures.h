@@ -7,8 +7,8 @@ typedef struct {
 	int contract; /*an integer for the chosen contract. 1 is N points, 2 capot, 3 generale, 4 coinche and 5 surcoinche. 0 is no contract*/
 	int points; /*an integer for the points that the contract gives*/
 	char trump; /*a character for the color of the trump + t for all trump and n for no trump*/
-	int coinche;
-	int team;
+	int coinche; //0 if nothing, 1 for coinche, 2 for surcoinche
+	int team; //  1 for team player and 2 for team enemy
 } Bet;
 
 
@@ -42,9 +42,9 @@ typedef struct {
 
 /* Player type definition */
 typedef struct{
-	Card** Hand;
-	int id;
-	int hand_size;
+	Card** Hand; //Dynamic array of cards representing the cards in hands
+	int id; //player id, 0 is player, 2 is West...
+	int hand_size; //Number of cards in hand
 } Player;
 
 
