@@ -477,11 +477,13 @@ Boolean removecardsfromhand(Player** table,int playerid,int index){
 }
 
 
-Boolean playcard(Player** table,Card** falls,int playerid,int cardid,int* sizefalls){
+Boolean playcard(Player** table,Card** falls,int playerid,int cardid,int* sizefalls,int* newposition){
 	falls = (Card**) realloc(falls,sizeof(Card*) * (*sizefalls+1));
 	if (falls != NULL){ //If the allocation id done correctly
 		falls[*sizefalls] = table[playerid-1]->Hand[cardid]; //copy the pointer to the falls
 		*sizefalls= *sizefalls+1; //change sizefall
+		falls[*sizefalls]->position = *newposition; //Changing the position of the card for the future deck
+		*newposition = *newposition+1;
 		return TRUE;
 	}else{
 		fprintf(stderr,"there is an error with the memory allocation in playcard (curent falls size : %d)\n",*sizefalls);
@@ -512,3 +514,24 @@ int mintrump(Card** cardarray,int size,int supp){
 		}
 	}return indexmin;
 }
+
+void shuffle(Card** deck,int cutfrom){
+	if (cutfrom==-1){
+		for(int i =0; i<5;i++){
+			shuffle(deck,rand() % 32);
+		}		
+	}return;
+	int newposition = 1;
+	for (int i = cutfrom;i<32;i++){
+		deck[i]->position = newposition;
+		newposition++;
+	}
+	for(int i = newposition; newposition<33; newposition++){
+		deck[i]->position = newposition;
+		newposition++;
+	}return;
+}
+	
+	
+	
+			
