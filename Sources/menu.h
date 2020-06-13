@@ -4,8 +4,8 @@
  *  Created by William Mann
  */
 
-#ifndef MAINMENU_MENU_H
-#define MAINMENU_MENU_H
+#ifndef MAINMENU_MENU_H_
+#define MAINMENU_MENU_H_
 
 
 /*Libraries used*/
@@ -30,16 +30,7 @@ void blue(int bold);
 void red(int bold);
 void cyan (int bold);
 
-/******************************************************************************/
-/****************************DISPLAY FUNCNCTIONS******************************/
-/****************************************************************************/
 
-
-
-
-
- 	
- 
 /*
  * Function thats prints the Programm's menu in ASCII art.
  */
@@ -62,4 +53,10 @@ int verify(int b,int n);
  */
 void clrscr();
 
-#endif /* MAINMENU_MENU_H */
+
+void ingameMenu(Bet contract, char* player, Player** table, Card** falls, int fallsSize);
+
+
+char* colorToString(char color);
+
+#endif /* MAINMENU_MENU_H_ */

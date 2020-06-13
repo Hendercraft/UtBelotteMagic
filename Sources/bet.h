@@ -11,23 +11,16 @@
 #include <Cards.h>
 #include <stdlib.h>
 #include <stdio.h>
-
-
-/* Creation of structure composed of: */
-typedef struct {
-	int contract; /*an integer for the chosen contract. 1 is N points, 2 capot, 3 generale, 4 coinche and 5 surcoinche. 0 is no contract*/
-	int points; /*an integer for the points that the contract gives*/
-	char trump; /*a character for the color of the trump + t for all trump and n for no trump*/
-} bet;
+#include <highscore.h>
 
 
 /*
  * Displays the bet menu for the player
  */
-bet betMenu(Player** table, bet previousChoice);
+Bet betMenu(Player** table, Bet previousChoice);
 
 
-bet botBet(Player** table, bet previousChoice, int botNb);
+Bet botBet(Player** table, Bet previousChoice, int botNb);
 
 /*
  * Function that gives the number of strong card in a hand
@@ -35,7 +28,7 @@ bet botBet(Player** table, bet previousChoice, int botNb);
  * @param trump - the color a trump or not.
  * @return an integer representing the number of strong card from that color
  */
-int howManyStrong(int* cardColorValues, int size, boolean trump);
+int howManyStrong(int* cardColorValues, int size, Boolean trump);
 
 
 #endif /* MAINMENU_BET_H_ */
