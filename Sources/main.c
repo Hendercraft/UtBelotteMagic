@@ -114,6 +114,9 @@ int main(){
 
 	return EXIT_SUCCESS;
 
+
+
+
 	/*int dealer = 1;
 	Card** deck = createcards();
 	Player** table = createplayer();
@@ -138,6 +141,20 @@ int main(){
             printf("%d\n",playableCards[i]);
         }
     }
+
+	return EXIT_SUCCESS;*/
+
+
+    /*int dealer = 1;
+    int* teamPoints;
+    Card** deck = createcards();
+	Player** table = createplayer();
+    cardsdeal(table,deck,dealer);
+
+    Bet previousBet = {1,80,'t',0,1};
+
+    teamPoints = scoreCount(previousBet,deck);
+    printf("%d %d",teamPoints[0],teamPoints[1]);
 
 	return EXIT_SUCCESS;*/
 }

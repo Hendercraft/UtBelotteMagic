@@ -74,9 +74,9 @@ void scoreUpdate(highscore* scores, int size);
  void swap(highscore* scores, int index1, int index2);
 
 
- /*int* teamFoldPoints();
+int* teamFoldPoints(Card** deck, Bet contract);
 
-int scoreCount(Bet contract, int foldPoints, Boolean belote, Boolean der);*/
+int* scoreCount(Bet contract,Card** deck);
 
 
 #endif /* HIGHSCORE_HIGHSCORE_H_ */

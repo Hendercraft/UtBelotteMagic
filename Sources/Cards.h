@@ -43,7 +43,7 @@ int* checkcard(Player** table,Card** falls ,int playerid,int sizefalls);
  * @param allowedcard - A array contening all the allowed card.
  * @return a int - The index of the car the IA is going to play.
  */
-int IAcompute(Player** table, Card** falls,int playerid,int sizefalls,*int allowedcard);
+int IAcompute(Player** table, Card** falls,int playerid,int sizefalls,int* allowedcard);
 
 
 /**

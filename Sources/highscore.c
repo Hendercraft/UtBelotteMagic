@@ -279,40 +279,185 @@ void swap(highscore* scores, int index1, int index2) {
 }
 
 
-/*int* teamFoldPoints(Card** deck, Bet contract){
+int* teamFoldPoints(Card** deck, Bet contract){
 
-    int teampoints[2] = {0,0};
-    int trump[8] = {20,14,11,10,4,3,0,0};
-    int nottrump[8] = {11,10,4,3,2,0,0,0};
-    int allTrump[8] = {14,9,6,5,3,1,0,0};
-    int noTrump[8] = {19,10,4,3,2,0,0,0};
+    int* teampoints = (int*)malloc(sizeof(int)*2);
+    int trump[8] = {0,0,14,20,3,4,10,11};
+    int nottrump[8] = {0,0,0,2,3,4,10,11};
+    int allTrump[8] = {0,0,9,14,1,3,5,6};
+    int noTrump[8] = {0,0,0,2,3,4,10,19};
+
+    teampoints[0] = 0;
+    teampoints[1] = 0;
 
     if(contract.trump == 't'){
         for(int i=0;i<32;i++){
-            if(deck[i]->player==-1 || deck[i]->player==-3){
-                teampoints[1] += deck->value[i];
+            if(deck[i]->player==1 || deck[i]->player==3){
+                teampoints[0] += allTrump[deck[i]->value];
+            }
+        }
+    } else if(contract.trump == 'n'){
+        for(int i=0;i<32;i++){
+            if(deck[i]->player==1 || deck[i]->player==3){
+                teampoints[0] += noTrump[deck[i]->value];
+            }
+        }
+    } else {
+        for(int i=0;i<32;i++){
+            if(deck[i]->trump==TRUE){
+                if(deck[i]->player==1 || deck[i]->player==3){
+                    teampoints[0] += trump[deck[i]->value];
+                }
             } else {
-                teampoints[2] += deck->value[i];
+                if(deck[i]->player==1 || deck[i]->player==3){
+                    teampoints[0] += nottrump[deck[i]->value];
+                }
             }
         }
     }
 
+    teampoints[1] = 152 - teampoints[0];
+
+    return teampoints;
+
 }
 
 
- int scoreCount(Bet contract, int foldPoints, Boolean belote, Boolean der){
+ int* scoreCount(Bet contract, Card** deck){
 
     Boolean contractValid;
-    int scoreAttack,scoreDefense;
+    int scoreAttack,scoreDefense,player1=0,player2=0,teamDer;
+    int* teamPoints = (int*)malloc(sizeof(int)*2);
+    teamPoints = teamFoldPoints(deck, contract);
 
-    if(contract.contract == 1){
-        contractValid = foldPoints > contract.points ? TRUE : FALSE;
+    for(int i=0; i<32;i++){
+
+        if(deck[i]->position==32){
+            printf("%c %d",deck[i]->color,deck[i]->value);
+            if(deck[i]->player == -1 || deck[i]->player == -3){
+                teamDer = 1;
+            } else {
+                teamDer = 2;
+            }
+        }
+
+        if(contract.team == 1){
+
+            if(deck[i]->player==-1){
+                player1 ++;
+            } else if(deck[i]->player==-3){
+                player2 ++;
+            }
+
+        } else if(contract.team == 2){
+
+            if(deck[i]->player==-2){
+                player1 ++;
+            } else if(deck[i]->player==-4){
+                player2 ++;
+            }
+
+        }
     }
+    if(player1+player2 == 32){
+        if(player1 == 32 || player2 == 32){
+            contract.contract = 3;
+            contract.points = 500;
+            contractValid = TRUE;
+        } else {
+            contract.contract = 2;
+            contract.points = 250;
+            contractValid = TRUE;
+        }
+    } else {
+        contractValid = teamPoints[contract.team-1] > contract.points ? TRUE : FALSE;
+    }
+
 
     if(contractValid == TRUE){
-        switch(contract.coinche){
+
+        if(contract.team == 1){
+                if(contract.coinche == 0){
+
+                    scoreAttack = teamPoints[0] + contract.points;
+                    scoreDefense = teamPoints[1];
+                    if(teamDer == 1){
+                        scoreAttack += 10;
+                    } else {
+                        scoreDefense += 10;
+                    }
+
+                } else {
+
+                    scoreAttack = (teamPoints[0] + contract.points)*2*contract.coinche;
+                    scoreDefense = 0;
+
+                }
+
+        } else {
+
+                if(contract.coinche == 0){
+
+                    scoreAttack = teamPoints[1] + contract.points;
+                    scoreDefense = teamPoints[0];
+                    if(teamDer == 2){
+                        scoreAttack += 10;
+                    } else {
+                        scoreDefense += 10;
+                    }
+
+                } else {
+
+                    scoreAttack = (teamPoints[1] + contract.points)*2*contract.coinche;
+                    scoreDefense = 0;
+
+                }
         }
-        scoreAttack = foldPoints + contract.points;
-        scoreDefense = 152-foldPoints;
+
+    } else {
+
+        if(contract.team == 1){
+                if(contract.coinche == 0){
+
+                    scoreAttack = teamPoints[0] + contract.points;
+                    scoreDefense = teamPoints[1];
+                    if(teamDer == 1){
+                        scoreAttack += 10;
+                    } else {
+                        scoreDefense += 10;
+                    }
+
+                } else {
+
+                    scoreAttack = (teamPoints[0] + contract.points)*2*contract.coinche;
+                    scoreDefense = 0;
+
+                }
+
+        } else {
+
+                if(contract.coinche == 0){
+
+                    scoreAttack = 0;
+                    scoreDefense = 162+contract.points;
+
+                } else {
+
+                    scoreAttack = 0;
+                    scoreDefense = (162+contract.points)*2*contract.coinche;
+
+                }
+        }
     }
- }*/
+
+    if(contract.team == 1){
+        teamPoints[0]=scoreAttack;
+        teamPoints[1]=scoreDefense;
+    } else {
+        teamPoints[1]=scoreAttack;
+        teamPoints[0]=scoreDefense;
+    }
+
+    return teamPoints;
+
+ }
