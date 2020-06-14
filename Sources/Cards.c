@@ -351,7 +351,7 @@ int IAcompute(Player** table, Card** falls,int playerid,int sizefalls,int* allow
 
 	if (nbxcolor == sizeallowedcard){ //1st case
 
-		whowin(playablecard,sizefalls,&maxhand); //Computing the max of our playable Cards
+		whowin(playablecard,sizeallowedcard,&maxhand); //Computing the max of our playable Cards
 		whowin(falls,sizefalls,&maxfalls); //Computing the max of the fall
 
 		if (maxhand < maxfalls) { //If the IA can't win
@@ -363,7 +363,7 @@ int IAcompute(Player** table, Card** falls,int playerid,int sizefalls,int* allow
 		return returnindex;
 
 	}else if(nbxtrump == sizeallowedcard){ // 2nd case
-		whowintrump(playablecard,sizefalls,&maxhand); //Computing the max of our playable Cards
+		whowintrump(playablecard,sizeallowedcard,&maxhand); //Computing the max of our playable Cards
 		whowintrump(falls,sizefalls,&maxfalls); //Computing the max of the fall
 
 		if (maxhand < maxfalls) { //If the IA can't win

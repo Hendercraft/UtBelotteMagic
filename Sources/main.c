@@ -134,6 +134,7 @@ int main(){
     for(int j=0;j<8;j++){ // repeats until all cards in hand are played
 
         winner = turn(table, previousBet, playerName, previousBet.team+1, &numberCardsPlayed);//playing a turn
+
         printf("%d",winner);
     }
 
