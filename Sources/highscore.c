@@ -157,15 +157,11 @@ int lineCount(){
  * Gets and write the name and the score of the person in the file
  * @param
  */
-void scoreWrite(Boolean victory){
+void scoreWrite(Boolean victory, char* playerName){
 
     /*********************************************/
     /*****************VARIABLES*******************/
     /*********************************************/
-
-	/* creating a string of 15 characters and putting in the name checked thanks to the function playerCheck */
-	char name[15];
-	strcpy(name,playerCheck());
 
 	int Player = -1,victories=0,loses=0,size=lineCount(); //integer for the place of the player, the number of victories, the number of loses and the number of lines in the file
 
@@ -181,7 +177,7 @@ void scoreWrite(Boolean victory){
 
 	/*creating the array and verifying if the player is already in the Array*/
 	for(int i=0; i<size; i++){
-		if(strcmp(scores[i].name, name)==0){
+		if(strcmp(scores[i].name, playerName)==0){
 			Player = i;
 			printf("%d",Player);
 			fflush(stdout);
@@ -207,7 +203,7 @@ void scoreWrite(Boolean victory){
 			victories++;
 		}
 		//adds the player
-		fprintf(file,"%d,%d,%s\n",victories,loses,name);
+		fprintf(file,"%d,%d,%s\n",victories,loses,playerName);
 	}
 
 
