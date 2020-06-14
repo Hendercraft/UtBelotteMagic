@@ -53,58 +53,73 @@ int main(){
     clrscr();
 
     int numberCardsPlayed=1;
+    srand(time(0));
 
     for(int j=0;j<8;j++){ // tried a boucle
 
         ////BETTING TIME///
         clrscr();
 
-        srand(time(0));
-        int beginning = rand()%3+1; //generates a random number in [0,3] to know who begins
-        int sameBet,dealer = beginning;
-        Bet previousBet = {0,0,'n',0,0},nextBet;
+        Bet previousBet = {0,0,'n',0,0};
         Card** deck = createcards();
         Player** table = createplayer();
-
-        cardsdeal(table,deck,dealer);
-
-
+        int dealer, beginning;
+        dealer = beginning;
 
         do{
+            beginning = rand()%3+1; //generates a random number in [1,4] to know who begins
+            dealer = beginning;
+            int sameBet=0, betTurn=0;
+            Bet nextBet;
 
-            if (beginning>3){
-                beginning=0;
-            }
+            cardsdeal(table,deck,dealer);
 
-            nextBet = botBet(table,previousBet,beginning);
-            if(previousBet.coinche == nextBet.coinche && previousBet.contract == nextBet.contract && previousBet.points == nextBet.points && previousBet.team == nextBet.team && previousBet.trump == nextBet.trump){
-                    switch(beginning){
-                    case 1:
-                        printf("West Passed\n");
-                        break;
-                    case 2:
-                        printf("North Passed\n");
-                        break;
-                    case 3:
-                        printf("East Passed\n\n");
-                        break;
+            previousBet.coinche = 0;
+            previousBet.contract = 0;
+            previousBet.points = 0;
+            previousBet.team = 0;
+            previousBet.trump = 'n';
 
-                    }
-                    sameBet ++;
-            }
 
-            previousBet.coinche = nextBet.coinche;
-            previousBet.contract = nextBet.contract;
-            previousBet.points = nextBet.points;
-            previousBet.team = nextBet.team;
-            previousBet.trump = nextBet.trump;
-            beginning ++;
+            do{
 
-        }while(sameBet != 3 || (sameBet != 3 && (previousBet.coinche == 0 && previousBet.contract == 0 && previousBet.points == 0 && previousBet.team == 0 && previousBet.trump == 'n')));
+                if (beginning>3){
+                    beginning=0;
+                }
 
+                nextBet = botBet(table,previousBet,beginning);
+                if(previousBet.coinche == nextBet.coinche && previousBet.contract == nextBet.contract && previousBet.points == nextBet.points && previousBet.team == nextBet.team && previousBet.trump == nextBet.trump){
+                        switch(beginning){
+                        case 1:
+                            printf("West Passed\n");
+                            break;
+                        case 2:
+                            printf("North Passed\n");
+                            break;
+                        case 3:
+                            printf("East Passed\n\n");
+                            break;
+
+                        }
+                        sameBet ++;
+                } else {
+                    sameBet = 0;
+                }
+
+                previousBet.coinche = nextBet.coinche;
+                previousBet.contract = nextBet.contract;
+                previousBet.points = nextBet.points;
+                previousBet.team = nextBet.team;
+                previousBet.trump = nextBet.trump;
+                beginning ++;
+                betTurn ++;
+
+            }while((sameBet < 3 || betTurn<4) && (sameBet < 3 || betTurn<4 || (previousBet.coinche == 0 || previousBet.contract == 0 || previousBet.points == 0 || previousBet.team == 0 || previousBet.trump == 'n')));
+        }while(previousBet.coinche == 0 && previousBet.contract == 0 && previousBet.points == 0 && previousBet.team == 0 && previousBet.trump == 'n');
+
+        return EXIT_SUCCESS;
 
         ///PLAYING TIME///
-        clrscr();
 
         //shuffle and dealing cards
         shuffle(deck,-1);
@@ -113,9 +128,8 @@ int main(){
         //initializing a falls
         Card** falls = (Card**)malloc(sizeof(Card*));
         falls[0] = NULL;
-        int playedCard,size=1,numberOfPlayables = 0,chosenCard;
-        int *fallsSize,*playableCards/*the cards you can play*/;
-        fallsSize = &size;
+        int playedCard,size=0,numberOfPlayables = 0,chosenCard;
+        int *playableCards/*the cards you can play*/;
         Boolean cardPlayed=FALSE;
 
 
@@ -127,9 +141,9 @@ int main(){
                     playableCards = checkcard(table,falls,1,size,&numberOfPlayables);
                     chosenCard = verify(0,table[0]->hand_size);
 
-                    for(int j=0;j<size;j++){
-                        if(chosenCard == playableCards[j]){
-                            cardPlayed = playcard(table,falls,1,playedCard,fallsSize,&numberCardsPlayed);
+                    for(int j=0;j<numberOfPlayables;j++){
+                        if(chosenCard-1 == playableCards[j]){
+                            cardPlayed = playcard(table,falls,1,playedCard,&size,&numberCardsPlayed);
                         }
                     }
                 }while(cardPlayed == FALSE);
@@ -138,7 +152,7 @@ int main(){
                 //fait en sorte que l'ia puisse jouer une carte ici
                 playableCards = checkcard(table,falls,i%4+1,size,&numberOfPlayables);
                 playedCard = IAcompute(table,falls,i%4+1,size,playableCards,numberOfPlayables);
-                cardPlayed = playcard(table,falls,i%4+1,playedCard,fallsSize,&numberCardsPlayed);
+                cardPlayed = playcard(table,falls,i%4+1,playedCard,&size,&numberCardsPlayed);
             }
             cardPlayed = FALSE;
             //aggrandir falls
