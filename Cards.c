@@ -56,9 +56,10 @@ int* checkcard(Player** table,Card** falls,int playerid,int sizefalls,int* outpu
 
 	int max = 0 ; //No real use here, it's just a prerequisite of whowin
 	int maxtrump = 0; //value of the biggest trump in play
-	char askedcolor = falls[0]->color;
 	int* playable = NULL;
 	int nbxcolor = 0; //number of cards of the asked color the play has
+
+
 
 	/**You're the first one to play**/
 	/*You can play whatever you want*/
@@ -77,6 +78,8 @@ int* checkcard(Player** table,Card** falls,int playerid,int sizefalls,int* outpu
 	}
 	/*Let's check if you have anny card of the asked color (If it's not a trump)*/
 	/*If so we'll count them*/
+
+	char askedcolor = falls[0]->color;
 
 	for (int i=0;i<table[playerid-1]->hand_size;i++){
 		if ((table[playerid-1]->Hand[i]->color == askedcolor) && (table[playerid-1]->Hand[i]->trump == FALSE)){
