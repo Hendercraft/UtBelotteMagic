@@ -197,7 +197,7 @@ void ingameMenu(Bet contract, char* player, Player** table, Card** falls, int fa
     char* trumpColor = (char*)malloc(10*sizeof(char));
     char* currentContract = (char*)malloc(25*sizeof(char));
     //creates variables for the value of the contract and the players hand
-    char Value[] = "";
+    char* Value = (char*)malloc(sizeof(char));
     char cardsHand[] = "";
     //table to convert the values of the cards in char
     char realValue[8]={'7','8','9','J','Q','K','X','A'};
@@ -206,6 +206,7 @@ void ingameMenu(Bet contract, char* player, Player** table, Card** falls, int fa
     strcpy(cardWest,"");
     strcpy(cardEast,"");
     strcpy(cardPlayer,"");
+    strcpy(Value,"");
     strcpy(currentContract,"");
 
 
@@ -217,7 +218,7 @@ void ingameMenu(Bet contract, char* player, Player** table, Card** falls, int fa
     if(falls[0] != NULL){
         for(int i=0; i<fallsSize;i++){ //for every card played
             //adds the value of the card in the variable
-            strcpy(Value,realValue[falls[i]->value]);
+            Value = &realValue[falls[i]->value];
             if(falls[i]->player == 1){ //if its from the player, it puts it in the player variable with the color
                 strcpy(cardPlayer,Value);
                 strcat(cardPlayer,colorToString(falls[i]->color));
