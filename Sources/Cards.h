@@ -72,8 +72,9 @@ int IAcompute(Player** table, Card** falls,int playerid,int sizefalls,int* allow
  * @param cardid - The id of the card he wish to play.
  * @param sizefalls - A pointer on the current size of the falls
  * @param newposition - The Card position in the future game; corespond to the order in which this card is played
+ * @return the modifed falls
  */
-Boolean playcard(Player** table,Card** falls,int playerid,int cardid,int* sizefalls,int* newposition);
+Card** playcard(Player** table,Card** falls,int playerid,int cardid,int* sizefalls,int* newposition);
 /**
  * This will deal the cards to each player
  * @param table - The array contening the adress of each Player of the game.

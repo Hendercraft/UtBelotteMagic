@@ -36,8 +36,8 @@ int turn(Player** table,Bet gamebet,char* playname,int playerid,int* ItstheTHcar
 		}else{
 			chosenCard = IAcompute(table,falls,currentplayer,sizefalls,playableCards,numberOfPlayables); //asking the IA for a card
 		}
-		Boolean playcardworks = playcard(table,falls,currentplayer,chosenCard,&sizefalls,ItstheTHcard);
-		if(playcardworks == FALSE){
+		falls = playcard(table,falls,currentplayer,chosenCard,&sizefalls,ItstheTHcard);
+		if(falls == NULL){
 			fprintf( stderr, "there is an error with the memory allocation inside playcard");
 			fprintf( stderr, "this was while playing the %dth card",*ItstheTHcard);
 			return -1;
@@ -50,18 +50,6 @@ int turn(Player** table,Bet gamebet,char* playname,int playerid,int* ItstheTHcar
 	return winner;
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -541,18 +529,18 @@ Boolean removecardsfromhand(Player** table,int playerid,int index){
 }
 
 
-Boolean playcard(Player** table,Card** falls,int playerid,int cardid,int* sizefalls,int* newposition){
+Card** playcard(Player** table,Card** falls,int playerid,int cardid,int* sizefalls,int* newposition){
 	falls = (Card**) realloc(falls,sizeof(Card*) * (*sizefalls+1));
 	if (falls != NULL){ //If the allocation id done correctly
 		falls[*sizefalls] = table[playerid-1]->Hand[cardid]; //copy the pointer to the falls
         falls[*sizefalls]->position = *newposition; //Changing the position of the card for the future deck
 		*newposition = *newposition+1;
 		*sizefalls= *sizefalls+1; //change sizefall
-		return TRUE;
+		return falls;
 	}else{
 		fprintf(stderr,"there is an error with the memory allocation in playcard (curent falls size : %d)\n",*sizefalls);
 		fprintf(stderr,"when player %d plays the card at the %d index of his hand",playerid,cardid);
-		return FALSE;
+		return NULL;
 	}
 }
 
