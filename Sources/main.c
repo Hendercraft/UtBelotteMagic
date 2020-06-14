@@ -8,7 +8,6 @@
 #include <menu.h>
 #include <Cards.h>
 #include <bet.h>
-#include <time.h>
 #include <structures.h>
 
 
@@ -51,7 +50,7 @@ int main(){
     ////BETTING TIME///
     clrscr();
 
-    srand(time(0));
+    /*srand(time(0));
 	int dealer = 1, beginning;/*sameBet;*/
 	Bet previousBet = {0,0,'n',0};/*nextBet;*/
 	Card** deck = createcards();

@@ -2,15 +2,63 @@
 #include <Cards.h>
 
 
-Card** turn(Player** table,int playerid){
+int turn(Player** table,Bet gamebet,char* playname,int playerid,int* ItstheTHcard){
 
 	/****************************************************/
 	/***************VARIABLES DECLARATION***************/
 	/**************************************************/
-	
+	int realplayerid[7] = {0,1,2,3,4,1,2,3}; // cheap trick that avoid me writing some if
 	Card** falls = (Card**)malloc(sizeof(Card*)); //Wher the player will play their cards
+	falls[0] = NULL;
 	int *playableCards; //An array that will containt the index of playable cards
+	int sizefalls = 0; // the "pseudo" size of the falls, it's rather the number of card played so far
+	int numberOfPlayables = 0: //the number of card a given player can play.
+	int nbxcardsplayed = 0;
+	Boolean gooduserinput = FALSE ; //Did the user gave us a playable card?
 	
+	/*Filling the Falls*/
+	for (nbxcardsplayed; nbxcardsplayed<4 nbxcardsplayed++){
+		int currentplayer = realplayerid[playerid+nbxcardsplayed]; //sry for your eyes
+		clrscr(); //dealing with the interface
+		ingameMenu(gamebet,playname,table, falls,sizefalls);
+		
+		//getting the player playable card
+		playableCards = checkcard(table,falls,currentplayer,sizefalls+1);
+		if (currentplayer == 1){
+			do {
+				chosenCard = verify(1,table[0]->hand_size); //This wil retrun a value between 1 and the hand_size
+				chosenCard--;	//we have to aplly an offset
+					for(int j=0;j<numberOfPlayables;j++){
+						if(chosenCard == playableCards[j]){
+							gooduserinput = TRUE;
+						}
+					}
+			}while (gooduserinput == FALSE)
+		}else{
+			chosenCard = IAcompute(table,falls,currentplayer,sizefalls,playableCards,numberOfPlayables); //asking the IA for a card
+		}
+		Boolean playcardworks = playcard(table,falls,currentplayer,chosenCard,&sizefalls,ItstheTHcard)
+		if(playcardworks == FALSE){
+			fprintf( stderr, "there is an error with the memory allocation inside playcard");
+			fprintf( stderr, "this was while playing the %dth card",ItstheTHcard);
+			return NULL;
+		}
+	}
+	
+	int winner = Endofturn(falls); //getting the winner
+	free(falls);
+	falls = NULL;
+	return winner;
+	
+}
+		
+		
+			
+		
+			
+			
+			
+					
 	
 
 
