@@ -183,12 +183,13 @@ void clrscr()
  * @param falls - cards that have been played/cards in the fold
  * @param fallSize - size of the fold
  */
-void ingameMenu(Bet contract, char* player, Player** table, Card** falls, int fallsSize){
+void ingameMenu(Bet contract, char* player, Player** table, Card** falls, int sizeFalls){
 
     /*********************************************/
     /*****************VARIABLES*******************/
     /*********************************************/
 
+    int team, fallsSize = sizeFalls-1;
     //allocates the places for the printing of the players played cards, the reump, the contract
     char* cardNorth = (char*)malloc(2*sizeof(char));
     char* cardWest = (char*)malloc(2*sizeof(char));
@@ -197,7 +198,7 @@ void ingameMenu(Bet contract, char* player, Player** table, Card** falls, int fa
     char* trumpColor = (char*)malloc(10*sizeof(char));
     char* currentContract = (char*)malloc(25*sizeof(char));
     //creates variables for the value of the contract and the players hand
-    char* Value = (char*)malloc(sizeof(char));
+    char Value[2] = "";
     char cardsHand[] = "";
     //table to convert the values of the cards in char
     char realValue[8]={'7','8','9','J','Q','K','X','A'};
@@ -214,11 +215,18 @@ void ingameMenu(Bet contract, char* player, Player** table, Card** falls, int fa
     /****************Computation******************/
     /*********************************************/
 
+    if(contract.team==0 || contract.team==1){
+        team = 1;
+    } else {
+        team = 0;
+    }
+
 
     if(falls[0] != NULL){
         for(int i=0; i<fallsSize;i++){ //for every card played
             //adds the value of the card in the variable
-            Value = &realValue[falls[i]->value];
+            Value[0] = realValue[falls[i]->value];
+            Value[1] = '\0';
             if(falls[i]->player == 1){ //if its from the player, it puts it in the player variable with the color
                 strcpy(cardPlayer,Value);
                 strcat(cardPlayer,colorToString(falls[i]->color));
@@ -278,7 +286,7 @@ void ingameMenu(Bet contract, char* player, Player** table, Card** falls, int fa
 
     //prints the menu
     printf("                     You are team 1\n\n                         North\n\n                          %s\n\n\n           West  %s                   %s  East\n\n\n                          %s\n\n                        %s\n\n",cardNorth,cardWest,cardEast,cardPlayer,player);
-    printf("Trump is : %s       Current contract : %s for team %d",trumpColor,currentContract,contract.team);
+    printf("Trump is : %s       Current contract : %s for team %d",trumpColor,currentContract,team);
     printf("\n**---------------------------------------------------------------------**\n");
     printf("Your cards are :\n");
 

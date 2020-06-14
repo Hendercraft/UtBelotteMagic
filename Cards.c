@@ -1,5 +1,69 @@
-
 #include <Cards.h>
+
+
+int turn(Player** table,Bet gamebet,char* playname,int playerid,int* ItstheTHcard){
+
+	/****************************************************/
+	/***************VARIABLES DECLARATION***************/
+	/**************************************************/
+	int realplayerid[8] = {0,1,2,3,4,1,2,3}; // cheap trick that avoid me writing some if
+	Card** falls = (Card**)malloc(sizeof(Card*)); //Wher the player will play their cards
+	falls[0] = NULL;
+	int *playableCards; //An array that will containt the index of playable cards
+	int sizefalls = 0; // the "pseudo" size of the falls, it's rather the number of card played so far
+	int chosenCard; // Card chosen by the player
+	int numberOfPlayables = 0; //the number of card a given player can play.
+	Boolean gooduserinput = FALSE; //Did the user gave us a playable card?
+
+	/*Filling the Falls*/
+	for (int nbxcardsplayed=0; nbxcardsplayed<4; nbxcardsplayed++){
+		int currentplayer = realplayerid[playerid+nbxcardsplayed]; //sry for your eyes
+		clrscr(); //dealing with the interface
+		ingameMenu(gamebet,playname,table, falls,sizefalls);
+
+		//getting the player playable card
+		playableCards = checkcard(table,falls,currentplayer,sizefalls,&numberOfPlayables);
+		if (currentplayer == 1){
+			do {
+				chosenCard = verify(1,table[0]->hand_size); //This wil retrun a value between 1 and the hand_size
+				chosenCard--;	//we have to aplly an offset
+					for(int j=0;j<numberOfPlayables;j++){
+						if(chosenCard == playableCards[j]){
+							gooduserinput = TRUE;
+						}
+					}
+			}while (gooduserinput == FALSE);
+		}else{
+			chosenCard = IAcompute(table,falls,currentplayer,sizefalls,playableCards,numberOfPlayables); //asking the IA for a card
+		}
+		Boolean playcardworks = playcard(table,falls,currentplayer,chosenCard,&sizefalls,ItstheTHcard);
+		if(playcardworks == FALSE){
+			fprintf( stderr, "there is an error with the memory allocation inside playcard");
+			fprintf( stderr, "this was while playing the %dth card",*ItstheTHcard);
+			return -1;
+		}
+	}
+
+	int winner = Endofturn(falls); //getting the winner
+	free(falls);
+	falls = NULL;
+	return winner;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void cardsdeal(Player** table,Card** deck,int dealerid){
 
@@ -47,7 +111,7 @@ void definetrump(Card** deck,char trump){
 
 
 int* checkcard(Player** table,Card** falls,int playerid,int sizefalls,int* outputsize){
-/*This function is definitly one of the hardest to read
+/*This funtion is definitly one of the hardest to read
  i'm pretty sure there's way to improve it by a lot
  but for now we'll stick with it because at least it works*/
 
@@ -58,8 +122,6 @@ int* checkcard(Player** table,Card** falls,int playerid,int sizefalls,int* outpu
 	int maxtrump = 0; //value of the biggest trump in play
 	int* playable = NULL;
 	int nbxcolor = 0; //number of cards of the asked color the play has
-
-
 
 	/**You're the first one to play**/
 	/*You can play whatever you want*/
@@ -76,10 +138,9 @@ int* checkcard(Player** table,Card** falls,int playerid,int sizefalls,int* outpu
 				return NULL;
 		}
 	}
+	char askedcolor = falls[0]->color;
 	/*Let's check if you have anny card of the asked color (If it's not a trump)*/
 	/*If so we'll count them*/
-
-	char askedcolor = falls[0]->color;
 
 	for (int i=0;i<table[playerid-1]->hand_size;i++){
 		if ((table[playerid-1]->Hand[i]->color == askedcolor) && (table[playerid-1]->Hand[i]->trump == FALSE)){
@@ -269,7 +330,7 @@ int IAcompute(Player** table, Card** falls,int playerid,int sizefalls,int* allow
 
 
 	for (int i = 0;i<sizeallowedcard;i++){
-		if (table[playerid-1]->Hand[allowedcard[i]]->color == falls[0]->color){
+		if ((table[playerid-1]->Hand[allowedcard[i]]->color == falls[0]->color) && table[playerid-1]->Hand[allowedcard[i]]->trump == FALSE){
 			nbxcolor++; //Whenever we can play a card of the asked color, we increment this counter
 		}else if(table[playerid-1]->Hand[allowedcard[i]]->trump == TRUE){
 			nbxtrump++; //Whenever we can play a trump, we increment this counter
@@ -323,12 +384,12 @@ int IAcompute(Player** table, Card** falls,int playerid,int sizefalls,int* allow
 		int returnindex = mintrump(playablecard,sizeallowedcard,maxfalls);
 		free(playablecard);
 		playablecard = NULL;
-		return returnindex;
+		return allowedcard[returnindex];
 	}else{ //3rd
 		int returnindex = mincard(playablecard,sizeallowedcard,-1);
 		free(playablecard);
 		playablecard = NULL;
-		return returnindex;
+		return allowedcard[returnindex];
 	}
 }
 
@@ -484,9 +545,9 @@ Boolean playcard(Player** table,Card** falls,int playerid,int cardid,int* sizefa
 	falls = (Card**) realloc(falls,sizeof(Card*) * (*sizefalls+1));
 	if (falls != NULL){ //If the allocation id done correctly
 		falls[*sizefalls] = table[playerid-1]->Hand[cardid]; //copy the pointer to the falls
-		*sizefalls= *sizefalls+1; //change sizefall
-		falls[*sizefalls]->position = *newposition; //Changing the position of the card for the future deck
+        falls[*sizefalls]->position = *newposition; //Changing the position of the card for the future deck
 		*newposition = *newposition+1;
+		*sizefalls= *sizefalls+1; //change sizefall
 		return TRUE;
 	}else{
 		fprintf(stderr,"there is an error with the memory allocation in playcard (curent falls size : %d)\n",*sizefalls);
@@ -519,20 +580,18 @@ int mintrump(Card** cardarray,int size,int supp){
 }
 
 void shuffle(Card** deck,int cutfrom){
-    srand(time(0));
 	if (cutfrom==-1){
-		for(int j=0; j<5;j++){
+		for(int i =0; i<5;i++){
 			shuffle(deck,rand() % 32);
 		}
-		return;
-	}
+	}return;
 	int newposition = 1;
 	for (int i = cutfrom;i<32;i++){
 		deck[i]->position = newposition;
 		newposition++;
 	}
-	for(int i = 0; i<cutfrom; i++){
+	for(int i = newposition; newposition<33; newposition++){
 		deck[i]->position = newposition;
 		newposition++;
-	}
+	}return;
 }

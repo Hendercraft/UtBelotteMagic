@@ -86,12 +86,12 @@ Bet betMenu(Player** table, Bet previousChoice){
 		}
 		else {
             printf("The previous contract has a value of %d and a trump of %c,\n",previousChoice.points,previousChoice.trump); //Prints the trump and the contract made by the previous player
-            if (previousChoice.coinche==0 && previousChoice.team==2){ //if the previous player didn't coinched
+            if (previousChoice.coinche==0 && (previousChoice.team == 0 || previousChoice.team == 2)){ //if the previous player didn't coinched
                 do {
                     printf("You can't surcoinche.\n"); //warn the player that he can't surcoinche
                     choice = verify(0,6); //asks the player his choice
                 } while (choice == 5); //do it until he doesn't choose surcoinche
-            } else if (previousChoice.coinche==1 || previousChoice.team==1) { // if the previous player coinched or if he passed
+            } else if (previousChoice.coinche==1 || (previousChoice.team == 0 || previousChoice.team == 2)) { // if the previous player coinched or if he passed
                 do {
                     printf("You can't coinche.\n"); //warns the player he can't coinche again
                     choice = verify(0,6); //asks the player his choice
@@ -184,7 +184,7 @@ Bet betMenu(Player** table, Bet previousChoice){
 	} while(previousChoice.points>number && choice != 6);//do it until his contract is higher or he passes
 
 	playerBet.points = number; //put the new value in bet
-	playerBet.team = 1; // put the team number in the bet
+	playerBet.team = 0; // put the team number in the bet
 
 	return playerBet;
 
@@ -276,11 +276,8 @@ Bet botBet(Player** table, Bet previousChoice, int botNb){
             }
 
             //set the teams who makes the bet depending on the bot
-            if(botNb == 2){
-                newBet.team = 1;
-            } else{
-                newBet.team = 2;
-            }
+            newBet.team = botNb;
+
             return newBet;
         } else { //else passes
             return previousChoice;
