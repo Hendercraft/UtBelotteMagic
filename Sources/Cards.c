@@ -93,6 +93,10 @@ void definetrump(Card** deck,char trump){
 	for (int i=0; i<32; i++){
 		if (deck[i]->color == trump){
 			deck[i]->trump = TRUE;
+		} else if ('n' == trump){
+		    deck[i]->trump = FALSE;
+		} else {
+            deck[i]->trump = TRUE;
 		}
 	}
 	return;
@@ -284,7 +288,7 @@ int* checkcard(Player** table,Card** falls,int playerid,int sizefalls,int* outpu
 			}
 		}
 	}
-	*outputsize = (indexplayable+1); // Playable is the size of maximum index + 1
+	*outputsize = indexplayable; // Playable is the size of maximun index + 1
 	return playable;
 }
 
@@ -307,32 +311,21 @@ int IAcompute(Player** table, Card** falls,int playerid,int sizefalls,int* allow
 		playablecard[i] = table[playerid-1]->Hand[allowedcard[i]];
 	}
 
-	/***************We can have  3 cases here***********/
-	/***********1st-We need to play the color**********/
-	/***********2nd-We need to play a trump***********/
-	/********3rd-We can play whatever we like********/
-
-
-	/****************************************************/
-	/********First we'll see in which one we are*********/
-	/**************************************************/
-
-
-	for (int i = 0;i<sizeallowedcard;i++){
-		if ((table[playerid-1]->Hand[allowedcard[i]]->color == falls[0]->color) && table[playerid-1]->Hand[allowedcard[i]]->trump == FALSE){
-			nbxcolor++; // Whenever we can play a card of the asked color, we increment this counter.
-		}else if(table[playerid-1]->Hand[allowedcard[i]]->trump == TRUE){
-			nbxtrump++; // Whenever we can play a trump, we increment this counter.
-		}
-	}
-
-	/**Then we'll check if the IA is the first to play**/
+	/**First we'll check if the AI is the first to play**/
 	/**If so, we'll play the card with the lowest value*/
 	/***********IT PRIORITISE NO TRUMP FIRST***********/
 
 	if (falls[0]==NULL){
 
-		if (nbxtrump == sizeallowedcard){ // 2nd case (We have only trumps in hand in THIS SPECIFIC case)
+        // Checking if the have an hand full of trump.
+        for (int i = 0;i<sizeallowedcard;i++){
+            if(table[playerid-1]->Hand[allowedcard[i]]->trump == TRUE){
+			nbxtrump++; // Whenever we can play a trump, we increment this counter.
+            }
+        }
+
+
+		if (nbxtrump == sizeallowedcard){ // We have only trump in hand in THIS SPECIFIC case.
 			int returnindex = mintrump(playablecard,sizeallowedcard,-1);
 			free(playablecard);
 			playablecard = NULL;
@@ -345,11 +338,25 @@ int IAcompute(Player** table, Card** falls,int playerid,int sizefalls,int* allow
 		}
 	}
 
-	/***************We can have  3 cases here************/
+    /***************We can have  3 case here************/
 	/***********1st-We need to play the color**********/
 	/***********2nd-We need to play a trump***********/
 	/********3rd-We can play whatever we like********/
 
+	/****************************************************/
+	/********First we'll see in wich one we are*********/
+	/**************************************************/
+
+
+	for (int i = 0;i<sizeallowedcard;i++){
+		if ((table[playerid-1]->Hand[allowedcard[i]]->color == falls[0]->color) && table[playerid-1]->Hand[allowedcard[i]]->trump == FALSE){
+			nbxcolor++; //Whenever we can play a card of the asked color, we increment this counter
+		}else if(table[playerid-1]->Hand[allowedcard[i]]->trump == TRUE){
+			nbxtrump++; //Whenever we can play a trump, we increment this counter
+		}
+	}
+
+	
 	if (nbxcolor == sizeallowedcard){ // 1st case
 
 		whowin(playablecard,sizeallowedcard,&maxhand); // Computing the maximum of our playable Cards.
@@ -521,9 +528,9 @@ Boolean removecardsfromhand(Player** table,int playerid,int index){
 	table[playerid-1]->hand_size --;
 	// Ajusting the Hand
 	table[playerid-1]->Hand = (Card**) realloc(table[playerid-1]->Hand,(table[playerid-1]->hand_size) * sizeof(Card*));
-	if (table[playerid-1]->Hand != NULL){
+	if (table[playerid-1]->Hand != NULL || index == 0){
 		return TRUE;
-	}else{
+	}else {
 		fprintf( stderr, "there is an error with the memory allocation in removecardsfromhand \n with the card at the index %d from the hand of the %d",index,playerid+1);
 		return FALSE;
 	}
