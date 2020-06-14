@@ -183,13 +183,13 @@ void clrscr()
  * @param falls - cards that have been played/cards in the fold
  * @param fallSize - size of the fold
  */
-void ingameMenu(Bet contract, char* player, Player** table, Card** falls, int sizeFalls){
+void ingameMenu(Bet contract, char* player, Player** table, Card** falls, int fallsSize){
 
     /*********************************************/
     /*****************VARIABLES*******************/
     /*********************************************/
 
-    int team, fallsSize = sizeFalls-1;
+    int team;
     //allocates the places for the printing of the players played cards, the reump, the contract
     char* cardNorth = (char*)malloc(2*sizeof(char));
     char* cardWest = (char*)malloc(2*sizeof(char));
