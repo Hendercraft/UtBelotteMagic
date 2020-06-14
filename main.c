@@ -52,6 +52,8 @@ int main(){
 	playerName = playerCheck();
     clrscr();
 
+    int numberCardsPlayed=1;
+
     for(int j=0;j<8;j++){ // tried a boucle
 
         ////BETTING TIME///
@@ -76,6 +78,18 @@ int main(){
 
             nextBet = botBet(table,previousBet,beginning);
             if(previousBet.coinche == nextBet.coinche && previousBet.contract == nextBet.contract && previousBet.points == nextBet.points && previousBet.team == nextBet.team && previousBet.trump == nextBet.trump){
+                    switch(beginning){
+                    case 1:
+                        printf("West Passed\n");
+                        break;
+                    case 2:
+                        printf("North Passed\n");
+                        break;
+                    case 3:
+                        printf("East Passed\n\n");
+                        break;
+
+                    }
                     sameBet ++;
             }
 
@@ -86,7 +100,7 @@ int main(){
             previousBet.trump = nextBet.trump;
             beginning ++;
 
-        }while(sameBet != 4 || (sameBet != 3 && (previousBet.coinche == 0 && previousBet.contract == 0 && previousBet.points == 0 && previousBet.team == 0 && previousBet.trump == 'n')));
+        }while(sameBet != 3 || (sameBet != 3 && (previousBet.coinche == 0 && previousBet.contract == 0 && previousBet.points == 0 && previousBet.team == 0 && previousBet.trump == 'n')));
 
 
         ///PLAYING TIME///
@@ -99,19 +113,34 @@ int main(){
         //initializing a falls
         Card** falls = (Card**)malloc(sizeof(Card*));
         falls[0] = NULL;
-        int fallsSize = 1,playedCard;
+        int playedCard,size=1,numberOfPlayables = 0,chosenCard;
+        int *fallsSize,*playableCards/*the cards you can play*/;
+        fallsSize = &size;
+        Boolean cardPlayed=FALSE;
 
 
         for(int i=beginning; i<beginning+4; i++){
-            clrscr()
-            ingameMenu(previousBet,playerName,table, falls,1);
+            clrscr();
+            ingameMenu(previousBet,playerName,table, falls,i%4+1);
             if(i%4 == 0){
+                do{
+                    playableCards = checkcard(table,falls,1,size,&numberOfPlayables);
+                    chosenCard = verify(0,table[0]->hand_size);
+
+                    for(int j=0;j<size;j++){
+                        if(chosenCard == playableCards[j]){
+                            cardPlayed = playcard(table,falls,1,playedCard,fallsSize,&numberCardsPlayed);
+                        }
+                    }
+                }while(cardPlayed == FALSE);
 
             } else {
                 //fait en sorte que l'ia puisse jouer une carte ici
-                playedCard = IAcompute(table,falls,i%4,fallsSize,)
+                playableCards = checkcard(table,falls,i%4+1,size,&numberOfPlayables);
+                playedCard = IAcompute(table,falls,i%4+1,size,playableCards,numberOfPlayables);
+                cardPlayed = playcard(table,falls,i%4+1,playedCard,fallsSize,&numberCardsPlayed);
             }
-            fallsSize ++;
+            cardPlayed = FALSE;
             //aggrandir falls
         }
     }

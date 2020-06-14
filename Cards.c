@@ -47,7 +47,7 @@ void definetrump(Card** deck,char trump){
 
 
 int* checkcard(Player** table,Card** falls,int playerid,int sizefalls,int* outputsize){
-/*This funtion is definitly one of the hardest to read
+/*This function is definitly one of the hardest to read
  i'm pretty sure there's way to improve it by a lot
  but for now we'll stick with it because at least it works*/
 

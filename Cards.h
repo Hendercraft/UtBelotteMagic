@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <time.h>
 #include <structures.h>
 
 /******************************************************************************/
@@ -31,7 +32,7 @@ Card** anytrump(Card** falls,int sizefalls,int* nbxtrump);
  * @param playerid - The id of the player which hand we'll go trought.
  * @param sizefalls - The current size of the fall.
  * @param outputsize - A pointer where the size of the returned array will be given.
- * @return an array of int - This array will containt the index of each playedable card.
+ * @return an array of int - This array will containt the index of each playable card.
  */
 int* checkcard(Player** table,Card** falls ,int playerid,int sizefalls,int* outputsize);
 
@@ -57,7 +58,7 @@ int IAcompute(Player** table, Card** falls,int playerid,int sizefalls,int* allow
  * @param playerid - The id of the player who wish to play.
  * @param cardid - The id of the card he wish to play.
  * @param sizefalls - A pointer on the current size of the falls
- * @param newposition - The Card position in the future game; corespond to the order in which this card is played
+ * @param newposition - The Card position in the future game; correspond to the order in which this card is played
  */
 Boolean playcard(Player** table,Card** falls,int playerid,int cardid,int* sizefalls,int* newposition);
 /**
