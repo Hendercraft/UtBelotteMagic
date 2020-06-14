@@ -189,6 +189,7 @@ void ingameMenu(Bet contract, char* player, Player** table, Card** falls, int fa
     /*****************VARIABLES*******************/
     /*********************************************/
 
+    int team;
     //allocates the places for the printing of the players played cards, the reump, the contract
     char* cardNorth = (char*)malloc(2*sizeof(char));
     char* cardWest = (char*)malloc(2*sizeof(char));
@@ -197,7 +198,7 @@ void ingameMenu(Bet contract, char* player, Player** table, Card** falls, int fa
     char* trumpColor = (char*)malloc(10*sizeof(char));
     char* currentContract = (char*)malloc(25*sizeof(char));
     //creates variables for the value of the contract and the players hand
-    char Value[] = "";
+    char Value[2] = "";
     char cardsHand[] = "";
     //table to convert the values of the cards in char
     char realValue[8]={'7','8','9','J','Q','K','X','A'};
@@ -206,11 +207,41 @@ void ingameMenu(Bet contract, char* player, Player** table, Card** falls, int fa
     strcpy(cardWest,"");
     strcpy(cardEast,"");
     strcpy(cardPlayer,"");
+    strcpy(Value,"");
+    strcpy(currentContract,"");
 
 
     /*********************************************/
     /****************Computation******************/
     /*********************************************/
+
+    if(contract.team==0 || contract.team==1){
+        team = 1;
+    } else {
+        team = 0;
+    }
+
+
+    if(falls[0] != NULL){
+        for(int i=0; i<fallsSize;i++){ //for every card played
+            //adds the value of the card in the variable
+            Value[0] = realValue[falls[i]->value];
+            Value[1] = '\0';
+            if(falls[i]->player == 1){ //if its from the player, it puts it in the player variable with the color
+                strcpy(cardPlayer,Value);
+                strcat(cardPlayer,colorToString(falls[i]->color));
+            } else if(falls[i]->player == 2){//if its from West, it puts it in the West variable with the color
+                strcpy(cardWest,Value);
+                strcat(cardWest,colorToString(falls[i]->color));
+            } else if(falls[i]->player == 3){//if its from North, it puts it in the North variable with the color
+                strcpy(cardNorth,Value);
+                strcat(cardNorth,colorToString(falls[i]->color));
+            } else {//if its from North, it puts it in the North variable with the color
+                strcpy(cardEast,Value);
+                strcat(cardEast,colorToString(falls[i]->color));
+            }
+        }
+    }
 
     switch(contract.contract){ //does something depending on the contract
 
@@ -251,31 +282,11 @@ void ingameMenu(Bet contract, char* player, Player** table, Card** falls, int fa
         break;
     }
 
-    for(int i=0; i<fallsSize;i++){ //for every card played
-        //adds the value of the card in the variable
-        Value[0] = realValue[falls[i]->value];
-        Value[1] = '\0';
-        if(falls[i]->player == 1){ //if its from the player, it puts it in the player variable with the color
-            strcpy(cardPlayer,Value);
-            strcat(cardPlayer,colorToString(falls[i]->color));
-        } else if(falls[i]->player == 2){//if its from West, it puts it in the West variable with the color
-            strcpy(cardWest,Value);
-            strcat(cardWest,colorToString(falls[i]->color));
-        } else if(falls[i]->player == 3){//if its from North, it puts it in the North variable with the color
-            strcpy(cardNorth,Value);
-            strcat(cardNorth,colorToString(falls[i]->color));
-        } else {//if its from North, it puts it in the North variable with the color
-            strcpy(cardEast,Value);
-            strcat(cardEast,colorToString(falls[i]->color));
-        }
-    }
-
-
     strcpy(trumpColor,colorToString(contract.trump)); // puts the color string of the trump in the trump color
 
     //prints the menu
     printf("                     You are team 1\n\n                         North\n\n                          %s\n\n\n           West  %s                   %s  East\n\n\n                          %s\n\n                        %s\n\n",cardNorth,cardWest,cardEast,cardPlayer,player);
-    printf("Trump is : %s       Current contract : %s for team %d",trumpColor,currentContract,contract.team);
+    printf("Trump is : %s       Current contract : %s for team %d",trumpColor,currentContract,team);
     printf("\n**---------------------------------------------------------------------**\n");
     printf("Your cards are :\n");
 

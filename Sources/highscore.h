@@ -53,7 +53,7 @@ void scoreUpdate(highscore* scores, int size);
   * Gets and write the name and the score of the person in the file
   * @param victory - boolean that states if the person has won or lose the game
   */
- void scoreWrite(Boolean victory);
+ void scoreWrite(Boolean victory, char* playerName);
 
 
  /*

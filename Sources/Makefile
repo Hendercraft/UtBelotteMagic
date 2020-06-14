@@ -6,7 +6,7 @@ INCLUDEDIR = -I. -I/usr/include
 
 #Library-related macros
 #1st
-LIBCORENAME = Cards
+LIBCORENAME = menu
 LIBTARGET :=lib$(LIBCORENAME:=.so) #adding the "lib" prefix and the .so extension to LIBCORENAME
 LIBSOURCE = $(LIBCORENAME)
 LIBSOURCECFILE = $(LIBSOURCE:=.c)
@@ -14,7 +14,7 @@ LIBSOURCEOFILE = $(LIBSOURCE:=.o)
 
 #Library-related macros PAS OUBLIER DE RAJOUTER -l$(LIBCORENAME2)
 #2nd
-LIBCORENAME2 = highscore
+LIBCORENAME2 = Cards
 LIBTARGET2 :=lib$(LIBCORENAME2:=.so) #adding the "lib" prefix and the .so extension to LIBCORENAME
 LIBSOURCE2 = $(LIBCORENAME2)
 LIBSOURCECFILE2 = $(LIBSOURCE2:=.c)
@@ -22,7 +22,7 @@ LIBSOURCEOFILE2 = $(LIBSOURCE2:=.o)
 
 #Library-related macros PAS OUBLIER DE RAJOUTER -l$(LIBCORENAME3)
 #3nd
-LIBCORENAME3 = menu
+LIBCORENAME3 = highscore
 LIBTARGET3 :=lib$(LIBCORENAME3:=.so) #adding the "lib" prefix and the .so extension to LIBCORENAME
 LIBSOURCE3 = $(LIBCORENAME3)
 LIBSOURCECFILE3 = $(LIBSOURCE3:=.c)

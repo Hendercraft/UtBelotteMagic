@@ -7,10 +7,24 @@
 #include <string.h>
 #include <math.h>
 #include <structures.h>
+#include <menu.h>
 
 /******************************************************************************/
 /**************************FUNCTIONS DEFINITION*******************************/
 /****************************************************************************/
+
+/**
+ * This function manage a trun of the game .
+ * If there is any it will modify the int passed has its 3rd parameter accoding to the number of trump
+ * @param table - The array contening the adress of each Player of the game.
+ * @param gamebet -  The current bet.
+ * @param playname -  A string contening the name oft he play, used for the interface.
+ * @param playerid -  The id of the player who play the first card.
+ * @param ItstheTHcard - The card that will be played when playcard is called : Is initialised as 1 in the main, sould
+ * finsh at 32
+ * @return The ID of the player who won or -1 if there's any memorry error.
+ */
+int turn(Player** table,Bet gamebet,char* playname,int playerid,int* ItstheTHcard);
 
 
 /**
@@ -42,7 +56,7 @@ int* checkcard(Player** table,Card** falls ,int playerid,int sizefalls,int* outp
  * @param playerid - The id of IA who wants to play.
  * @param sizefalls - The current size of the fall.
  * @param allowedcard - A array contening all the allowed card.
- * @param sizeallowedcard - The size of the so named array.
+ * @param sizeallowedcard - The size of t                            cardPlayed = playcard(table,falls,1,playedCard,&size,&numberCardsPlayed);he so named array.
  * @return a int - The index of the car the IA is going to play.
  */
 int IAcompute(Player** table, Card** falls,int playerid,int sizefalls,int* allowedcard,int sizeallowedcard);
@@ -58,8 +72,9 @@ int IAcompute(Player** table, Card** falls,int playerid,int sizefalls,int* allow
  * @param cardid - The id of the card he wish to play.
  * @param sizefalls - A pointer on the current size of the falls
  * @param newposition - The Card position in the future game; corespond to the order in which this card is played
+ * @return the modifed falls
  */
-Boolean playcard(Player** table,Card** falls,int playerid,int cardid,int* sizefalls,int* newposition);
+Card** playcard(Player** table,Card** falls,int playerid,int cardid,int* sizefalls,int* newposition);
 /**
  * This will deal the cards to each player
  * @param table - The array contening the adress of each Player of the game.

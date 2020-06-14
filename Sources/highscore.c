@@ -157,15 +157,11 @@ int lineCount(){
  * Gets and write the name and the score of the person in the file
  * @param
  */
-void scoreWrite(Boolean victory){
+void scoreWrite(Boolean victory, char* playerName){
 
     /*********************************************/
     /*****************VARIABLES*******************/
     /*********************************************/
-
-	/* creating a string of 15 characters and putting in the name checked thanks to the function playerCheck */
-	char name[15];
-	strcpy(name,playerCheck());
 
 	int Player = -1,victories=0,loses=0,size=lineCount(); //integer for the place of the player, the number of victories, the number of loses and the number of lines in the file
 
@@ -181,7 +177,7 @@ void scoreWrite(Boolean victory){
 
 	/*creating the array and verifying if the player is already in the Array*/
 	for(int i=0; i<size; i++){
-		if(strcmp(scores[i].name, name)==0){
+		if(strcmp(scores[i].name, playerName)==0){
 			Player = i;
 			printf("%d",Player);
 			fflush(stdout);
@@ -207,7 +203,7 @@ void scoreWrite(Boolean victory){
 			victories++;
 		}
 		//adds the player
-		fprintf(file,"%d,%d,%s\n",victories,loses,name);
+		fprintf(file,"%d,%d,%s\n",victories,loses,playerName);
 	}
 
 
@@ -326,7 +322,7 @@ int* teamFoldPoints(Card** deck, Bet contract){
  int* scoreCount(Bet contract, Card** deck){
 
     Boolean contractValid;
-    int scoreAttack,scoreDefense,player1=0,player2=0,teamDer;
+    int scoreAttack,scoreDefense,player1=0,player2=0,teamDer,pointGoes;
     int* teamPoints = (int*)malloc(sizeof(int)*2);
     teamPoints = teamFoldPoints(deck, contract);
 
@@ -341,7 +337,7 @@ int* teamFoldPoints(Card** deck, Bet contract){
             }
         }
 
-        if(contract.team == 1){
+        if(contract.team == 0 || contract.team == 2){
 
             if(deck[i]->player==-1){
                 player1 ++;
@@ -349,7 +345,7 @@ int* teamFoldPoints(Card** deck, Bet contract){
                 player2 ++;
             }
 
-        } else if(contract.team == 2){
+        } else if(contract.team == 1 || contract.team == 3){
 
             if(deck[i]->player==-2){
                 player1 ++;
@@ -370,13 +366,18 @@ int* teamFoldPoints(Card** deck, Bet contract){
             contractValid = TRUE;
         }
     } else {
-        contractValid = teamPoints[contract.team-1] > contract.points ? TRUE : FALSE;
+        if(contract.team == 1 || contract.team == 3){
+            pointGoes = 1;
+        } else {
+            pointGoes = 0;
+        }
+        contractValid = teamPoints[pointGoes] > contract.points ? TRUE : FALSE;
     }
 
 
     if(contractValid == TRUE){
 
-        if(contract.team == 1){
+        if(contract.team == 0 || contract.team == 2){
                 if(contract.coinche == 0){
 
                     scoreAttack = teamPoints[0] + contract.points;
@@ -416,7 +417,7 @@ int* teamFoldPoints(Card** deck, Bet contract){
 
     } else {
 
-        if(contract.team == 1){
+        if(contract.team == 0 || contract.team == 2){
                 if(contract.coinche == 0){
 
                     scoreAttack = teamPoints[0] + contract.points;
@@ -450,7 +451,7 @@ int* teamFoldPoints(Card** deck, Bet contract){
         }
     }
 
-    if(contract.team == 1){
+    if(contract.team == 0 || contract.team == 2){
         teamPoints[0]=scoreAttack;
         teamPoints[1]=scoreDefense;
     } else {
