@@ -129,13 +129,23 @@ int main(){
 
     definetrump(deck,previousBet.trump);//setting the trump in the deck
     int winner; //id of the player winning the fold
-
+    int* scores = (int*)malloc (sizeof(int)*2);
+    int* finalscores = (int*)malloc (sizeof(int)*2);
+    finalscores[0] = 0;
+    finalscores[1] = 0;
 
     for(int j=0;j<8;j++){ // repeats until all cards in hand are played
 
         winner = turn(table, previousBet, playerName, previousBet.team+1, &numberCardsPlayed);//playing a turn
+        scores = scoreCount(previousBet,deck);
+        finalscores[0] =+ scores[0];
+        finalscores[1] =+ scores[1];
 
-        printf("%d",winner);
+        printf("\nThis fold, you made %d points and the other team made %d points and player %d took the last fold.\nPress a key to continue\n",scores[0],scores[1],-winner);
+        getchar();
+
+
+
     }
 
 
