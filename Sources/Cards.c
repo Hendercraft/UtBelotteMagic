@@ -1,6 +1,23 @@
 
 #include <Cards.h>
 
+
+Card** turn(Player** table,int playerid){
+
+	/****************************************************/
+	/***************VARIABLES DECLARATION***************/
+	/**************************************************/
+	
+	Card** falls = (Card**)malloc(sizeof(Card*)); //Wher the player will play their cards
+	int *playableCards; //An array that will containt the index of playable cards
+	
+	
+
+
+
+
+
+
 void cardsdeal(Player** table,Card** deck,int dealerid){
 
 	int whosecard[7] = {0,1,2,3,0,1,2}; // cheap trick that avoid me writing some if
@@ -56,7 +73,6 @@ int* checkcard(Player** table,Card** falls,int playerid,int sizefalls,int* outpu
 	
 	int max = 0 ; //No real use here, it's just a prerequisite of whowin
 	int maxtrump = 0; //value of the biggest trump in play
-	char askedcolor = falls[0]->color;
 	int* playable = NULL;
 	int nbxcolor = 0; //number of cards of the asked color the play has
 	
@@ -75,6 +91,7 @@ int* checkcard(Player** table,Card** falls,int playerid,int sizefalls,int* outpu
 				return NULL;
 		}
 	}
+	char askedcolor = falls[0]->color;
 	/*Let's check if you have anny card of the asked color (If it's not a trump)*/
 	/*If so we'll count them*/
 

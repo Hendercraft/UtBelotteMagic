@@ -12,6 +12,15 @@
 /**************************FUNCTIONS DEFINITION*******************************/
 /****************************************************************************/
 
+/**
+ * This function manage a trun of the game .
+ * If there is any it will modify the int passed has its 3rd parameter accoding to the number of trump
+ * @param table - The array contening the adress of each Player of the game.
+ * @param playerid -  The id of the player who play the first card.
+ * @return The ID of the player who won or -1 if there's any memorry error.
+ */
+Card** turn(Player** table,int playerid);
+
 
 /**
  * This function go trought the falls and count the number of trump.

@@ -15,7 +15,7 @@
 int main(){
 
 
-	/*int operation, play=0;
+	int operation, play=0;
 
     FILE* file= fopen("highscore.txt","a");
     fclose(file);
@@ -52,15 +52,19 @@ int main(){
     clrscr();
 
     srand(time(0));
-	int dealer = 1, beginning;
-	Bet previousBet = {0,0,'n',0};
+	int dealer = 1, beginning;/*sameBet;*/
+	Bet previousBet = {0,0,'n',0};/*nextBet;*/
 	Card** deck = createcards();
 	Player** table = createplayer();
 
 	cardsdeal(table,deck,dealer);
 
-    beginning = rand()%3; //generates a random number in [0,3] to know who begins
-
+    beginning = rand()%3 + 1; //generates a random number in [0,3] to know who begins
+	//RANT A 2 H DU MAT, GUILLAUME FIX CA
+    /*do{
+        
+    }while(sameBet != 3 || (sameBet != 3 %%)) */
+    
     if(beginning == 0){
         previousBet = betMenu(table, previousBet);
         previousBet = botBet(table, previousBet, 1);
@@ -83,41 +87,36 @@ int main(){
         previousBet = botBet(table, previousBet, 2);
     }
 
-	printf("%d %d %c",previousBet.contract,previousBet.points,previousBet.trump);
-
 	///PLAYING TIME///
     clrscr();
-	char* player = (char*)malloc(sizeof(char)*15);
-	player = playerCheck();
+	char* playername = (char*)malloc(sizeof(char)*15);
+	playername = playerCheck();
     clrscr();
-	//dealing cards
+
+	//shuffle and dealing cards
+	shuffle(deck,-1);
 	cardsdeal(table,deck,dealer);
+	int whoplay[7] = {0,1,2,3,0,1,2}; // cheap trick that avoid me writing some if
+	for (int round =1; roud<9 ; round++){
+		
+		Card** falls = malloc (sizeof(Card*));
+		int sizeofplayable = 0;
+		checkcard(table,falls,dealer,0,&sizeofplayable);
+		
+		
+	/*initializing a test falls
+	Card** falls = (Card**)malloc(sizeof(Card*));
+    falls[0] = (Card*) malloc(sizeof(Card));*/
+	 
+	
+	
 
-	//initializing a test falls
-	Card** falls = (Card**)malloc(sizeof(Card*)*4);
-    for(int i=0;i<3;i++){
-        falls[i] = (Card*) malloc(sizeof(Card));
-    }
-
-    falls[0]->color = 's';
-    falls[0]->player = 3;
-    falls[0]->position = 1;
-    falls[0]->trump = FALSE;
-    falls[0]->value = 0;
-
-    falls[1]->color = 's';
-    falls[1]->player = 4;
-    falls[1]->position = 2;
-    falls[1]->trump = FALSE;
-    falls[1]->value = 3;
+	return EXIT_SUCCESS;
 
 
 
-	ingameMenu(previousBet,player,table, falls,2);
 
-	return EXIT_SUCCESS;*/
-
-	int dealer = 1;
+	/*int dealer = 1;
 	Card** deck = createcards();
 	Player** table = createplayer();
 
@@ -127,12 +126,13 @@ int main(){
 
     Card** falls = (Card**)malloc(sizeof(Card*)*4);
     for(int i=0;i<4;i++){
+
         falls[i] = (Card*) malloc(sizeof(Card));
     }
 
     definetrump(deck,'c');
-	int sizeplayableCards = 0;
-    playableCards = checkcard(table, falls, 1, 4,&sizeplayableCards);
+
+    playableCards = checkcard(table, falls, 1, 4);
     if (playableCards == NULL){
         printf("Error dumbass");
     }else{
@@ -141,5 +141,28 @@ int main(){
         }
     }
 
-	return EXIT_SUCCESS;
+	return EXIT_SUCCESS;*/
+
+
+    /*int dealer = 1;
+    int* teamPoints;
+    Card** deck = createcards();
+	Player** table = createplayer();
+    cardsdeal(table,deck,dealer);
+
+    Bet previousBet = {1,80,'t',0,1};
+
+    teamPoints = scoreCount(previousBet,deck);
+    printf("%d %d",teamPoints[0],teamPoints[1]);
+
+	return EXIT_SUCCESS;*/
+
+	/*srand(time(0));
+	Card** deck = createcards();
+	shuffle(deck,-1);
+
+    for(int i=0; i<32;i++){
+        printf("%d ",deck[i]->position);
+    }
+    return EXIT_SUCCESS;*/
 }
