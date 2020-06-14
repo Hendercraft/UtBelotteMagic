@@ -37,6 +37,7 @@ int turn(Player** table,Bet gamebet,char* playname,int playerid,int* ItstheTHcar
 			chosenCard = IAcompute(table,falls,currentplayer,sizefalls,playableCards,numberOfPlayables); //asking the IA for a card
 		}
 		falls = playcard(table,falls,currentplayer,chosenCard,&sizefalls,ItstheTHcard);
+		removecardsfromhand(table,currentplayer,chosenCard);
 		if(falls == NULL){
 			fprintf( stderr, "there is an error with the memory allocation inside playcard");
 			fprintf( stderr, "this was while playing the %dth card",*ItstheTHcard);
