@@ -19,12 +19,12 @@
  * @param table - The array contening the adress of each Player of the game.
  * @param gamebet -  The current bet.
  * @param playname -  A string contening the name oft he play, used for the interface.
- * @param playerid -  The id of the player who play the first card. 
- * @param ItstheTHcard - The card that will be played when playcard is called : Is initialised as 1 in the main, sould 
+ * @param playerid -  The id of the player who play the first card.
+ * @param ItstheTHcard - The card that will be played when playcard is called : Is initialised as 1 in the main, sould
  * finsh at 32
  * @return The ID of the player who won or -1 if there's any memorry error.
  */
-int turn(Player** table,Bet gamebet,char* playname,int playerid,int* ItstheTHcard)
+int turn(Player** table,Bet gamebet,char* playname,int playerid,int* ItstheTHcard);
 
 
 /**

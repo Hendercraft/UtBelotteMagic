@@ -8,7 +8,7 @@ typedef struct {
 	int points; /*an integer for the points that the contract gives*/
 	char trump; /*a character for the color of the trump + t for all trump and n for no trump*/
 	int coinche; //0 if nothing, 1 for coinche, 2 for surcoinche
-	int team; //  1 for team player and 2 for team enemy
+	int team; //  0 and 2 for team player and 1 and 3 for team enemy
 } Bet;
 
 

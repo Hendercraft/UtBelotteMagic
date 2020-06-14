@@ -326,7 +326,7 @@ int* teamFoldPoints(Card** deck, Bet contract){
  int* scoreCount(Bet contract, Card** deck){
 
     Boolean contractValid;
-    int scoreAttack,scoreDefense,player1=0,player2=0,teamDer;
+    int scoreAttack,scoreDefense,player1=0,player2=0,teamDer,pointGoes;
     int* teamPoints = (int*)malloc(sizeof(int)*2);
     teamPoints = teamFoldPoints(deck, contract);
 
@@ -341,7 +341,7 @@ int* teamFoldPoints(Card** deck, Bet contract){
             }
         }
 
-        if(contract.team == 1){
+        if(contract.team == 0 || contract.team == 2){
 
             if(deck[i]->player==-1){
                 player1 ++;
@@ -349,7 +349,7 @@ int* teamFoldPoints(Card** deck, Bet contract){
                 player2 ++;
             }
 
-        } else if(contract.team == 2){
+        } else if(contract.team == 1 || contract.team == 3){
 
             if(deck[i]->player==-2){
                 player1 ++;
@@ -370,13 +370,18 @@ int* teamFoldPoints(Card** deck, Bet contract){
             contractValid = TRUE;
         }
     } else {
-        contractValid = teamPoints[contract.team-1] > contract.points ? TRUE : FALSE;
+        if(contract.team == 1 || contract.team == 3){
+            pointGoes == 1;
+        } else {
+            pointGoes == 0;
+        }
+        contractValid = teamPoints[pointGoes] > contract.points ? TRUE : FALSE;
     }
 
 
     if(contractValid == TRUE){
 
-        if(contract.team == 1){
+        if(contract.team == 0 || contract.team == 2){
                 if(contract.coinche == 0){
 
                     scoreAttack = teamPoints[0] + contract.points;
@@ -416,7 +421,7 @@ int* teamFoldPoints(Card** deck, Bet contract){
 
     } else {
 
-        if(contract.team == 1){
+        if(contract.team == 0 || contract.team == 2){
                 if(contract.coinche == 0){
 
                     scoreAttack = teamPoints[0] + contract.points;
@@ -450,7 +455,7 @@ int* teamFoldPoints(Card** deck, Bet contract){
         }
     }
 
-    if(contract.team == 1){
+    if(contract.team == 0 || contract.team == 2){
         teamPoints[0]=scoreAttack;
         teamPoints[1]=scoreDefense;
     } else {
