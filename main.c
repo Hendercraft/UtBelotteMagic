@@ -48,58 +48,72 @@ int main(){
 
     }
 
-    ////BETTING TIME///
-    clrscr();
-
-    srand(time(0));
-	int beginning = rand()%3+1; //generates a random number in [0,3] to know who begins
-	int sameBet,dealer = beginning;
-	Bet previousBet = {0,0,'n',0,0},nextBet;
-	Card** deck = createcards();
-	Player** table = createplayer();
-
-	cardsdeal(table,deck,dealer);
-
-
-
-    do{
-
-        if (beginning>3){
-            beginning=0;
-        }
-
-        nextBet = botBet(table,previousBet,beginning);
-        if(previousBet.coinche == nextBet.coinche && previousBet.contract == nextBet.contract && previousBet.points == nextBet.points && previousBet.team == nextBet.team && previousBet.trump == nextBet.trump){
-                sameBet ++;
-        }
-
-        previousBet.coinche = nextBet.coinche;
-        previousBet.contract = nextBet.contract;
-        previousBet.points = nextBet.points;
-        previousBet.team = nextBet.team;
-        previousBet.trump = nextBet.trump;
-        beginning ++;
-
-    }while(sameBet != 4 || (sameBet != 3 && (previousBet.coinche == 0 && previousBet.contract == 0 && previousBet.points == 0 && previousBet.team == 0 && previousBet.trump == 'n')));
-
-
-	///PLAYING TIME///
-    clrscr();
-	char* playerName = (char*)malloc(sizeof(char)*15);
+    char* playerName = (char*)malloc(sizeof(char)*15);
 	playerName = playerCheck();
     clrscr();
 
-	//shuffle and dealing cards
-	shuffle(deck,-1);
-	cardsdeal(table,deck,dealer);
+    for(int j=0;j<8;j++){ // tried a boucle
 
-	//initializing a falls
-	Card** falls = (Card**)malloc(sizeof(Card*));
-    falls[0] = NULL;
+        ////BETTING TIME///
+        clrscr();
 
-    for(int i=beginning; i<beginning+4; i++){
+        srand(time(0));
+        int beginning = rand()%3+1; //generates a random number in [0,3] to know who begins
+        int sameBet,dealer = beginning;
+        Bet previousBet = {0,0,'n',0,0},nextBet;
+        Card** deck = createcards();
+        Player** table = createplayer();
 
-        ingameMenu(previousBet,playerName,table, falls,1);
+        cardsdeal(table,deck,dealer);
+
+
+
+        do{
+
+            if (beginning>3){
+                beginning=0;
+            }
+
+            nextBet = botBet(table,previousBet,beginning);
+            if(previousBet.coinche == nextBet.coinche && previousBet.contract == nextBet.contract && previousBet.points == nextBet.points && previousBet.team == nextBet.team && previousBet.trump == nextBet.trump){
+                    sameBet ++;
+            }
+
+            previousBet.coinche = nextBet.coinche;
+            previousBet.contract = nextBet.contract;
+            previousBet.points = nextBet.points;
+            previousBet.team = nextBet.team;
+            previousBet.trump = nextBet.trump;
+            beginning ++;
+
+        }while(sameBet != 4 || (sameBet != 3 && (previousBet.coinche == 0 && previousBet.contract == 0 && previousBet.points == 0 && previousBet.team == 0 && previousBet.trump == 'n')));
+
+
+        ///PLAYING TIME///
+        clrscr();
+
+        //shuffle and dealing cards
+        shuffle(deck,-1);
+        cardsdeal(table,deck,dealer);
+
+        //initializing a falls
+        Card** falls = (Card**)malloc(sizeof(Card*));
+        falls[0] = NULL;
+        int fallsSize = 1,playedCard;
+
+
+        for(int i=beginning; i<beginning+4; i++){
+            clrscr()
+            ingameMenu(previousBet,playerName,table, falls,1);
+            if(i%4 == 0){
+
+            } else {
+                //fait en sorte que l'ia puisse jouer une carte ici
+                playedCard = IAcompute(table,falls,i%4,fallsSize,)
+            }
+            fallsSize ++;
+            //aggrandir falls
+        }
     }
 
 
