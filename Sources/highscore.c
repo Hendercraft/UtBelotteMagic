@@ -371,9 +371,9 @@ int* teamFoldPoints(Card** deck, Bet contract){
         }
     } else {
         if(contract.team == 1 || contract.team == 3){
-            pointGoes == 1;
+            pointGoes = 1;
         } else {
-            pointGoes == 0;
+            pointGoes = 0;
         }
         contractValid = teamPoints[pointGoes] > contract.points ? TRUE : FALSE;
     }
